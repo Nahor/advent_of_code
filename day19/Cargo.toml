@@ -1,0 +1,16 @@
+[package]
+name = "day19"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = { workspace = true }
+thiserror = { workspace = true }
+miette = { workspace = true, features = ["fancy"] }
+owo-colors = { workspace = true }
+chumsky = { git = "https://github.com/zesterer/chumsky", rev = "b6afd8c738799060be8b43e2e618247d360a45eb", version = "1.0.0-alpha.6" }
+ariadne = { git = "https://github.com/zesterer/ariadne", rev = "bc46d0510ac0167b3e76324b8429d3c3ec32b976", version = "0.4.0" }
+# nom = { workspace = true }
+# nom_locate = { workspace = true }
