@@ -1,0 +1,14 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "miette",
+        "multispace0",
+        "multispace1",
+        "thiserror"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
