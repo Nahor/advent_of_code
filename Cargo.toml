@@ -9,7 +9,7 @@ anyhow = "1.0.93"
 thiserror = "2.0.3"
 miette = { version = "7.4.0", features = ["fancy"] }
 owo-colors = "4.1.0"
-winnow = "0.6.20"
+winnow = { version = "0.6.20", features = ["simd"] }
 #nom_locate = "4.2.0"
 rayon = "1.10.0"
 itertools = "0.13.0"
