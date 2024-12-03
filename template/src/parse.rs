@@ -1,6 +1,6 @@
 use winnow::{
     ascii::line_ending,
-    combinator::{opt, rest, separated, terminated, trace},
+    combinator::{opt, repeat, rest, terminated, trace},
     prelude::*,
 };
 
@@ -9,7 +9,7 @@ use crate::error::AdventError;
 pub fn parse(content: &str) -> Result<Vec<()>, AdventError> {
     Ok(trace(
         "parser",
-        terminated(separated(1.., parse_line, line_ending), opt(line_ending)),
+        repeat(1.., terminated(parse_line, opt(line_ending))),
     )
     .parse(content)?)
 }

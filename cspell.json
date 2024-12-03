@@ -4,9 +4,11 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "itertools",
         "miette",
         "multispace0",
         "multispace1",
+        "signum",
         "thiserror"
     ],
     "ignoreWords": [],
