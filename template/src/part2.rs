@@ -14,10 +14,12 @@ pub fn run(content: &str) -> Result<u64> {
 mod test {
     use super::*;
 
+    // cspell:disable
     const INPUT_SAMPLE: &str = r#"
 bla
 bla
 "#;
+    // cspell:enable
 
     #[test]
     fn sample() {
