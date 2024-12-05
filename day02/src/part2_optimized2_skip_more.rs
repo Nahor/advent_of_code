@@ -101,7 +101,9 @@ fn check_error(report: &[i64], skip: usize) -> Option<usize> {
 
 #[cfg(test)]
 mod test {
-    use crate::{input::read_input, part2_brute_force};
+    use common::input::read_input_str;
+
+    use crate::part2_brute_force;
 
     use super::*;
 
@@ -123,7 +125,7 @@ mod test {
 
     #[test]
     fn sample_compare() {
-        let input = read_input(None).unwrap();
+        let input = read_input_str(None).unwrap();
         assert_eq!(
             run(&input).unwrap(),
             part2_brute_force::run(&input).unwrap()

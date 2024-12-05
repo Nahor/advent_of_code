@@ -1,5 +1,6 @@
 use clap::{Parser, Subcommand};
-use day03::{input::read_input, part1, part2};
+use common::input::read_input_str;
+use day03::{part1, part2};
 use miette::Result;
 use std::path::PathBuf;
 
@@ -27,15 +28,19 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     match args.command {
-        Some(Command::Part1 { file }) => println!("Result: {}", part1::run(&read_input(file)?)?),
+        Some(Command::Part1 { file }) => {
+            println!("Result: {}", part1::run(&read_input_str(file)?)?)
+        }
         Some(Command::Part1Winnow { file }) => {
-            println!("Result: {}", part1::run_winnow(&read_input(file)?)?)
+            println!("Result: {}", part1::run_winnow(&read_input_str(file)?)?)
         }
-        Some(Command::Part2 { file }) => println!("Result: {}", part2::run(&read_input(file)?)?),
+        Some(Command::Part2 { file }) => {
+            println!("Result: {}", part2::run(&read_input_str(file)?)?)
+        }
         Some(Command::Part2Winnow { file }) => {
-            println!("Result: {}", part2::run_winnow(&read_input(file)?)?)
+            println!("Result: {}", part2::run_winnow(&read_input_str(file)?)?)
         }
-        None => println!("Result: {}", part1::run(&read_input(None)?)?),
+        None => println!("Result: {}", part1::run(&read_input_str(None)?)?),
     }
 
     Ok(())

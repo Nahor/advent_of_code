@@ -1,6 +1,7 @@
+use common::error::AdventError;
 use regex::Regex;
 
-use crate::{error::AdventError, op::Op};
+use crate::op::Op;
 
 pub fn parse_part1(content: &str) -> Result<Vec<(u64, u64)>, AdventError> {
     let re = Regex::new(r"mul\(([0-9]{1,3}),([0-9]{1,3})\)").unwrap();

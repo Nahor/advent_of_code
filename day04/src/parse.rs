@@ -5,7 +5,7 @@ use winnow::{
     token::one_of,
 };
 
-use crate::error::AdventError;
+use common::error::AdventError;
 
 pub fn parse(content: &str) -> Result<Vec<Vec<char>>, AdventError> {
     Ok(trace(

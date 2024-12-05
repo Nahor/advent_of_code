@@ -1,13 +1,12 @@
 use std::collections::HashMap;
 
+use common::error::AdventError;
 use winnow::{
     ascii::{dec_uint, line_ending, multispace1},
     combinator::{opt, repeat, separated, separated_pair, terminated, trace},
     prelude::*,
     stream::Accumulate,
 };
-
-use crate::error::AdventError;
 
 pub fn parse(content: &str) -> Result<Vec<(u64, u64)>, AdventError> {
     Ok(trace(

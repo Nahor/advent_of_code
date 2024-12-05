@@ -1,7 +1,5 @@
-use day04::{
-    input::{read_input_str, read_input_u8},
-    part2, part2_u8, part2_u8_linear,
-};
+use common::input::{read_input_str, read_input_u8};
+use day04::{part2, part2_u8, part2_u8_linear};
 
 fn main() {
     divan::main();

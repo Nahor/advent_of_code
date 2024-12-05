@@ -36,10 +36,8 @@ pub fn run(content: &[u8]) -> Result<u64> {
 
 #[cfg(test)]
 mod test {
-    use crate::{
-        input::{read_input_str, read_input_u8},
-        part2,
-    };
+    use crate::part2;
+    use common::input::{read_input_str, read_input_u8};
 
     use super::*;
 

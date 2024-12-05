@@ -1,4 +1,5 @@
-use day04::{input::read_input_str, part1};
+use common::input::read_input_str;
+use day04::part1;
 
 fn main() {
     // Run registered benchmarks.

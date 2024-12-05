@@ -1,5 +1,6 @@
 use clap::{Parser, Subcommand};
-use day04::{input::read_input_str, part1, part2};
+use common::input::read_input_str;
+use day04::{part1, part2};
 use miette::Result;
 use std::path::PathBuf;
 

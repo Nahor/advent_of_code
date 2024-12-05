@@ -1,7 +1,8 @@
 use clap::{Parser, Subcommand};
+use common::input::read_input_str;
 use miette::Result;
 use std::path::PathBuf;
-use template::{input::read_input, part1, part2};
+use template::{part1, part2};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -22,9 +23,13 @@ fn main() -> Result<()> {
     let args = Args::parse();
 
     match args.command {
-        Some(Command::Part1 { file }) => println!("Result: {}", part1::run(&read_input(file)?)?),
-        Some(Command::Part2 { file }) => println!("Result: {}", part2::run(&read_input(file)?)?),
-        None => println!("Result: {}", part1::run(&read_input(None)?)?),
+        Some(Command::Part1 { file }) => {
+            println!("Result: {}", part1::run(&read_input_str(file)?)?)
+        }
+        Some(Command::Part2 { file }) => {
+            println!("Result: {}", part2::run(&read_input_str(file)?)?)
+        }
+        None => println!("Result: {}", part1::run(&read_input_str(None)?)?),
     }
 
     Ok(())

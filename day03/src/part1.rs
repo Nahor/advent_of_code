@@ -20,7 +20,7 @@ pub fn run_winnow(content: &str) -> Result<u64> {
 
 #[cfg(test)]
 mod test {
-    use crate::input::read_input;
+    use common::input::read_input_str;
 
     use super::*;
 
@@ -42,7 +42,7 @@ xmul(2,4)%&mul[3,7]!@^do_not_mul(5,5)+mul(32,64]then(mul(11,8)mul(8,5))
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input(None).unwrap();
+        let input = read_input_str(None).unwrap();
         assert_eq!(run_winnow(&input).unwrap(), run(&input).unwrap());
     }
 }

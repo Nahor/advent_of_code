@@ -1,10 +1,9 @@
+use common::error::AdventError;
 use winnow::{
     ascii::{dec_int, line_ending, space1},
     combinator::{opt, repeat, separated, terminated, trace},
     prelude::*,
 };
-
-use crate::error::AdventError;
 
 pub fn parse(content: &str) -> Result<Vec<Vec<i64>>, AdventError> {
     Ok(trace(
