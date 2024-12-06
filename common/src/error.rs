@@ -1,5 +1,6 @@
 use miette::{Diagnostic, SourceSpan};
 use thiserror::Error;
+use winnow::stream::AsBStr;
 
 #[derive(Debug, Error, Diagnostic)]
 #[error("error")]
@@ -31,20 +32,29 @@ pub enum AdventError {
     Unknown,
 }
 
-impl From<winnow::error::ParseError<&str, winnow::error::ContextError>> for AdventError {
-    fn from(value: winnow::error::ParseError<&str, winnow::error::ContextError>) -> Self {
+impl<I> From<winnow::error::ParseError<I, winnow::error::ContextError>> for AdventError
+where
+    I: AsBStr,
+{
+    fn from(value: winnow::error::ParseError<I, winnow::error::ContextError>) -> Self {
         let message = value.inner().to_string();
-        let input = value.input().to_owned();
-        let start = value.offset();
-        // Assume the error span is only for the first `char`.
-        // Semantic errors are free to choose the entire span returned by `Parser::with_span`.
-        let end = (start + 1..)
-            .find(|e| input.is_char_boundary(*e))
-            .unwrap_or(start);
+        let input = String::from_utf8_lossy(value.input().as_bstr()).into_owned();
+        // Map the byte index into a char index
+        // This assumes the offset is a byte-offset regardless of the input
+        // type (u8, chars, tokens, ...). This is what the Display impl for
+        // ParserError in winnow does.
+        let start = input
+            .char_indices()
+            .find(|(i, _)| *i > value.offset())
+            .map(|(i, _)| if i == value.offset() { i } else { i - 1 })
+            .unwrap_or_else(|| input.len());
+        value.offset();
+        let end = (start + 1).min(input.len());
+
         Self::ParseError {
             message,
             span: (start..end).into(),
-            input: input.to_owned(),
+            input,
         }
     }
 }

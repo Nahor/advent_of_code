@@ -2,7 +2,7 @@ use miette::Result;
 
 use crate::parse::parse;
 
-pub fn run(content: &str) -> Result<u64> {
+pub fn run(content: &[u8]) -> Result<u64> {
     let _lines = parse(content)?;
 
     let result: u64 = 0;
@@ -15,7 +15,7 @@ mod test {
     use super::*;
 
     // cspell:disable
-    const INPUT_SAMPLE: &str = r#"
+    const INPUT_SAMPLE: &[u8] = br#"
 bla
 bla
 "#;
@@ -35,7 +35,7 @@ bla
     //         run(&INPUT_SAMPLE[1..]).unwrap()
     //     );
 
-    //     let input = read_input(None).unwrap();
+    //     let input = read_input_u8(None).unwrap();
     //     assert_eq!(run_sorted(&input).unwrap(), run(&input).unwrap());
     // }
 }

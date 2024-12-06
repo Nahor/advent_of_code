@@ -5,7 +5,7 @@ use winnow::{
     prelude::*,
 };
 
-pub fn parse(content: &str) -> Result<Vec<()>, AdventError> {
+pub fn parse(content: &[u8]) -> Result<Vec<()>, AdventError> {
     Ok(trace(
         "parser",
         repeat(1.., terminated(parse_line, opt(line_ending))),
@@ -13,6 +13,6 @@ pub fn parse(content: &str) -> Result<Vec<()>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_line(input: &mut &str) -> PResult<()> {
+fn parse_line(input: &mut &[u8]) -> PResult<()> {
     trace("parse_line", rest.void()).parse_next(input)
 }
