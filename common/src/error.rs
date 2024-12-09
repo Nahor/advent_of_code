@@ -39,15 +39,22 @@ where
     fn from(value: winnow::error::ParseError<I, winnow::error::ContextError>) -> Self {
         let message = value.inner().to_string();
         let input = String::from_utf8_lossy(value.input().as_bstr()).into_owned();
-        // Map the byte index into a char index
-        // This assumes the offset is a byte-offset regardless of the input
-        // type (u8, chars, tokens, ...). This is what the Display impl for
-        // ParserError in winnow does.
+        // Winnow uses bytes for span, regardless of the input type, so we need
+        // to convert that to a char offset for Miette.
         let start = input
             .char_indices()
-            .find(|(i, _)| *i > value.offset())
-            .map(|(i, _)| if i == value.offset() { i } else { i - 1 })
-            .unwrap_or_else(|| input.len());
+            .enumerate()
+            .find(|(_, (byte_idx, _))| *byte_idx > value.offset())
+            .map(|(char_idx, _)| char_idx - 1)
+            .unwrap_or_else(|| {
+                // Distinguish between an error on the last char and on eof
+                // (both would fail to find an index since we search with '>')
+                if value.offset() < input.bytes().len() {
+                    input.len() - 1
+                } else {
+                    input.len()
+                }
+            });
         value.offset();
         let end = (start + 1).min(input.len());
 

@@ -4,14 +4,18 @@
     "dictionaryDefinitions": [],
     "dictionaries": [],
     "words": [
+        "bitflags",
         "bstr",
         "dont",
+        "enumflags2",
         "itertools",
         "miette",
         "multispace0",
         "multispace1",
+        "repr",
         "signum",
-        "thiserror"
+        "thiserror",
+        "URDL"
     ],
     "ignoreWords": [],
     "import": []
