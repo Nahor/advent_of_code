@@ -6,7 +6,6 @@ fn main() {
     divan::main();
 }
 
-// Register a `fibonacci` function and benchmark it over multiple cases.
 #[divan::bench]
 fn process(bencher: divan::Bencher) {
     bencher
