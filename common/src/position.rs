@@ -13,7 +13,7 @@ impl Position {
     pub fn new(x: usize, y: usize) -> Self {
         Self { x, y }
     }
-    pub fn index(&self, width: usize) -> usize {
+    pub fn to_index(&self, width: usize) -> usize {
         if self.x > width {
             usize::MAX
         } else {

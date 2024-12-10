@@ -29,7 +29,7 @@ impl Grid {
         if !(0..self.height).contains(&position.y) {
             return None;
         }
-        Some(self.data[position.y * self.width + position.x])
+        Some(self.data[position.to_index(self.width)])
     }
 }
 
@@ -48,7 +48,7 @@ pub fn parse(content: &[u8]) -> Result<Grid, AdventError> {
         .flat_map(|l| {
             l.iter().map(|b| match b {
                 b'0'..=b'9' => b - b'0',
-                b'.' => u8::MAX,
+                b'.' => u8::MAX, // for the examples only
                 _ => panic!("Invalid character"),
             })
         })
