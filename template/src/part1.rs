@@ -25,7 +25,7 @@ bla
     fn sample() {
         let input = &INPUT_SAMPLE[1..]; // remove leading \n
 
-        assert_eq!(run(input).unwrap(), 11);
+        assert_eq!(run(input).unwrap(), 0);
     }
 
     // #[test]

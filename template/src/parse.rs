@@ -1,18 +1,22 @@
 use common::error::AdventError;
 use winnow::{
     ascii::line_ending,
-    combinator::{opt, repeat, rest, terminated, trace},
+    combinator::{eof, opt, repeat_till, rest, terminated, trace},
     prelude::*,
 };
 
 pub fn parse(content: &[u8]) -> Result<Vec<()>, AdventError> {
     Ok(trace(
         "parser",
-        repeat(1.., terminated(parse_line, opt(line_ending))),
+        repeat_till(0.., terminated(parse_line, opt(line_ending)), eof).map(|(v, _)| v),
     )
     .parse(content)?)
 }
 
 fn parse_line(input: &mut &[u8]) -> PResult<()> {
-    trace("parse_line", rest.void()).parse_next(input)
+    trace(
+        "parse_line",
+        rest.void(), // technically, this consumes everything until eof, not just the line
+    )
+    .parse_next(input)
 }
