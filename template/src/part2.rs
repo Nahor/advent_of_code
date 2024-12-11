@@ -29,13 +29,13 @@ bla
     }
 
     // #[test]
-    // fn sample_sorted() {
+    // fn compare_base() {
     //     assert_eq!(
-    //         run_sorted(&INPUT_SAMPLE[1..]).unwrap(),
-    //         run(&INPUT_SAMPLE[1..]).unwrap()
+    //         run(&INPUT_SAMPLE[1..]).unwrap(),
+    //         crate::part2::run(&INPUT_SAMPLE[1..]).unwrap()
     //     );
 
-    //     let input = read_input_u8(None).unwrap();
-    //     assert_eq!(run_sorted(&input).unwrap(), run(&input).unwrap());
+    //     let input = common::input::read_input_u8(None).unwrap();
+    //     assert_eq!(run(&input).unwrap(), crate::part2::run(&input).unwrap());
     // }
 }
