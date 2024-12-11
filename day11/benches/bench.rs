@@ -1,5 +1,8 @@
 use common::input::read_input_u8;
-use day11::{part1, part2, part2_breadth, part2_inline, part2_log, part2_successors, part2_vec};
+use day11::{
+    part1, part2, part2_base_fx, part2_breadth, part2_fxhashmap, part2_inline, part2_log,
+    part2_successors, part2_vec,
+};
 
 fn main() {
     // Run registered benchmarks.
@@ -25,6 +28,13 @@ mod part2_bench {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
             .bench_values(|content| part2::run(&content, 75).unwrap());
+    }
+
+    #[divan::bench(name = "0_base_fx")]
+    fn base_fx(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8(None).unwrap())
+            .bench_values(|content| part2_base_fx::run(&content, 75).unwrap());
     }
 
     #[divan::bench(name = "1_log")]
@@ -60,5 +70,12 @@ mod part2_bench {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
             .bench_values(|content| part2_successors::run(&content, 75).unwrap());
+    }
+
+    #[divan::bench(name = "6_fxhashmap")]
+    fn fxhashmap(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8(None).unwrap())
+            .bench_values(|content| part2_fxhashmap::run(&content, 75).unwrap());
     }
 }

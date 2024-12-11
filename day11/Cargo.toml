@@ -10,6 +10,7 @@ clap = { workspace = true }
 winnow = { workspace = true }
 miette = { workspace = true }
 thiserror = { workspace = true }
+rustc-hash = { workspace = true }
 
 [dev-dependencies]
 divan = { workspace = true }
