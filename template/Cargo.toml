@@ -15,9 +15,5 @@ thiserror = { workspace = true }
 divan = { workspace = true }
 
 [[bench]]
-name = "bench_part1"
-harness = false
-
-[[bench]]
-name = "bench_part2"
+name = "bench"
 harness = false
