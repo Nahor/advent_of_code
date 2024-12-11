@@ -8,6 +8,7 @@
         "bstr",
         "dont",
         "enumflags2",
+        "ilog",
         "itertools",
         "miette",
         "multispace0",
