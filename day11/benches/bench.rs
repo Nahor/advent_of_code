@@ -1,5 +1,5 @@
 use common::input::read_input_u8;
-use day11::{part1, part2, part2_breadth, part2_inline, part2_log, part2_vec};
+use day11::{part1, part2, part2_breadth, part2_inline, part2_log, part2_successors, part2_vec};
 
 fn main() {
     // Run registered benchmarks.
@@ -53,5 +53,12 @@ mod part2_bench {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
             .bench_values(|content| part2_inline::run(&content).unwrap());
+    }
+
+    #[divan::bench(name = "5_successors")]
+    fn successors(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8(None).unwrap())
+            .bench_values(|content| part2_successors::run(&content).unwrap());
     }
 }
