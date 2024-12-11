@@ -5,7 +5,7 @@ use miette::Result;
 
 use crate::parse::parse;
 
-pub fn run(content: &[u8]) -> Result<u64> {
+pub fn run(content: &[u8], blinks: usize) -> Result<u64> {
     let stones = parse(content)?;
 
     // Key: stone number,
@@ -16,13 +16,12 @@ pub fn run(content: &[u8]) -> Result<u64> {
     });
 
     let (_, stones_final) = successors(Some((0, cache)), |(blink, cache)| {
-        if *blink == 75 {
+        if *blink == blinks {
             return None;
         }
         let mut next_cache = HashMap::<u64, usize>::new();
-        cache
-            .iter()
-            .for_each(|(stone, count)| match stone.checked_ilog10() {
+        cache.iter().for_each(
+            |(stone, count)| match stone.checked_ilog10().map(|d| d + 1) {
                 None => *next_cache.entry(1).or_default() += count,
                 Some(digits) if digits % 2 == 0 => {
                     let pow = 10_u64.pow(digits / 2);
@@ -32,7 +31,8 @@ pub fn run(content: &[u8]) -> Result<u64> {
                     *next_cache.entry(right).or_default() += count
                 }
                 Some(_) => *next_cache.entry(stone * 2024).or_default() += count,
-            });
+            },
+        );
         Some((blink + 1, next_cache))
     })
     .last()
@@ -55,17 +55,20 @@ mod test {
     fn sample() {
         let input = &INPUT_SAMPLE;
 
-        assert_eq!(run(input).unwrap(), 65601038650482);
+        assert_eq!(run(input, 75).unwrap(), 65601038650482);
     }
 
-    // #[test]
-    // fn sample_sorted() {
-    //     assert_eq!(
-    //         run_sorted(&INPUT_SAMPLE[1..]).unwrap(),
-    //         run(&INPUT_SAMPLE[1..]).unwrap()
-    //     );
+    #[test]
+    fn compare_base() {
+        assert_eq!(
+            run(&INPUT_SAMPLE[1..], 75).unwrap(),
+            crate::part2::run(&INPUT_SAMPLE[1..], 75).unwrap()
+        );
 
-    //     let input = read_input_u8(None).unwrap();
-    //     assert_eq!(run_sorted(&input).unwrap(), run(&input).unwrap());
-    // }
+        let input = common::input::read_input_u8(None).unwrap();
+        assert_eq!(
+            run(&input, 75).unwrap(),
+            crate::part2::run(&input, 75).unwrap()
+        );
+    }
 }

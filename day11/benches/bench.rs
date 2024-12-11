@@ -24,41 +24,41 @@ mod part2_bench {
     fn base(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
-            .bench_values(|content| part2::run(&content).unwrap());
+            .bench_values(|content| part2::run(&content, 75).unwrap());
     }
 
     #[divan::bench(name = "1_log")]
     fn log(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
-            .bench_values(|content| part2_log::run(&content).unwrap());
+            .bench_values(|content| part2_log::run(&content, 75).unwrap());
     }
 
     #[divan::bench(name = "2_vec")]
     fn vec(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
-            .bench_values(|content| part2_vec::run(&content).unwrap());
+            .bench_values(|content| part2_vec::run(&content, 75).unwrap());
     }
 
     #[divan::bench(name = "3_breadth")]
     fn breadth(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
-            .bench_values(|content| part2_breadth::run(&content).unwrap());
+            .bench_values(|content| part2_breadth::run(&content, 75).unwrap());
     }
 
     #[divan::bench(name = "4_inline")]
     fn inline(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
-            .bench_values(|content| part2_inline::run(&content).unwrap());
+            .bench_values(|content| part2_inline::run(&content, 75).unwrap());
     }
 
     #[divan::bench(name = "5_successors")]
     fn successors(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
-            .bench_values(|content| part2_successors::run(&content).unwrap());
+            .bench_values(|content| part2_successors::run(&content, 75).unwrap());
     }
 }

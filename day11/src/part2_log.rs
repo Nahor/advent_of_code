@@ -5,7 +5,7 @@ use miette::Result;
 
 use crate::parse::parse;
 
-pub fn run(content: &[u8]) -> Result<u64> {
+pub fn run(content: &[u8], blinks: usize) -> Result<u64> {
     let stones = parse(content)?;
 
     // Key: stone number,
@@ -14,7 +14,7 @@ pub fn run(content: &[u8]) -> Result<u64> {
 
     let result: usize = stones
         .iter()
-        .map(|stone| expand(*stone, 75, &mut cache))
+        .map(|stone| expand(*stone, blinks, &mut cache))
         .sum();
 
     Ok(result as u64)
@@ -70,17 +70,17 @@ mod test {
     fn sample() {
         let input = &INPUT_SAMPLE;
 
-        assert_eq!(run(input).unwrap(), 65601038650482);
+        assert_eq!(run(input,75).unwrap(), 65601038650482);
     }
 
-    // #[test]
-    // fn sample_sorted() {
-    //     assert_eq!(
-    //         run_sorted(&INPUT_SAMPLE[1..]).unwrap(),
-    //         run(&INPUT_SAMPLE[1..]).unwrap()
-    //     );
+    #[test]
+    fn compare_base() {
+        assert_eq!(
+            run(&INPUT_SAMPLE[1..], 75).unwrap(),
+            crate::part2::run(&INPUT_SAMPLE[1..], 75).unwrap()
+        );
 
-    //     let input = read_input_u8(None).unwrap();
-    //     assert_eq!(run_sorted(&input).unwrap(), run(&input).unwrap());
-    // }
+        let input = common::input::read_input_u8(None).unwrap();
+        assert_eq!(run(&input, 75).unwrap(), crate::part2::run(&input, 75).unwrap());
+    }
 }

@@ -27,7 +27,7 @@ fn main() -> Result<()> {
             println!("Result: {}", part1::run(&read_input_u8(file)?)?)
         }
         Some(Command::Part2 { file }) => {
-            println!("Result: {}", part2::run(&read_input_u8(file)?)?)
+            println!("Result: {}", part2::run(&read_input_u8(file)?, 75)?)
         }
         None => println!("Result: {}", part1::run(&read_input_u8(None)?)?),
     }
