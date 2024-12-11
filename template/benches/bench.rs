@@ -9,7 +9,7 @@ fn main() {
 mod part1_bench {
     use super::*;
 
-    #[divan::bench]
+    #[divan::bench(name = "0_base")]
     fn base(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
@@ -20,7 +20,7 @@ mod part1_bench {
 mod part2_bench {
     use super::*;
 
-    #[divan::bench]
+    #[divan::bench(name = "0_base")]
     fn base(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8(None).unwrap())
