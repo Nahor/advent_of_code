@@ -44,7 +44,7 @@ fn compute(ops: Vec<Op>) -> u64 {
 
 #[cfg(test)]
 mod test {
-    use common::input::read_input_str;
+    use common::read_input_str;
 
     use super::*;
 
@@ -68,7 +68,7 @@ xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
             parse_winnow::parse_part2(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(
             parse_regex::parse_part2(&input).unwrap(),
             parse_winnow::parse_part2(&input).unwrap()
@@ -82,7 +82,7 @@ xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_winnow(&input).unwrap(), run(&input).unwrap());
     }
 
@@ -93,7 +93,7 @@ xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_winnow_skip(&input).unwrap(), run(&input).unwrap());
     }
 
@@ -104,7 +104,7 @@ xmul(2,4)&mul[3,7]!^don't()_mul(5,5)+mul(32,64](mul(11,8)undo()?mul(8,5))
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_winnow_compute(&input).unwrap(), run(&input).unwrap());
     }
 }

@@ -159,7 +159,7 @@ pub fn run_vec_sorted2(content: &str) -> Result<u64> {
 
 #[cfg(test)]
 mod test {
-    use common::input::read_input_str;
+    use common::read_input_str;
 
     use super::*;
 
@@ -186,7 +186,7 @@ mod test {
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_map(&input).unwrap(), run(&input).unwrap());
     }
 
@@ -197,7 +197,7 @@ mod test {
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_vecmap(&input).unwrap(), run(&input).unwrap());
     }
 
@@ -208,7 +208,7 @@ mod test {
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_sorted(&input).unwrap(), run(&input).unwrap());
     }
 
@@ -219,7 +219,7 @@ mod test {
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_str(None).unwrap();
+        let input = read_input_str!(None).unwrap();
         assert_eq!(run_vec_sorted(&input).unwrap(), run(&input).unwrap());
     }
 }

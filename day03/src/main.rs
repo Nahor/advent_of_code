@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use common::input::read_input_str;
+use common::read_input_str;
 use day03::{part1, part2};
 use miette::Result;
 use std::path::PathBuf;
@@ -29,18 +29,18 @@ fn main() -> Result<()> {
 
     match args.command {
         Some(Command::Part1 { file }) => {
-            println!("Result: {}", part1::run(&read_input_str(file)?)?)
+            println!("Result: {}", part1::run(&read_input_str!(file)?)?)
         }
         Some(Command::Part1Winnow { file }) => {
-            println!("Result: {}", part1::run_winnow(&read_input_str(file)?)?)
+            println!("Result: {}", part1::run_winnow(&read_input_str!(file)?)?)
         }
         Some(Command::Part2 { file }) => {
-            println!("Result: {}", part2::run(&read_input_str(file)?)?)
+            println!("Result: {}", part2::run(&read_input_str!(file)?)?)
         }
         Some(Command::Part2Winnow { file }) => {
-            println!("Result: {}", part2::run_winnow(&read_input_str(file)?)?)
+            println!("Result: {}", part2::run_winnow(&read_input_str!(file)?)?)
         }
-        None => println!("Result: {}", part1::run(&read_input_str(None)?)?),
+        None => println!("Result: {}", part1::run(&read_input_str!(None)?)?),
     }
 
     Ok(())

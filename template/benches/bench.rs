@@ -1,4 +1,4 @@
-use common::input::read_input_u8;
+use common::read_input_u8;
 use template::{part1, part2};
 
 fn main() {
@@ -12,7 +12,7 @@ mod part1_bench {
     #[divan::bench(name = "0_base")]
     fn base(bencher: divan::Bencher) {
         bencher
-            .with_inputs(|| read_input_u8(None).unwrap())
+            .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part1::run(&content).unwrap());
     }
 }
@@ -23,7 +23,7 @@ mod part2_bench {
     #[divan::bench(name = "0_base")]
     fn base(bencher: divan::Bencher) {
         bencher
-            .with_inputs(|| read_input_u8(None).unwrap())
+            .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2::run(&content).unwrap());
     }
 }

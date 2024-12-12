@@ -30,7 +30,7 @@ pub fn run_sort(content: &[u8]) -> Result<u64> {
 
 #[cfg(test)]
 mod test {
-    use common::input::read_input_u8;
+    use common::read_input_u8;
 
     use super::*;
 
@@ -81,7 +81,7 @@ mod test {
             run(&INPUT_SAMPLE[1..]).unwrap()
         );
 
-        let input = read_input_u8(None).unwrap();
+        let input = read_input_u8!(None).unwrap();
         assert_eq!(run_sort(&input).unwrap(), run(&input).unwrap());
     }
 }

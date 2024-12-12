@@ -1,5 +1,5 @@
 use clap::{Parser, Subcommand};
-use common::input::read_input_u8;
+use common::read_input_u8;
 use day07::{part1, part2};
 use miette::Result;
 use std::path::PathBuf;
@@ -24,12 +24,12 @@ fn main() -> Result<()> {
 
     match args.command {
         Some(Command::Part1 { file }) => {
-            println!("Result: {}", part1::run(&read_input_u8(file)?)?)
+            println!("Result: {}", part1::run(&read_input_u8!(file)?)?)
         }
         Some(Command::Part2 { file }) => {
-            println!("Result: {}", part2::run(&read_input_u8(file)?)?)
+            println!("Result: {}", part2::run(&read_input_u8!(file)?)?)
         }
-        None => println!("Result: {}", part1::run(&read_input_u8(None)?)?),
+        None => println!("Result: {}", part1::run(&read_input_u8!(None)?)?),
     }
 
     Ok(())

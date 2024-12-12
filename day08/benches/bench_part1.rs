@@ -1,4 +1,4 @@
-use common::input::read_input_u8;
+use common::read_input_u8;
 use day08::part1;
 
 fn main() {
@@ -9,6 +9,6 @@ fn main() {
 #[divan::bench]
 fn process(bencher: divan::Bencher) {
     bencher
-        .with_inputs(|| read_input_u8(None).unwrap())
+        .with_inputs(|| read_input_u8!(None).unwrap())
         .bench_values(|content| part1::run(&content).unwrap());
 }

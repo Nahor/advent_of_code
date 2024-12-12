@@ -103,7 +103,7 @@ T.........
     //         run(&INPUT_SAMPLE[1..]).unwrap()
     //     );
 
-    //     let input = read_input_u8(None).unwrap();
+    //     let input = read_input_u8!(None).unwrap();
     //     assert_eq!(run_sorted(&input).unwrap(), run(&input).unwrap());
     // }
 }

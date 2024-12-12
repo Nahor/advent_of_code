@@ -37,7 +37,7 @@ pub fn run(content: &[u8]) -> Result<u64> {
 #[cfg(test)]
 mod test {
     use crate::part2;
-    use common::input::{read_input_str, read_input_u8};
+    use common::{read_input_str, read_input_u8};
 
     use super::*;
 
@@ -63,8 +63,8 @@ MXMXAXMASX
             part2::run(std::str::from_utf8(&INPUT_SAMPLE[1..]).unwrap()).unwrap()
         );
 
-        let input_u8 = read_input_u8(None).unwrap();
-        let input_str = read_input_str(None).unwrap();
+        let input_u8 = read_input_u8!(None).unwrap();
+        let input_str = read_input_str!(None).unwrap();
         assert_eq!(run(&input_u8).unwrap(), part2::run(&input_str).unwrap());
     }
 }
