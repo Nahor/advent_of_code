@@ -1,0 +1,19 @@
+[package]
+name = "day13"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common = { path = "../common" }
+anyhow = { workspace = true }
+clap = { workspace = true }
+winnow = { workspace = true }
+miette = { workspace = true }
+thiserror = { workspace = true }
+
+[dev-dependencies]
+divan = { workspace = true }
+
+[[bench]]
+name = "bench"
+harness = false
