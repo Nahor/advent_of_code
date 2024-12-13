@@ -19,7 +19,8 @@
         "signum",
         "thiserror",
         "trailhead",
-        "URDL"
+        "URDL",
+        "VecDeque"
     ],
     "ignoreWords": [],
     "import": []

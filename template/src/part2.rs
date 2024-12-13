@@ -35,7 +35,7 @@ bla
     //         crate::part2::run(&INPUT_SAMPLE[1..]).unwrap()
     //     );
 
-    //     let input = common::input::read_input_u8!(None).unwrap();
+    //     let input = common::read_input_u8!(None).unwrap();
     //     assert_eq!(run(&input).unwrap(), crate::part2::run(&input).unwrap());
     // }
 }

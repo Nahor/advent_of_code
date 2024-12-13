@@ -64,7 +64,6 @@ pub fn default_file_fn(file: Option<PathBuf>, build_env: Option<&str>) -> Result
             .join(day)
             .join("input.txt");
         if input_repo.exists() {
-            println!("Found file in {input_repo:?}");
             return Ok(input_repo);
         }
         tried_files.insert(input_repo);

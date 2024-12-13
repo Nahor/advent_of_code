@@ -1,7 +1,70 @@
 use std::{
     fmt::Debug,
     ops::{Add, AddAssign},
+    slice::{Iter, IterMut},
 };
+
+#[derive(Default, Clone)]
+pub struct Grid<T> {
+    data: Vec<T>,
+    width: usize,
+    height: usize,
+}
+
+impl<T> Grid<T>
+where
+    T: Copy,
+{
+    pub fn new(data: Vec<T>, width: usize, height: usize) -> Self {
+        assert_eq!(data.len(), width * height);
+        Self {
+            data,
+            width,
+            height,
+        }
+    }
+
+    pub fn width(&self) -> usize {
+        self.width
+    }
+    pub fn height(&self) -> usize {
+        self.height
+    }
+    pub fn size(&self) -> usize {
+        self.data.len()
+    }
+
+    pub fn iter(&self) -> Iter<T> {
+        self.data.iter()
+    }
+
+    pub fn iter_mut(&mut self) -> IterMut<T> {
+        self.data.iter_mut()
+    }
+
+    pub fn get(&self, pos: Position) -> Option<T> {
+        self.data.get(pos.to_index(self.width)).copied()
+    }
+
+    pub fn get_mut(&mut self, pos: Position) -> Option<&mut T> {
+        self.data.get_mut(pos.to_index(self.width))
+    }
+
+    pub fn get_idx(&self, idx: usize) -> Option<T> {
+        self.data.get(idx).copied()
+    }
+
+    pub fn get_idx_mut(&mut self, idx: usize) -> Option<&mut T> {
+        self.data.get_mut(idx)
+    }
+
+    /// # Safety
+    ///
+    /// `idx` must be in [0..`size()`] range
+    pub unsafe fn get_idx_unchecked(&self, idx: usize) -> T {
+        *self.data.get_unchecked(idx)
+    }
+}
 
 #[derive(Default, Clone, Copy, PartialEq, Eq, Hash)]
 pub struct Position {
@@ -14,11 +77,16 @@ impl Position {
         Self { x, y }
     }
     pub fn to_index(&self, width: usize) -> usize {
-        if self.x > width {
+        if self.x >= width {
             usize::MAX
         } else {
             self.y * width + self.x
         }
+    }
+    pub fn from_index(index: usize, width: usize) -> Self {
+        let y = index / width;
+        let x = index - y * width;
+        Self { x, y }
     }
 }
 
@@ -84,6 +152,15 @@ impl Direction {
             Direction::Right => Direction::Down,
             Direction::Down => Direction::Left,
             Direction::Left => Direction::Up,
+        }
+    }
+
+    pub fn reverse(self) -> Self {
+        match self {
+            Direction::Up => Direction::Down,
+            Direction::Right => Direction::Left,
+            Direction::Down => Direction::Up,
+            Direction::Left => Direction::Right,
         }
     }
 }
