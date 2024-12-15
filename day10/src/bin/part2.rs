@@ -9,7 +9,12 @@ use day10::aocerror::AocError;
 use miette;
 
 fn main() -> miette::Result<()> {
-    let input = include_bytes!("input.txt");
+    let input = include_bytes!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../advent_of_code_input/2023/",
+        env!("CARGO_PKG_NAME"),
+        "/input.txt"
+    ));
     let output = process(input)?;
     dbg!(output);
     Ok(())

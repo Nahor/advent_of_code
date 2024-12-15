@@ -7,7 +7,12 @@ use miette;
 use nalgebra::*;
 
 fn main() -> miette::Result<()> {
-    let input = include_str!("input.txt");
+    let input = include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../advent_of_code_input/2023/",
+        env!("CARGO_PKG_NAME"),
+        "/input.txt"
+    ));
     let output = process(input, 200_000_000_000_000f64..=400_000_000_000_000f64)?;
     dbg!(output);
     Ok(())

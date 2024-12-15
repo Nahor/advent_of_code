@@ -5,7 +5,12 @@ use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
-    let input = include_str!("input.txt");
+    let input = include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../advent_of_code_input/2023/",
+        env!("CARGO_PKG_NAME"),
+        "/input.txt"
+    ));
     let output = process(input)?;
     dbg!(output);
     Ok(())
@@ -18,9 +23,7 @@ fn process(input: &str) -> Result<usize, AocError> {
     let output = ordered
         .into_iter()
         .enumerate()
-        .map(|(rank, data)| {
-            (rank + 1) * data.bid
-        })
+        .map(|(rank, data)| (rank + 1) * data.bid)
         .sum();
 
     Ok(output)

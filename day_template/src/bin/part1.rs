@@ -1,14 +1,8 @@
-use day14::*;
+use day_template::*;
 use miette;
-//use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
-    let input = include_str!(concat!(
-        env!("CARGO_MANIFEST_DIR"),
-        "/../../advent_of_code_input/2023/",
-        env!("CARGO_PKG_NAME"),
-        "/input.txt"
-    ));
+    let input = include_str!("input.txt");
     let output = process(input)?;
     dbg!(output);
     Ok(())
@@ -22,11 +16,10 @@ fn process(input: &str) -> Result<usize, AocError> {
     });
     assert_eq!(size, size_other);
 
-    let rock_map = parse(input)?;
-    let new_map = process_one_direction(rock_map, size);
-    let load = compute_load_after_tilt(&new_map);
+    let _data = parse(input)?;
+    let output = 1234;
 
-    Ok(load)
+    Ok(output)
 }
 
 #[cfg(test)]
@@ -47,7 +40,7 @@ O.#..O.#.#
 #....###..
 #OO..#....
 ";
-        assert_eq!(process(input).unwrap(), 136);
+        assert_eq!(process(input).unwrap(), 1234);
 
         Ok(())
     }

@@ -4,7 +4,12 @@ use day21::{progress::Progress, *};
 use miette;
 
 fn main() -> miette::Result<()> {
-    let input = include_str!("input.txt");
+    let input = include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../advent_of_code_input/2023/",
+        env!("CARGO_PKG_NAME"),
+        "/input.txt"
+    ));
     let (grid, width) = get_grid(input)?;
 
     // There is a diamond shape occupying the whole grid (i.e. once centered
