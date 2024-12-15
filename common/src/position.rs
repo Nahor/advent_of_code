@@ -4,7 +4,7 @@ use std::{
     slice::{Iter, IterMut},
 };
 
-#[derive(Default, Clone)]
+#[derive(Default, Clone, PartialEq, Eq)]
 pub struct Grid<T> {
     data: Vec<T>,
     width: usize,
@@ -58,11 +58,45 @@ where
         self.data.get_mut(idx)
     }
 
+    pub fn swap(&mut self, pos1: Position, pos2: Position) {
+        self.data
+            .swap(pos1.to_index(self.width), pos2.to_index(self.width));
+    }
+
     /// # Safety
     ///
     /// `idx` must be in [0..`size()`] range
     pub unsafe fn get_idx_unchecked(&self, idx: usize) -> T {
         *self.data.get_unchecked(idx)
+    }
+}
+
+impl<T> IntoIterator for Grid<T> {
+    type Item = T;
+    type IntoIter = std::vec::IntoIter<Self::Item>;
+
+    fn into_iter(self) -> Self::IntoIter {
+        self.data.into_iter()
+    }
+}
+
+impl<T> Debug for Grid<T>
+where
+    T: Copy + Into<&'static str>,
+{
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        writeln!(f)?;
+        let mut idx = 0;
+        for _y in 0..self.height {
+            write!(f, "  ")?;
+            for _x in 0..self.width {
+                let s: &str = unsafe { self.get_idx_unchecked(idx) }.into();
+                write!(f, "{s}")?;
+                idx += 1;
+            }
+            writeln!(f)?;
+        }
+        Ok(())
     }
 }
 
