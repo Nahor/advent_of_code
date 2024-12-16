@@ -65,7 +65,7 @@ impl Data {
         self.hand.iter().for_each(|card| {
             card_count
                 .entry(*card)
-                .and_modify(|count| (*count) = (*count) + 1)
+                .and_modify(|count| (*count) += 1)
                 .or_insert(1);
         });
         // println!("count: {card_count:?}");
@@ -98,7 +98,7 @@ impl Data {
                     }
                 });
         // println!("{}, {}, {}", self.get_hand_str(), hand_type, jokers);
-        let updated_type = match (jokers, hand_type) {
+        match (jokers, hand_type) {
             (0, _) => hand_type,
             (1, HandType::HighCard) => HandType::OnePair,
             (1, HandType::OnePair) => HandType::ThreeOfAKind,
@@ -118,8 +118,7 @@ impl Data {
             (5, HandType::None) => HandType::FiveOfAKind,
             (5, _) => panic!("Can't have five jokers in this configuration"),
             (_, _) => panic!("Invalid number of jokers"),
-        };
-        updated_type
+        }
     }
 }
 impl PartialEq for Data {
@@ -129,22 +128,22 @@ impl PartialEq for Data {
 }
 impl PartialOrd for Data {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        match self.get_hand_type().partial_cmp(&other.get_hand_type()) {
-            Some(std::cmp::Ordering::Equal) => {}
-            ord => return ord,
-        }
-        for i in 0..5 {
-            match self.hand[i].partial_cmp(&other.hand[i]) {
-                Some(std::cmp::Ordering::Equal) => {}
-                ord => return ord,
-            }
-        }
-        Some(std::cmp::Ordering::Equal)
+        Some(self.cmp(other))
     }
 }
 impl Ord for Data {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.partial_cmp(other).expect("Data should be orderable")
+        match self.get_hand_type().cmp(&other.get_hand_type()) {
+            std::cmp::Ordering::Equal => {}
+            ord => return ord,
+        }
+        for i in 0..5 {
+            match self.hand[i].cmp(&other.hand[i]) {
+                std::cmp::Ordering::Equal => {}
+                ord => return ord,
+            }
+        }
+        std::cmp::Ordering::Equal
     }
 }
 impl Eq for Data {}
@@ -168,7 +167,7 @@ fn parse_line(lineno: usize, line: &str) -> Result<Data, AocError> {
         .chars()
         .map(|c| {
             c.to_digit(10)
-                .or_else(|| match c {
+                .or(match c {
                     'T' => Some(10),
                     'J' => Some(1),
                     'Q' => Some(12),

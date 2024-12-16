@@ -12,3 +12,7 @@ miette = { workspace = true, features = ["fancy"] }
 owo-colors = { workspace = true }
 nom = { workspace = true }
 itertools = { workspace = true }
+
+[lints]
+workspace = true
+

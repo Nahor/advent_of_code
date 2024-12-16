@@ -7,13 +7,13 @@ pub fn part1(input: &str) -> u32 {
                 .chars()
                 .filter_map(|c| c.to_digit(10))
                 .next()
-                .expect(format!("No digit in line '{line}'").as_str());
+                .unwrap_or_else(|| panic!("No digit in line '{line}'"));
             let second = line
                 .chars()
                 .rev()
                 .filter_map(|c| c.to_digit(10))
                 .next()
-                .expect(format!("No digit in line '{line}'").as_str());
+                .unwrap_or_else(|| panic!("No digit in line '{line}'"));
             first * 10 + second
         })
         .sum()

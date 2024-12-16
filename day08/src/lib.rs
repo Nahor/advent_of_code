@@ -90,16 +90,13 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
                 .to_owned();
 
             //println!("Inserting node {name} with {left},{right}");
-            let _ = match nodes.insert(name.clone(), Node { left, right }) {
-                Some(_) => {
-                    return Err(AocError::InvalidLineError {
-                        desc: format!("duplicate node {name}"),
-                        src: AocSourceChunk::new(line.to_owned(), lineno),
-                        span: (name.len() + 1, children.len()).into(),
-                        inner: None,
-                    })
-                }
-                None => {}
+            if nodes.insert(name.clone(), Node { left, right }).is_some() {
+                return Err(AocError::InvalidLineError {
+                    desc: format!("duplicate node {name}"),
+                    src: AocSourceChunk::new(line.to_owned(), lineno),
+                    span: (name.len() + 1, children.len()).into(),
+                    inner: None,
+                });
             };
 
             Ok::<(), AocError>(())

@@ -64,7 +64,7 @@ impl<'a> Conjunction<'a> {
             .or(Some(Pulse::High))
     }
     fn add_input(&mut self, input: &'a str) {
-        if let Some(_) = self.inputs.insert(input, Pulse::Low) {
+        if self.inputs.insert(input, Pulse::Low).is_some() {
             panic!("multiple entries for {input}");
         }
     }
@@ -89,12 +89,12 @@ pub enum Module<'a> {
 }
 
 //////////////
-///
-///
-///
-///
+//////////////
+//////////////
+//////////////
+//////////////
 
-pub fn parse<'a>(input: &'a str) -> Result<HashMap<&'a str, (Module, Vec<&'a str>)>, AocError> {
+pub fn parse<'a>(input: &'a str) -> Result<HashMap<&'a str, (Module<'a>, Vec<&'a str>)>, AocError> {
     let document = parser().padded().then_ignore(end());
 
     match document.parse(input).into_result() {

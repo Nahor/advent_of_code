@@ -1,5 +1,4 @@
 use day16::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -31,7 +30,7 @@ fn process(input: &str) -> Result<usize, AocError> {
                 }
             );
         });
-        println!("");
+        println!();
     });
 
     process_cell(&mut grid, (0, 0), Direction::Right);
@@ -43,7 +42,7 @@ fn process(input: &str) -> Result<usize, AocError> {
             let c = if cell.energy.is_empty() { '.' } else { '#' };
             print!("{}", c);
         });
-        println!("");
+        println!();
     });
 
     let output = grid

@@ -53,9 +53,10 @@ pub struct Part {
     pub s: i64,
 }
 
-pub fn parse<'a>(
-    input: &'a str,
-) -> Result<(HashMap<&'a str, Vec<WorkflowRule<'a>>>, Vec<Part>), AocError> {
+#[allow(clippy::type_complexity)]
+pub fn parse(
+    input: &str,
+) -> Result<(HashMap<&'_ str, Vec<WorkflowRule<'_>>>, Vec<Part>), AocError> {
     let document = parser().padded().then_ignore(end());
 
     match document.parse(input).into_result() {
@@ -81,6 +82,7 @@ pub fn parse<'a>(
     }
 }
 
+#[allow(clippy::type_complexity)]
 fn parser<'a>() -> impl Parser<
     'a,
     &'a str,
@@ -156,7 +158,7 @@ fn target<'a>() -> impl Parser<'a, &'a str, WorkflowRuleTarget<'a>, extra::Err<R
     choice((
         just('A').to(WorkflowRuleTarget::Accepted),
         just('R').to(WorkflowRuleTarget::Rejected),
-        ident().map(|target| WorkflowRuleTarget::Next(target)),
+        ident().map(WorkflowRuleTarget::Next),
     ))
 }
 

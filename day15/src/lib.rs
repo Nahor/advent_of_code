@@ -125,6 +125,5 @@ fn op_remove(input: Span) -> IResult<Span, Operation, AocParseError> {
 
 pub fn aoc_hash(span: &str) -> usize {
     span.chars()
-        .into_iter()
         .fold(0, |acc, c| ((acc + c as usize) * 17) % 256)
 }

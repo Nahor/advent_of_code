@@ -22,7 +22,7 @@ pub fn parse(input: &str, age: usize) -> Result<Vec<Coord>, AocError> {
         .filter_map(|(y, line)| {
             let g = line
                 .as_bytes()
-                .into_iter()
+                .iter()
                 .copied()
                 .enumerate()
                 .filter_map(|(x, b)| {
@@ -81,12 +81,11 @@ pub fn distance_sum(g_list: Vec<Coord>) -> isize {
     g_list
         .iter()
         .enumerate()
-        .map(|(num, coord1)| {
+        .flat_map(|(num, coord1)| {
             g_list[num + 1..].iter().map(|coord2| {
                 (coord2.x as isize - coord1.x as isize).abs()
                     + (coord2.y as isize - coord1.y as isize).abs()
             })
         })
-        .flatten()
         .sum()
 }

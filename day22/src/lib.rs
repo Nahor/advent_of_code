@@ -1,3 +1,4 @@
+#![allow(clippy::mutable_key_type)]
 use std::{
     cell::{self, RefCell},
     collections::{hash_map::Entry, HashMap, HashSet, VecDeque},
@@ -144,7 +145,7 @@ impl PartialEq for BrickNode {
 impl Eq for BrickNode {}
 pub type BrickList = HashSet<BrickNode>;
 
-pub fn parse<'a>(input: &'a str) -> Result<BrickList, AocError<'a>> {
+pub fn parse(input: &str) -> Result<BrickList, AocError<'_>> {
     let mut id = 0;
     let grid = input
         .lines()
@@ -154,7 +155,7 @@ pub fn parse<'a>(input: &'a str) -> Result<BrickList, AocError<'a>> {
             let (v1_str, v2_str) =
                 line.split_once('~')
                     .ok_or_else(|| AocError::InvalidLineError {
-                        desc: format!("expected `~`"),
+                        desc: "expected `~`".to_string(),
                         src: source,
                         span: (0, line.len()).into(),
                         inner: None,
@@ -231,17 +232,14 @@ pub fn build_graph(bricks: &BrickList) -> BrickList {
     fall(&ground);
 
     // Now remove the link we there is no actual contact between bricks
-    clean_support(&bricks);
+    clean_support(bricks);
 
     ground
 }
 
 pub fn fall(graph: &BrickList) {
     // Move all the brick to the ground
-    let mut pending = graph
-        .iter()
-        .map(|brick| brick.clone())
-        .collect::<VecDeque<_>>();
+    let mut pending = graph.iter().cloned().collect::<VecDeque<_>>();
     while let Some(brick) = pending.pop_front() {
         let mut brick = brick.borrow_mut();
         let height = (brick.v1.z - brick.v2.z).abs();
@@ -255,7 +253,7 @@ pub fn fall(graph: &BrickList) {
                 .supports
                 .iter()
                 .filter(|brick| brick.borrow().v1.z > 0)
-                .map(|brick| brick.clone()),
+                .cloned(),
         );
     }
 
@@ -288,13 +286,13 @@ fn clean_support(bricks: &BrickList) {
             .supports
             .iter()
             .filter(|brick| brick.borrow().min_z() == need_z)
-            .map(|brick| brick.clone())
+            .cloned()
             .collect();
         brick.supported_by = brick
             .supported_by
             .iter()
             .filter(|brick| brick.borrow().max_z() == parent_z)
-            .map(|brick| brick.clone())
+            .cloned()
             .collect();
     });
 }
@@ -313,26 +311,20 @@ pub fn parse_coord<'a>(
             inner: None,
         });
     }
-    let x = axis[0].parse().or_else(|err| {
-        Err(AocError::InvalidNumber {
-            src: source.clone(),
-            span: (colno, axis[0].len()).into(),
-            inner: Some(Box::new(err)),
-        })
+    let x = axis[0].parse().map_err(|err| AocError::InvalidNumber {
+        src: source,
+        span: (colno, axis[0].len()).into(),
+        inner: Some(Box::new(err)),
     })?;
-    let y = axis[1].parse().or_else(|err| {
-        Err(AocError::InvalidNumber {
-            src: source.clone(),
-            span: (colno + axis[0].len() + 1, axis[1].len()).into(),
-            inner: Some(Box::new(err)),
-        })
+    let y = axis[1].parse().map_err(|err| AocError::InvalidNumber {
+        src: source,
+        span: (colno + axis[0].len() + 1, axis[1].len()).into(),
+        inner: Some(Box::new(err)),
     })?;
-    let z = axis[2].parse().or_else(|err| {
-        Err(AocError::InvalidNumber {
-            src: source.clone(),
-            span: (colno + axis[0].len() + 1 + axis[1].len() + 1, axis[2].len()).into(),
-            inner: Some(Box::new(err)),
-        })
+    let z = axis[2].parse().map_err(|err| AocError::InvalidNumber {
+        src: source,
+        span: (colno + axis[0].len() + 1 + axis[1].len() + 1, axis[2].len()).into(),
+        inner: Some(Box::new(err)),
     })?;
 
     Ok(Coord { x, y, z })

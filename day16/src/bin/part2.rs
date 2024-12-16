@@ -1,5 +1,4 @@
 use day16::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -20,19 +19,10 @@ fn process(input: &str) -> Result<usize, AocError> {
     let height = grid.len();
     let width = grid[0].len();
     let output = (0..height)
-        .into_iter()
         .map(|y| ((0, y), Direction::Right))
-        .chain(
-            (0..height)
-                .into_iter()
-                .map(|y| ((width - 1, y), Direction::Left)),
-        )
-        .chain((0..width).into_iter().map(|x| ((x, 0), Direction::Down)))
-        .chain(
-            (0..width)
-                .into_iter()
-                .map(|x| ((x, height - 1), Direction::Up)),
-        )
+        .chain((0..height).map(|y| ((width - 1, y), Direction::Left)))
+        .chain((0..width).map(|x| ((x, 0), Direction::Down)))
+        .chain((0..width).map(|x| ((x, height - 1), Direction::Up)))
         .map(|(cell, dir)| get_energy_level(&mut grid, cell, dir))
         .max()
         .unwrap();

@@ -1,5 +1,4 @@
 use day06::{aocerror::AocError, part1::parse};
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {

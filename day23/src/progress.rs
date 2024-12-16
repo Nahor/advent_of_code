@@ -53,7 +53,7 @@ impl Progress {
     pub fn finish(&mut self) {
         self.val = self.max;
         self.draw();
-        println!("");
+        println!();
     }
 
     fn draw(&mut self) {
@@ -88,15 +88,15 @@ impl Progress {
 
         if self.val > (self.max / 100000.0) {
             self.speed = match self.speed {
-                Some(speed) => Some(speed * 0.9 + self.val as f64 / elapsed * 0.1),
-                None => Some(self.val as f64 / elapsed),
+                Some(speed) => Some(speed * 0.9 + self.val / elapsed * 0.1),
+                None => Some(self.val / elapsed),
             }
         }
 
         // Compute the ETA
         let eta = match self.speed {
             Some(speed) if self.val <= self.max => {
-                let eta = f64::ceil((self.max - self.val) as f64 / speed) as usize;
+                let eta = f64::ceil((self.max - self.val) / speed) as usize;
                 format!("{}:{:02}", eta / 60, eta % 60)
             }
             _ => "unk".to_owned(),
@@ -116,17 +116,17 @@ impl Progress {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
+// #[cfg(test)]
+// mod test {
+//     use super::*;
 
-    #[test]
-    fn test() {
-        let mut p = Progress::new(50 * 8);
-        for i in 0..(50 * 8) {
-            p.val(i);
-            std::thread::sleep(Duration::from_millis(25));
-        }
-        p.finish();
-    }
-}
+//     #[test]
+//     fn test() {
+//         let mut p = Progress::new(50 * 8);
+//         for i in 0..(50 * 8) {
+//             p.val(i);
+//             std::thread::sleep(Duration::from_millis(25));
+//         }
+//         p.finish();
+//     }
+// }

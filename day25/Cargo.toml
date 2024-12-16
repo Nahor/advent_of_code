@@ -17,3 +17,7 @@ ariadne = { git = "https://github.com/zesterer/ariadne", rev = "bc46d0510ac0167b
 num = { workspace = true }
 petgraph = "0.6.4"
 rustworkx-core = "0.14.0"
+
+[lints]
+workspace = true
+

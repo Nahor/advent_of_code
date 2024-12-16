@@ -15,3 +15,7 @@ ariadne = { git = "https://github.com/zesterer/ariadne", rev = "bc46d0510ac0167b
 num = { workspace = true }
 # nom = { workspace = true }
 # nom_locate = { workspace = true }
+
+[lints]
+workspace = true
+

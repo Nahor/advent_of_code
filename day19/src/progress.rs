@@ -42,7 +42,7 @@ impl Progress {
     pub fn finish(&mut self) {
         self.val = self.max;
         self.draw();
-        println!("");
+        println!();
     }
 
     fn draw(&mut self) {
@@ -99,17 +99,17 @@ impl Progress {
     }
 }
 
-#[cfg(test)]
-mod test {
-    use super::*;
+// #[cfg(test)]
+// mod test {
+//     use super::*;
 
-    #[test]
-    fn test() {
-        let mut p = Progress::new(50 * 8);
-        for i in 0..(50 * 8) {
-            p.val(i);
-            std::thread::sleep(Duration::from_millis(25));
-        }
-        p.finish();
-    }
-}
+//     #[test]
+//     fn test() {
+//         let mut p = Progress::new(50 * 8);
+//         for i in 0..(50 * 8) {
+//             p.val(i);
+//             std::thread::sleep(Duration::from_millis(25));
+//         }
+//         p.finish();
+//     }
+// }

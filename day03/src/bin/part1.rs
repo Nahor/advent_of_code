@@ -1,6 +1,5 @@
 use day03::aocerror::AocError;
 use day03::{parse, CellData};
-use miette;
 use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
@@ -42,10 +41,8 @@ fn process(input: &str) -> Result<u32, AocError> {
                     Style::new().green()
                 };
                 match grid.get(&coord.add(-1, 0)) {
-                    Some(other_cell) => match other_cell {
-                        CellData::Number(_) => {}
-                        _ => print!("{}", part.number.style(style)),
-                    },
+                    Some(CellData::Number(_)) => {}
+                    Some(_) => print!("{}", part.number.style(style)),
                     None => print!("{}", part.number.style(style)),
                 }
             }

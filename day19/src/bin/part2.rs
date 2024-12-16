@@ -1,7 +1,6 @@
 use std::{cmp, ops::Range};
 
 use day19::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -38,9 +37,7 @@ fn process(input: &str) -> Result<i64, AocError> {
     ));
 
     let mut count = 0;
-    while !pending.is_empty() {
-        let (workflow_target, mut range_part) = pending.pop().unwrap();
-
+    while let Some((workflow_target, mut range_part)) = pending.pop() {
         let rule_name = match workflow_target {
             WorkflowRuleTarget::Accepted => {
                 // println!("Match: {range_part:?}");
@@ -75,7 +72,7 @@ fn process(input: &str) -> Result<i64, AocError> {
                 };
 
                 // Split the range
-                (*pass_range, *fail_range) = split_range(&pass_range, cmp.cmp, cmp.value);
+                (*pass_range, *fail_range) = split_range(pass_range, cmp.cmp, cmp.value);
 
                 if !pass_range.is_empty() {
                     // push the successful part to be processed with the new

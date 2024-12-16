@@ -13,3 +13,7 @@ owo-colors = { workspace = true }
 miette = { git = "https://github.com/zkat/miette.git", rev = "55bfc4201638e412dd2732d394389e22a7398822", version = "5.10.0", features = [
     "fancy",
 ] }
+
+[lints]
+workspace = true
+

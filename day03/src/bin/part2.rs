@@ -3,7 +3,6 @@ use std::rc::Rc;
 
 use day03::aocerror::AocError;
 use day03::{parse, CellData, Part};
-use miette;
 use owo_colors::{OwoColorize, Style};
 use std::hash::Hash;
 
@@ -59,10 +58,8 @@ fn process(input: &str) -> Result<u32, AocError> {
                     Style::new().green()
                 };
                 match grid.get(&coord.add(-1, 0)) {
-                    Some(other_cell) => match other_cell {
-                        CellData::Number(_) => {}
-                        _ => print!("{}", part.number.style(style)),
-                    },
+                    Some(CellData::Number(_)) => {}
+                    Some(_) => print!("{}", part.number.style(style)),
                     None => print!("{}", part.number.style(style)),
                 }
             }
@@ -70,7 +67,7 @@ fn process(input: &str) -> Result<u32, AocError> {
     });
     println!();
 
-    let offsets = vec![
+    let offsets = [
         (-1, -1),
         (0, -1),
         (1, -1),
@@ -84,11 +81,13 @@ fn process(input: &str) -> Result<u32, AocError> {
         .iter()
         .filter(|(_, cell)| matches!(cell, CellData::Symbol('*')))
         .map(|(&coord, _)| {
+            // Allowing the lint. Didn't check if there is a better option
+            #[allow(clippy::mutable_key_type)]
             let mut found = HashSet::new();
             for offset in offsets.iter() {
                 match grid.get(&coord.add(offset.0, offset.1)) {
                     Some(CellData::Number(part)) => {
-                        found.insert(RcWrapper(Rc::clone(&part)));
+                        found.insert(RcWrapper(Rc::clone(part)));
                     }
                     Some(_) => {}
                     None => {}

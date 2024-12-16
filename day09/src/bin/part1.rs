@@ -1,6 +1,5 @@
 use day09::{aocerror::AocError, parse};
 use itertools::Itertools;
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
@@ -23,7 +22,7 @@ fn process(input: &str) -> Result<i64, AocError> {
     Ok(output)
 }
 
-fn get_next(data: &Vec<i64>) -> i64 {
+fn get_next(data: &[i64]) -> i64 {
     if data.iter().all(|v| (*v) == 0) {
         return 0;
     }

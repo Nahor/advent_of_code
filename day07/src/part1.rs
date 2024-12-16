@@ -23,11 +23,11 @@ impl Display for Data {
         let mut cards = String::new();
         self.hand.iter().for_each(|&card| match card {
             card if card < 10 => cards.push_str(&format!("{card}")),
-            10 => cards.push_str("T"),
-            11 => cards.push_str("J"),
-            12 => cards.push_str("Q"),
-            13 => cards.push_str("K"),
-            14 => cards.push_str("A"),
+            10 => cards.push('T'),
+            11 => cards.push('J'),
+            12 => cards.push('Q'),
+            13 => cards.push('K'),
+            14 => cards.push('A'),
             _ => panic!("Unexpected card value"),
         });
 
@@ -49,13 +49,12 @@ impl Data {
         self.hand.iter().for_each(|card| {
             card_count
                 .entry(*card)
-                .and_modify(|count| (*count) = (*count) + 1)
+                .and_modify(|count| (*count) += 1)
                 .or_insert(1);
         });
 
         card_count
-            .iter()
-            .map(|(_, count)| count)
+            .values()
             .fold(HandType::HighCard, |acc, count| match count {
                 1 => acc,
                 2 if acc == HandType::HighCard => HandType::OnePair,
@@ -77,22 +76,22 @@ impl PartialEq for Data {
 }
 impl PartialOrd for Data {
     fn partial_cmp(&self, other: &Self) -> Option<std::cmp::Ordering> {
-        match self.get_hand_type().partial_cmp(&other.get_hand_type()) {
-            Some(std::cmp::Ordering::Equal) => {}
-            ord => return ord,
-        }
-        for i in 0..5 {
-            match self.hand[i].partial_cmp(&other.hand[i]) {
-                Some(std::cmp::Ordering::Equal) => {}
-                ord => return ord,
-            }
-        }
-        Some(std::cmp::Ordering::Equal)
+        Some(self.cmp(other))
     }
 }
 impl Ord for Data {
     fn cmp(&self, other: &Self) -> std::cmp::Ordering {
-        self.partial_cmp(other).expect("Data should be orderable")
+        match self.get_hand_type().cmp(&other.get_hand_type()) {
+            std::cmp::Ordering::Equal => {}
+            ord => return ord,
+        }
+        for i in 0..5 {
+            match self.hand[i].cmp(&other.hand[i]) {
+                std::cmp::Ordering::Equal => {}
+                ord => return ord,
+            }
+        }
+        std::cmp::Ordering::Equal
     }
 }
 impl Eq for Data {}
@@ -116,7 +115,7 @@ fn parse_line(lineno: usize, line: &str) -> Result<Data, AocError> {
         .chars()
         .map(|c| {
             c.to_digit(10)
-                .or_else(|| match c {
+                .or(match c {
                     'T' => Some(10),
                     'J' => Some(11),
                     'Q' => Some(12),

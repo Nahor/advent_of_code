@@ -88,7 +88,7 @@ pub fn parse(input: &str) -> Result<Grid, AocError> {
     // Fill in the borders
     let mut cur_coord = Coord::default();
     loop {
-        let cell = grid.get(&cur_coord).unwrap().clone();
+        let cell = *grid.get(&cur_coord).unwrap();
         let next_coord = cur_coord.move_to(cell.out_dir, cell.len);
         // println!("Coord from: {cur_coord:?} -> {next_coord:?}  (cell: {cell:?})");
         for i in 1..cell.len {
@@ -103,7 +103,7 @@ pub fn parse(input: &str) -> Result<Grid, AocError> {
             );
         }
         let next_cell = grid.get_mut(&next_coord).unwrap();
-        (*next_cell).in_dir = cell.out_dir;
+        next_cell.in_dir = cell.out_dir;
 
         if next_coord == Coord::default() {
             break;
@@ -184,5 +184,5 @@ fn hex_u8_exact(input: Span) -> IResult<Span, u8, AocParseError> {
 }
 
 fn is_hex_digit(c: char) -> bool {
-    c.is_digit(16)
+    c.is_ascii_hexdigit()
 }

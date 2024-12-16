@@ -1,5 +1,4 @@
 use day05::{aocerror::AocError, part2::parse};
-use miette;
 use rayon::prelude::*;
 
 fn main() -> miette::Result<()> {
@@ -53,12 +52,12 @@ fn process(input: &str) -> Result<u64, AocError> {
         .map(|seed_range| {
             let mut low = u64::MAX;
             for seed in seed_range.clone() {
-                let mut next = seed as u64;
+                let mut next = seed;
                 // print!("Mapping {next}");
                 for map in data.maps.values() {
                     let (range, next_start) = map
                         .get_key_value(&next)
-                        .and_then(|(range, dst)| Some((range.clone(), *dst)))
+                        .map(|(range, dst)| (range.clone(), *dst))
                         .or_else(|| Some((next..(next + 1), next)))
                         .unwrap();
                     next = (next - range.start) + next_start;

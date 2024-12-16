@@ -88,7 +88,7 @@ fn process_game(line: &str) -> Result<Game, AocError> {
     })?;
     let rounds = data
         .split(';')
-        .map(|set| Set::new(set))
+        .map(Set::new)
         .collect::<Result<Vec<Set>, _>>()?;
 
     Ok(Game { id, rounds })

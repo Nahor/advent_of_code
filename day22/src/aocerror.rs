@@ -17,7 +17,7 @@ impl<'a> AocSourceChunk<'a> {
     }
 }
 
-impl<'b> SourceCode for AocSourceChunk<'b> {
+impl SourceCode for AocSourceChunk<'_> {
     fn read_span<'a>(
         &'a self,
         span: &SourceSpan,
@@ -26,7 +26,7 @@ impl<'b> SourceCode for AocSourceChunk<'b> {
     ) -> Result<Box<dyn miette::SpanContents<'a> + 'a>, miette::MietteError> {
         let content = MietteSpanContents::new_named(
             "<input>".to_owned(),
-            &self.chunk.as_bytes(),
+            self.chunk.as_bytes(),
             (0, self.chunk.len()).into(),
             self.start_line,
             span.offset(),

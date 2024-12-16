@@ -29,7 +29,7 @@ impl SourceCode for AocSourceChunk {
     ) -> Result<Box<dyn miette::SpanContents<'a> + 'a>, miette::MietteError> {
         let content = MietteSpanContents::new_named(
             "<input>".to_owned(),
-            &self.chunk.as_bytes(),
+            self.chunk.as_bytes(),
             (0, self.chunk.len()).into(),
             self.start_line,
             span.offset(),
@@ -200,7 +200,7 @@ impl<'a> ParseError<Span<'a>> for AocParseError {
     }
 }
 
-impl<'a, I> ContextError<I> for AocParseError {
+impl<I> ContextError<I> for AocParseError {
     fn add_context(_input: I, ctx: &'static str, mut other: Self) -> Self {
         other.context = other.context.or(Some(ctx));
         other

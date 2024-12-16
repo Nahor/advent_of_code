@@ -65,7 +65,7 @@ fn line<'a>(
         map_res(
             separated_list1(space1, context("expected u64", digit1)),
             |vec| {
-                let iter = vec.iter().map(|&s| s);
+                let iter = vec.iter().copied();
                 let collect: String = iter.collect();
                 collect.parse::<u64>()
             },

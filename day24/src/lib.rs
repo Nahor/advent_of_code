@@ -109,7 +109,7 @@ pub struct Stone {
     pub velocity: F64Coord,
 }
 
-pub fn parse<'a>(input: &'a str) -> Result<Vec<Stone>, AocError<'a>> {
+pub fn parse(input: &str) -> Result<Vec<Stone>, AocError<'_>> {
     let document = hail_parser().padded().then_ignore(end());
 
     let stones = match document.parse(input).into_result() {

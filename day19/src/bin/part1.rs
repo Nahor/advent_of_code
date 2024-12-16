@@ -1,5 +1,4 @@
 use day19::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -28,16 +27,16 @@ fn process(input: &str) -> Result<i64, AocError> {
                         None => Some(rule.target),
                         Some(cmp) => match cmp.field {
                             WorkflowRuleField::X => {
-                                (part.x.cmp(&cmp.value) == cmp.cmp).then(|| rule.target)
+                                (part.x.cmp(&cmp.value) == cmp.cmp).then_some(rule.target)
                             }
                             WorkflowRuleField::M => {
-                                (part.m.cmp(&cmp.value) == cmp.cmp).then(|| rule.target)
+                                (part.m.cmp(&cmp.value) == cmp.cmp).then_some(rule.target)
                             }
                             WorkflowRuleField::A => {
-                                (part.a.cmp(&cmp.value) == cmp.cmp).then(|| rule.target)
+                                (part.a.cmp(&cmp.value) == cmp.cmp).then_some(rule.target)
                             }
                             WorkflowRuleField::S => {
-                                (part.s.cmp(&cmp.value) == cmp.cmp).then(|| rule.target)
+                                (part.s.cmp(&cmp.value) == cmp.cmp).then_some(rule.target)
                             }
                         },
                     })

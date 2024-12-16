@@ -1,7 +1,6 @@
 use std::collections::{BTreeMap, HashMap};
 
 use day14::*;
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
@@ -32,7 +31,7 @@ fn process(input: &str) -> Result<usize, AocError> {
     let mut cache = HashMap::new();
 
     const CYCLE_COUNTS: usize = 1_000_000_000;
-    let mut iter = (0..CYCLE_COUNTS).into_iter();
+    let mut iter = 0..CYCLE_COUNTS;
     while let Some(i) = iter.next() {
         // println!("Processing cycle {i}");
         rock_map = process_one_cycle(rock_map, size, i);
@@ -65,7 +64,7 @@ fn process(input: &str) -> Result<usize, AocError> {
         }
     }
     //let mut iter = iter.chain((CYCLE_COUNTS..(CYCLE_COUNTS + 10)).into_iter());
-    while let Some(i) = iter.next() {
+    for i in iter {
         // println!("Finishing with cycle {i}");
         rock_map = process_one_cycle(rock_map, size, i);
     }
@@ -94,10 +93,8 @@ fn process_one_cycle(
 
 fn get_map_drawing(rock_map: &BTreeMap<Coord, RockType>, size: usize) -> String {
     (0..size)
-        .into_iter()
         .map(|y| {
             (0..size)
-                .into_iter()
                 .map(|x| match rock_map.get(&Coord { x, y }) {
                     Some(RockType::Round) => 'O',
                     Some(RockType::Square) => '#',

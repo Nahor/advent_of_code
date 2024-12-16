@@ -1,5 +1,4 @@
 use day08::{aocerror::AocError, parse, Step};
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
@@ -28,7 +27,7 @@ fn process(input: &str) -> Result<u32, AocError> {
                 continue;
             }
         };
-        step_count = step_count + 1;
+        step_count += 1;
         let node = match data.nodes.get(&node_name) {
             Some(node) => node,
             None => panic!("node {node_name} not found"),

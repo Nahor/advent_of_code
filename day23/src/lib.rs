@@ -138,7 +138,7 @@ pub struct Maze {
     pub cells: HashMap<Coord, Cell>,
 }
 
-pub fn parse<'a>(input: &'a str) -> Result<Maze, AocError<'a>> {
+pub fn parse(input: &str) -> Result<Maze, AocError<'_>> {
     let mut start = None;
     let mut end = Coord::default();
     let mut range_x = 0..0;
@@ -215,7 +215,7 @@ pub fn condense(maze: &Maze, with_slope: bool) -> HashMap<Coord, SimpleCell> {
     ));
     while let Some((start, mut end, mut cost, mut dir)) = pending.pop_front() {
         loop {
-            if let Some(_) = condensed.get(&end) {
+            if condensed.contains_key(&end) {
                 // Reached a known intersection or the end
 
                 // Add this branch to our starting point
@@ -241,13 +241,10 @@ pub fn condense(maze: &Maze, with_slope: bool) -> HashMap<Coord, SimpleCell> {
                 .into_iter()
                 .filter_map(|dir| {
                     let coord = end + dir;
-                    match maze.cells.get(&coord) {
-                        None => None,
-                        Some(_) => Some((coord, dir)),
-                    }
+                    maze.cells.get(&coord).map(|_| (coord, dir))
                 })
                 .collect::<Vec<_>>();
-            if dest.len() == 0 {
+            if dest.is_empty() {
                 // dead end => drop this path
                 break;
             } else if dest.len() == 1 {
@@ -290,7 +287,7 @@ pub fn petegraph(maze: &Maze, condensed: &HashMap<Coord, SimpleCell>) -> usize {
     condensed.iter().for_each(|(coord, cell)| {
         cell.edges.iter().for_each(|(next_coord, cost)| {
             let a_idx = *indices.get(coord).unwrap();
-            let b_idx = *indices.get(&next_coord).unwrap();
+            let b_idx = *indices.get(next_coord).unwrap();
             if !graph.contains_edge(a_idx, b_idx) {
                 graph.add_edge(a_idx, b_idx, cost);
             }
@@ -311,7 +308,7 @@ pub fn petegraph(maze: &Maze, condensed: &HashMap<Coord, SimpleCell>) -> usize {
                 .map(|indices| {
                     let start = graph.node_weight(indices[0]).unwrap();
                     let end = graph.node_weight(indices[1]).unwrap();
-                    *condensed.get(&start).unwrap().edges.get(&end).unwrap()
+                    *condensed.get(start).unwrap().edges.get(end).unwrap()
                 })
                 .sum::<usize>();
             if cost > max {

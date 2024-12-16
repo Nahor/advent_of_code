@@ -1,5 +1,4 @@
 use day_template::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!("input.txt");

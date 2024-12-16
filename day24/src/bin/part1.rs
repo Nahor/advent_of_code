@@ -1,7 +1,6 @@
 use std::ops::RangeInclusive;
 
 use day24::*;
-use miette;
 
 #[cfg(feature = "nalgebra")]
 use nalgebra::*;
@@ -87,7 +86,7 @@ fn segment_intersection(s1: Stone, s2: Stone) -> Option<(f64, f64)> {
     ]);
     let x = a.qr().solve(&b);
 
-    x.and_then(|x| Some((x[0], x[1])))
+    x.map(|x| (x[0], x[1]))
 }
 
 #[cfg(test)]

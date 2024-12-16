@@ -1,5 +1,4 @@
 use day18::part1::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -89,7 +88,7 @@ fn process(input: &str) -> Result<usize, AocError> {
                 }
             }
         }
-        // println!("");
+        // println!();
     }
 
     Ok(count)

@@ -21,10 +21,7 @@ pub struct Coord {
 }
 impl Coord {
     pub fn new(x: isize, y: isize) -> Coord {
-        Coord {
-            x: x as isize,
-            y: y as isize,
-        }
+        Coord { x, y }
     }
     pub fn min(self, other: Coord) -> Coord {
         Coord {
@@ -63,17 +60,17 @@ impl Sub<Coord> for Coord {
 pub type Grid = HashMap<Coord, Cell>;
 
 //////////////
-///
-///
-///
-///
+//////////////
+//////////////
+//////////////
+//////////////
 
-pub fn parse<'a>(input: &'a str) -> Result<(Coord, Grid), AocError> {
+pub fn parse(input: &str) -> Result<(Coord, Grid), AocError> {
     let mut start = Coord::default();
     let grid = input
         .lines()
         .enumerate()
-        .map(|(y, line)| {
+        .flat_map(|(y, line)| {
             //let start = Rc::clone(&start);
             line.chars()
                 .enumerate()
@@ -93,7 +90,6 @@ pub fn parse<'a>(input: &'a str) -> Result<(Coord, Grid), AocError> {
                 })
                 .collect::<Vec<_>>()
         })
-        .flatten()
         .collect::<Result<Grid, _>>()?;
 
     Ok((start, grid))

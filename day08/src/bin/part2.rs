@@ -1,7 +1,6 @@
 use std::collections::{hash_map::Entry, HashMap};
 
 use day08::{aocerror::AocError, *};
-use miette;
 //use owo_colors::{OwoColorize, Style};
 //use rayon::prelude::*;
 
@@ -39,7 +38,7 @@ fn process(input: &str) -> Result<usize, AocError> {
             let mut name: &String = starting_name;
             // println!("Mapping {name}");
             loop {
-                step_count = step_count + 1;
+                step_count += 1;
 
                 let (index, step) = step_index.next().unwrap();
 

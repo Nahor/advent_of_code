@@ -1,5 +1,4 @@
 use day04::{aocerror::AocError, parse};
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
@@ -24,7 +23,7 @@ fn process(input: &str) -> Result<u32, AocError> {
         let wins = card.have.intersection(&card.winning).count();
         assert!(card.id + wins <= pile.len());
         for id in (card.id)..(card.id + wins) {
-            card_count[id] = card_count[id] + card_count[card.id - 1];
+            card_count[id] += card_count[card.id - 1];
         }
     });
 

@@ -1,7 +1,6 @@
 use std::collections::BTreeMap;
 
 use day15::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(

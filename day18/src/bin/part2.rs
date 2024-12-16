@@ -1,7 +1,6 @@
 use std::iter::successors;
 
 use day18::part2::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -48,7 +47,7 @@ fn process(input: &str) -> Result<i64, AocError> {
     // We also need to use the direction to know which of the 4 cells corners
     // is inside and which is outside (the other two being part of the "flat wall")
     let (_, left_area, right_area) = successors(Some(Coord::default()), |coord| {
-        let cell = grid.get(&coord).unwrap();
+        let cell = grid.get(coord).unwrap();
         let next_coord = coord.move_to(cell.dir, cell.len);
         if next_coord == Coord::default() {
             None

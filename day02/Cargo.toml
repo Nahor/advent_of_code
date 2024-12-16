@@ -10,3 +10,7 @@ regex = { workspace = true }
 thiserror = { workspace = true }
 miette = { workspace = true, features = ["fancy"] }
 owo-colors = { workspace = true }
+
+[lints]
+workspace = true
+

@@ -1,7 +1,6 @@
 use std::collections::VecDeque;
 
 use day20::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(

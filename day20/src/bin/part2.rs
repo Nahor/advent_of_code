@@ -1,7 +1,6 @@
 use std::collections::{HashMap, VecDeque};
 
 use day20::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -35,25 +34,23 @@ fn process(input: &str) -> Result<u64, AocError> {
     //   - there is only one high pulse per cycle (always H-H-H-... never HH-HH-HH and similar)
     //   - the prefinal gets a low pulse immediately after a high one (in the same button press)
     // => we should be able to just use the LCM for all the cycle sizes
-    assert!(modules.get("rx").is_none());
+    assert!(modules.contains_key("rx"));
     let final_modules = modules
         .iter()
-        .filter_map(|(k, (module, output_list))| {
-            output_list.contains(&"rx").then(|| {
-                assert!(matches!(module, Module::Conjunction(_)));
-                *k
-            })
+        .filter(|(_, (_, output_list))| output_list.contains(&"rx"))
+        .map(|(k, (module, _))| {
+            assert!(matches!(module, Module::Conjunction(_)));
+            *k
         })
         .collect::<Vec<_>>();
     assert_eq!(final_modules.len(), 1);
     // Get the input of that conjunction
     let mut prefinals = modules
         .iter()
-        .filter_map(|(k, (module, output_list))| {
-            output_list.contains(&final_modules[0]).then(|| {
-                assert!(matches!(module, Module::Conjunction(_)));
-                (*k, (None, false))
-            })
+        .filter(|(_, (_, output_list))| output_list.contains(&final_modules[0]))
+        .map(|(k, (module, _))| {
+            assert!(matches!(module, Module::Conjunction(_)));
+            (*k, (None, false))
         })
         .collect::<HashMap<_, _>>();
     println!("Matching inputs: {prefinals:?}");
@@ -79,13 +76,11 @@ fn process(input: &str) -> Result<u64, AocError> {
                     *was_high = true;
                     // println!("prefinals@{i}: {prefinals:?}");
                 }
-            } else {
-                if let Some((count, was_high)) = prefinals.get_mut(&from) {
-                    if *was_high {
-                        *was_high = false;
-                        // println!("Was high @{i} ({})", (i) % count.unwrap());
-                        assert!((i) % count.unwrap() == 0);
-                    }
+            } else if let Some((count, was_high)) = prefinals.get_mut(&from) {
+                if *was_high {
+                    *was_high = false;
+                    // println!("Was high @{i} ({})", (i) % count.unwrap());
+                    assert!((i) % count.unwrap() == 0);
                 }
             }
             match modules.get_mut(to) {
@@ -108,14 +103,8 @@ fn process(input: &str) -> Result<u64, AocError> {
 
     // Use the lcm as the more generic solution, but it looks like all
     // the numbers are prime, i.e. we could just do the product directly
-    let output = prefinals
-        .iter()
-        .map(|(_, v)| v.0.unwrap())
-        .fold(1, |acc, v| lcm(acc, v));
-    assert_eq!(
-        output,
-        prefinals.iter().map(|(_, v)| v.0.unwrap()).product()
-    );
+    let output = prefinals.values().map(|v| v.0.unwrap()).fold(1, lcm);
+    assert_eq!(output, prefinals.values().map(|v| v.0.unwrap()).product());
 
     Ok(output)
 }

@@ -1,5 +1,5 @@
+#![allow(clippy::mutable_key_type)]
 use day22::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(

@@ -4,7 +4,6 @@ use std::{
 };
 
 use day17::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -66,7 +65,7 @@ impl Display for Direction {
     }
 }
 
-fn min_heat_loss(grid: &Vec<Vec<u32>>) -> u32 {
+fn min_heat_loss(grid: &[Vec<u32>]) -> u32 {
     let height = grid.len();
     let width = grid[0].len();
 
@@ -133,7 +132,7 @@ fn min_heat_loss(grid: &Vec<Vec<u32>>) -> u32 {
             //             None => print!("[    ]"),
             //         };
             //     });
-            //     println!("");
+            //     println!();
             // });
             println!("Path: {path:?}");
             return new_loss;

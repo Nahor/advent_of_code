@@ -1,5 +1,4 @@
 use day11::{aocerror::AocError, distance_sum, parse};
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {

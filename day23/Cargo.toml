@@ -19,3 +19,7 @@ num = { workspace = true }
 petgraph = "0.6.4"
 # nom = { workspace = true }
 # nom_locate = { workspace = true }
+
+[lints]
+workspace = true
+

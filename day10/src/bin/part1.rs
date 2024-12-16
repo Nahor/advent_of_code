@@ -1,7 +1,6 @@
 use std::{collections::HashMap, fmt::Display, iter::successors, ops::Add};
 
 use day10::aocerror::AocError;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_bytes!(concat!(
@@ -68,9 +67,7 @@ impl Grid {
     }
 
     fn linear_coord(&self, coord: Coord) -> Option<usize> {
-        if coord.x < 0 || coord.y < 0 {
-            None
-        } else if coord.x >= self.width || coord.y >= self.height {
+        if coord.x < 0 || coord.y < 0 || coord.x >= self.width || coord.y >= self.height {
             None
         } else {
             Some((coord.y * (self.width + 1) + coord.x) as usize)
@@ -99,9 +96,8 @@ fn process(input: &[u8]) -> Result<usize, AocError> {
     next_codes.insert(b'F', Out(Direction::East, Direction::South));
 
     let start = (0..height)
-        .into_iter()
         .find_map(|y| {
-            (0..width).into_iter().find_map(|x| {
+            (0..width).find_map(|x| {
                 if grid.get(Coord { x, y }).is_some_and(|b| b == b'S') {
                     Some(Coord { x, y })
                 } else {

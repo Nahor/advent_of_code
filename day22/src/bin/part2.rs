@@ -1,7 +1,7 @@
+#![allow(clippy::mutable_key_type)]
 use std::collections::{HashSet, VecDeque};
 
 use day22::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -28,11 +28,7 @@ fn process(input: &str) -> Result<usize, AocError> {
             let brick = brick_cell.borrow();
 
             let mut falling = HashSet::from([brick_cell.clone()]);
-            let mut pending = brick
-                .supports
-                .iter()
-                .map(|brick| brick.clone())
-                .collect::<VecDeque<_>>();
+            let mut pending = brick.supports.iter().cloned().collect::<VecDeque<_>>();
             while let Some(brick_cell) = pending.pop_front() {
                 let brick = brick_cell.borrow();
                 let no_support = brick
@@ -41,7 +37,7 @@ fn process(input: &str) -> Result<usize, AocError> {
                     .all(|parent_cell| falling.contains(parent_cell));
                 if no_support {
                     falling.insert(brick_cell.clone());
-                    pending.extend(brick.supports.iter().map(|brick| brick.clone()));
+                    pending.extend(brick.supports.iter().cloned());
                 }
             }
 

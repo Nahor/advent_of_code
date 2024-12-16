@@ -13,3 +13,7 @@ owo-colors = { workspace = true }
 nom = { workspace = true }
 rangemap = "1.4.0"
 rayon = "1.8.1"
+
+[lints]
+workspace = true
+

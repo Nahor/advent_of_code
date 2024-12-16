@@ -14,7 +14,7 @@ pub fn parse(input: &str, smudges: usize) -> Result<usize, AocError> {
         .filter_map(|(patter_no, pattern)| {
             let v = vert_mirror(patter_no, pattern, smudges);
             let h = horiz_mirror(patter_no, pattern, smudges);
-            v.or_else(|| h)
+            v.or(h)
         })
         .sum();
 
@@ -25,11 +25,10 @@ fn vert_mirror(pattern_no: usize, pattern: &Vec<&str>, smudges: usize) -> Option
     let width = pattern[0].len();
     // println!("Width: {width}");
     let col = (1..width)
-        .into_iter()
         //.inspect(|c| println!("Checking col {c}"))
         .filter(|split| {
-            let left = (0..(*split)).into_iter().rev();
-            let right = ((*split)..width).into_iter();
+            let left = (0..(*split)).rev();
+            let right = (*split)..width;
             let combined = left.zip(right);
 
             let error_count = combined
@@ -47,18 +46,17 @@ fn vert_mirror(pattern_no: usize, pattern: &Vec<&str>, smudges: usize) -> Option
             println!("{pattern_no}: Found col {split:?}");
         })
         .collect::<Vec<_>>();
-    col.get(0).copied()
+    col.first().copied()
 }
 
-fn horiz_mirror(pattern_no: usize, pattern: &Vec<&str>, smudges: usize) -> Option<usize> {
+fn horiz_mirror(pattern_no: usize, pattern: &[&str], smudges: usize) -> Option<usize> {
     let height = pattern.len();
     // println!("Height: {height}");
     let line = (1..height)
-        .into_iter()
         // .inspect(|c| println!("Checking ln {c}"))
         .filter(|split| {
-            let top = (0..(*split)).into_iter().rev();
-            let bottom = ((*split)..height).into_iter();
+            let top = (0..(*split)).rev();
+            let bottom = (*split)..height;
             let combined = top.zip(bottom);
 
             let error_count = combined
@@ -80,5 +78,5 @@ fn horiz_mirror(pattern_no: usize, pattern: &Vec<&str>, smudges: usize) -> Optio
         .map(|count| count * 100)
         .collect::<Vec<_>>();
 
-    line.get(0).copied()
+    line.first().copied()
 }

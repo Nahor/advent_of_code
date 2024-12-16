@@ -1,5 +1,4 @@
 use day24::*;
-use miette;
 use z3::{
     ast::{Ast, Int},
     Config, Context, Solver,

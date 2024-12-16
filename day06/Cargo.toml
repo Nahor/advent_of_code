@@ -11,3 +11,7 @@ thiserror = { workspace = true }
 miette = { workspace = true, features = ["fancy"] }
 owo-colors = { workspace = true }
 nom = { workspace = true }
+
+[lints]
+workspace = true
+

@@ -110,7 +110,7 @@ pub struct Stone {
     pub velocity: F64Coord,
 }
 
-pub fn parse<'a>(input: &'a str) -> Result<HashMap<&'a str, Vec<&'a str>>, AocError<'a>> {
+pub fn parse(input: &str) -> Result<HashMap<&'_ str, Vec<&'_ str>>, AocError<'_>> {
     let document = diagram_parser().padded().then_ignore(end());
 
     let stones = match document.parse(input).into_result() {

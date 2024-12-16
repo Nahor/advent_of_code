@@ -26,7 +26,7 @@ impl SourceCode for AocSourceChunk {
     ) -> Result<Box<dyn miette::SpanContents<'a> + 'a>, miette::MietteError> {
         let content = MietteSpanContents::new_named(
             "<input>".to_owned(),
-            &self.chunk.as_bytes(),
+            self.chunk.as_bytes(),
             (0, self.chunk.len()).into(),
             self.start_line,
             span.offset(),

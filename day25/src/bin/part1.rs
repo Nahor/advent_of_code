@@ -1,7 +1,6 @@
 use std::collections::HashMap;
 
 use day25::*;
-use miette;
 
 use petgraph::graph::UnGraph;
 use rustworkx_core::connectivity::stoer_wagner_min_cut;

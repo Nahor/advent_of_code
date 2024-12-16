@@ -10,7 +10,7 @@ pub fn parse(input: &str, fold: usize, with_validation: bool) -> Result<usize, A
         .lines()
         .map(|line| {
             line.as_bytes()
-                .into_iter()
+                .iter()
                 .copied()
                 .filter(|&b| b == b'?')
                 .count()
@@ -34,9 +34,9 @@ enum SpringTypes {
     Working,
     Broken,
 }
-impl Into<char> for SpringTypes {
-    fn into(self) -> char {
-        match self {
+impl From<SpringTypes> for char {
+    fn from(val: SpringTypes) -> Self {
+        match val {
             SpringTypes::Unknown => '?',
             SpringTypes::Working => '.',
             SpringTypes::Broken => '#',
@@ -70,7 +70,7 @@ fn process_line(line: &str, fold: usize, with_validation: bool) -> usize {
             '#' => SpringTypes::Broken,
             c => panic!("invalid char '{c}'"),
         })
-        .chain([SpringTypes::Working].into_iter())
+        .chain([SpringTypes::Working])
         .collect::<Vec<_>>();
 
     // K = (chunk id, position)
@@ -135,7 +135,7 @@ fn get_arrangement_count(
 // Return a `bool`` to indicate if `chunk`` fits at position `pos` and
 // an `Option(usize)` for the next position to try (`None` meaning it can never
 // match)
-fn verify(mapping: &Vec<SpringTypes>, chunk_len: usize, pos: usize) -> (bool, Option<usize>) {
+fn verify(mapping: &[SpringTypes], chunk_len: usize, pos: usize) -> (bool, Option<usize>) {
     if mapping.len() < pos + chunk_len {
         return (false, None);
     }
@@ -226,10 +226,12 @@ fn verify(mapping: &Vec<SpringTypes>, chunk_len: usize, pos: usize) -> (bool, Op
     //         .collect::<String>()
     // );
 
+    // Keep the let because of the commented out code
+    #[allow(clippy::let_and_return)]
     res
 }
 
-fn validate(mapping: &Vec<SpringTypes>, chunks: &Vec<usize>) -> usize {
+fn validate(mapping: &[SpringTypes], chunks: &[usize]) -> usize {
     let mut pos_list = Vec::new();
     let chunk_total_len = chunks.iter().fold(0, |pos, chunk_len| {
         pos_list.push(pos);
@@ -263,7 +265,7 @@ fn validate(mapping: &Vec<SpringTypes>, chunks: &Vec<usize>) -> usize {
                 .for_each(|(&pos, &chunk_len)| {
                     mapped[pos..(pos + chunk_len - 1)].fill(SpringTypes::Broken);
                 });
-            compare(&mapping, &mapped)
+            compare(mapping, &mapped)
         })
         .count();
 
@@ -271,7 +273,7 @@ fn validate(mapping: &Vec<SpringTypes>, chunks: &Vec<usize>) -> usize {
     count
 }
 
-fn compare(mapping: &Vec<SpringTypes>, mapped: &Vec<SpringTypes>) -> bool {
+fn compare(mapping: &[SpringTypes], mapped: &[SpringTypes]) -> bool {
     assert_eq!(mapping.len(), mapped.len());
     let r = mapping
         .iter()

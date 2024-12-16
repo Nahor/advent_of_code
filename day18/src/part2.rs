@@ -116,7 +116,7 @@ fn hex_5_exact(input: Span) -> IResult<Span, i64, AocParseError> {
 }
 
 fn is_hex_digit(c: char) -> bool {
-    c.is_digit(16)
+    c.is_ascii_hexdigit()
 }
 
 fn dir_digit(input: Span) -> IResult<Span, Direction, AocParseError> {

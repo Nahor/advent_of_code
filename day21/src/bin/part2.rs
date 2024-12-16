@@ -1,7 +1,6 @@
 use std::collections::HashSet;
 
 use day21::{progress::Progress, *};
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -95,7 +94,7 @@ fn count_reachable(grid: &Grid, width: isize, init_steps: isize) -> Vec<isize> {
     let mut pending = HashSet::from([Coord::default()]);
     // println!("== Step 0");
     // print_result(&grid, &pending, width);
-    // println!("");
+    // println!();
 
     let total_steps = init_steps + 3 * width;
     let mut count_vec = Vec::new();
@@ -105,7 +104,7 @@ fn count_reachable(grid: &Grid, width: isize, init_steps: isize) -> Vec<isize> {
 
         pending = pending
             .into_iter()
-            .map(|coord| {
+            .flat_map(|coord| {
                 [
                     coord + Coord::new(-1, 0),
                     coord + Coord::new(1, 0),
@@ -113,19 +112,18 @@ fn count_reachable(grid: &Grid, width: isize, init_steps: isize) -> Vec<isize> {
                     coord + Coord::new(0, 1),
                 ]
                 .into_iter()
-                .filter_map(|coord| {
+                .filter(|coord| {
                     let rem_coord =
                         Coord::new(coord.x.rem_euclid(width), coord.y.rem_euclid(width));
                     match grid.get(&rem_coord) {
                         Some(cell) => match cell {
-                            Cell::Rock => None,
-                            Cell::Garden(_) => Some(coord),
+                            Cell::Rock => false,
+                            Cell::Garden(_) => true,
                         },
                         _ => unreachable!("should always be valid"),
                     }
                 })
             })
-            .flatten()
             .collect();
 
         if (i - init_steps) % width == 0 {
@@ -135,7 +133,7 @@ fn count_reachable(grid: &Grid, width: isize, init_steps: isize) -> Vec<isize> {
 
         // println!("== Step {i}");
         // print_result(&grid, &pending, width);
-        // println!("");
+        // println!();
     }
     progress.finish();
 
@@ -168,7 +166,7 @@ fn print_result(grid: &Grid, pending: &HashSet<Coord>, width: isize) {
                 }
             }
         }
-        println!("");
+        println!();
     }
 }
 

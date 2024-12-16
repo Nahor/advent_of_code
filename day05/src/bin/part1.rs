@@ -1,5 +1,4 @@
 use day05::{aocerror::AocError, part1::parse};
-use miette;
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {
@@ -19,12 +18,12 @@ fn process(input: &str) -> Result<u64, AocError> {
 
     let mut low = u64::MAX;
     for seed in data.seeds {
-        let mut next = seed as u64;
+        let mut next = seed;
         print!("Mapping {next}");
         for map in data.maps.values() {
             let (range, next_start) = map
                 .get_key_value(&next)
-                .and_then(|(range, dst)| Some((range.clone(), *dst)))
+                .map(|(range, dst)| (range.clone(), *dst))
                 .or_else(|| Some((next..(next + 1), next)))
                 .unwrap();
             next = (next - range.start) + next_start;

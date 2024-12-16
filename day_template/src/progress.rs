@@ -42,7 +42,7 @@ impl Progress {
     pub fn finish(&mut self) {
         self.val = self.max;
         self.draw();
-        println!("");
+        println!();
     }
 
     fn draw(&mut self) {

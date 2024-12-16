@@ -2,7 +2,6 @@
 use std::collections::{HashMap, VecDeque};
 
 use day23::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -92,13 +91,13 @@ fn print(maze: &Maze) {
                 None => print!("#"),
             }
         }
-        println!("");
+        println!();
     }
-    println!("");
+    println!();
 }
 
 #[allow(unused)]
-fn print_path(maze: &Maze, path: &Vec<Coord>) {
+fn print_path(maze: &Maze, path: &[Coord]) {
     println!("Maze ({:?}, {:?}):", maze.range_x, maze.range_y);
 
     for y in maze.range_y.clone() {
@@ -117,9 +116,9 @@ fn print_path(maze: &Maze, path: &Vec<Coord>) {
                 None => print!("#"),
             }
         }
-        println!("");
+        println!();
     }
-    println!("");
+    println!();
 }
 
 // fn can_remove(brick: &Brick) -> bool {

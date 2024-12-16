@@ -1,5 +1,4 @@
 use day21::*;
-use miette;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -82,7 +81,7 @@ fn print_grid(grid: &Grid) {
                 None => break 'y,
             };
         }
-        println!("");
+        println!();
     }
 }
 

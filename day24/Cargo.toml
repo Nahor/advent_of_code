@@ -21,3 +21,7 @@ nalgebra = { version = "0.32.3", optional = true }
 z3 = "0.12.1"
 # nom = { workspace = true }
 # nom_locate = { workspace = true }
+
+[lints]
+workspace = true
+
