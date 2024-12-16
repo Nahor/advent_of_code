@@ -180,6 +180,16 @@ impl Direction {
         ];
         &LIST
     }
+
+    pub fn left(self) -> Self {
+        match self {
+            Direction::Up => Direction::Left,
+            Direction::Right => Direction::Up,
+            Direction::Down => Direction::Right,
+            Direction::Left => Direction::Down,
+        }
+    }
+
     pub fn right(self) -> Self {
         match self {
             Direction::Up => Direction::Right,

@@ -19,3 +19,4 @@ num = "0.4.3"
 # ndarray ndarray-linearalg
 divan = "0.1.16"
 rustc-hash = "2.1.0"
+pathfinding = "4.12.0"
