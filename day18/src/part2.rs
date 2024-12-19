@@ -82,8 +82,8 @@ pub fn run(content: &[u8], max_coord: isize, _min_amount: usize) -> Result<Strin
 
             // Merge all the other matching groups
             while let Some(index) = matching_groups.pop() {
-                let other_group = groups.remove(index);
-                group.bytes.extend(other_group.bytes.iter());
+                let mut other_group = groups.remove(index);
+                group.bytes.append(&mut other_group.bytes);
                 group.x_range = group.x_range.start.min(other_group.x_range.start)
                     ..group.x_range.end.max(other_group.x_range.end);
                 group.y_range = group.y_range.start.min(other_group.y_range.start)
