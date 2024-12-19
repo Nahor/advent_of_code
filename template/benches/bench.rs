@@ -1,5 +1,5 @@
 use common::read_input_u8;
-use template::{part1, part2};
+use template::*;
 
 fn main() {
     // Run registered benchmarks.
