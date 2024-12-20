@@ -1,0 +1,18 @@
+[package]
+name = "day20"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+common = { path = "../common" }
+clap = { workspace = true }
+winnow = { workspace = true }
+miette = { workspace = true }
+rustc-hash.workspace = true
+
+[dev-dependencies]
+divan = { workspace = true }
+
+[[bench]]
+name = "bench"
+harness = false
