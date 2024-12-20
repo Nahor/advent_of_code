@@ -563,6 +563,7 @@ dependencies = [
  "clap",
  "common",
  "divan",
+ "itertools",
  "miette",
  "rayon",
  "rustc-hash",
