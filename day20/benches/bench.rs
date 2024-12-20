@@ -26,4 +26,11 @@ mod part2_bench {
             .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2::run(&content, 100).unwrap());
     }
+
+    #[divan::bench(name = "1_rayon")]
+    fn rayon(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_rayon::run(&content, 100).unwrap());
+    }
 }

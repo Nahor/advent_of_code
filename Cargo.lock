@@ -564,6 +564,7 @@ dependencies = [
  "common",
  "divan",
  "miette",
+ "rayon",
  "rustc-hash",
  "winnow",
 ]

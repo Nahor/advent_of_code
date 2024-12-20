@@ -1,4 +1,6 @@
 use miette::Result;
+use rayon::iter::ParallelIterator;
+use rayon::prelude::IntoParallelIterator;
 
 use crate::parse::parse;
 
@@ -21,7 +23,8 @@ pub fn run(content: &[u8], min_save: usize) -> Result<u64> {
         .collect::<Vec<(isize, isize)>>();
 
     let result: usize = path
-        .iter()
+        .clone()
+        .into_par_iter()
         .map(|(pos, start_cheat)| {
             dir_list
                 .iter()
@@ -32,8 +35,8 @@ pub fn run(content: &[u8], min_save: usize) -> Result<u64> {
                 })
                 .filter_map(|(pos, cost)| path.get(&pos).map(|end_idx| (end_idx, cost)))
                 .filter_map(|(end_cheat, cost)| {
-                    if end_cheat > start_cheat {
-                        let saving = end_cheat.abs_diff(*start_cheat) - cost;
+                    if *end_cheat > start_cheat {
+                        let saving = end_cheat.abs_diff(start_cheat) - cost;
                         Some(saving)
                     } else {
                         None
@@ -105,14 +108,12 @@ mod test {
         assert_eq!(run(input, 50).unwrap(), count);
     }
 
-    // #[test]
-    // fn compare_base() {
-    //     assert_eq!(
-    //         run(&INPUT_SAMPLE[1..]).unwrap(),
-    //         crate::part2::run(&INPUT_SAMPLE[1..]).unwrap()
-    //     );
-
-    //     let input = common::read_input_u8!(None).unwrap();
-    //     assert_eq!(run(&input).unwrap(), crate::part2::run(&input).unwrap());
-    // }
+    #[test]
+    fn compare_base() {
+        let input = common::read_input_u8!(None).unwrap();
+        assert_eq!(
+            run(&input, 100).unwrap(),
+            crate::part2::run(&input, 100).unwrap()
+        );
+    }
 }

@@ -9,6 +9,7 @@ clap = { workspace = true }
 winnow = { workspace = true }
 miette = { workspace = true }
 rustc-hash.workspace = true
+rayon.workspace = true
 
 [dev-dependencies]
 divan = { workspace = true }
