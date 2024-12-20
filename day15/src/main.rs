@@ -1,8 +1,8 @@
 use clap::{Parser, Subcommand};
 use common::read_input_u8;
+use day15::{part1, part2};
 use miette::Result;
 use std::path::PathBuf;
-use day15::{part1, part2};
 
 #[derive(Parser, Debug)]
 struct Args {
@@ -11,6 +11,7 @@ struct Args {
 }
 
 #[derive(Subcommand, Debug)]
+#[command(rename_all = "lower")]
 enum Command {
     /// Part 1
     Part1 { file: Option<PathBuf> },

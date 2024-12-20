@@ -11,6 +11,7 @@ struct Args {
 }
 
 #[derive(Subcommand, Debug)]
+#[command(rename_all = "lower")]
 enum Command {
     /// Part 1
     Part1 { file: Option<PathBuf> },
