@@ -23,7 +23,8 @@
         "thiserror",
         "trailhead",
         "URDL",
-        "VecDeque"
+        "VecDeque",
+        "wubrg"
     ],
     "ignoreWords": [],
     "import": []
