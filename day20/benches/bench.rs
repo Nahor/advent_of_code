@@ -34,11 +34,11 @@ mod part2_bench {
             .bench_values(|content| part2_rayon::run(&content, 100).unwrap());
     }
 
-    #[divan::bench(name = "2_cost_first")]
-    fn cost_first(bencher: divan::Bencher) {
+    #[divan::bench(name = "2_straighten")]
+    fn cost_straighten(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8!(None).unwrap())
-            .bench_values(|content| part2_cost_first::run(&content, 100).unwrap());
+            .bench_values(|content| part2_straighten::run(&content, 100).unwrap());
     }
 
     #[divan::bench(name = "3_combination")]
@@ -53,5 +53,12 @@ mod part2_bench {
         bencher
             .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2_filter_map::run(&content, 100).unwrap());
+    }
+
+    #[divan::bench(name = "5_straighten_rayon")]
+    fn straighten_rayon(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_straighten_rayon::run(&content, 100).unwrap());
     }
 }

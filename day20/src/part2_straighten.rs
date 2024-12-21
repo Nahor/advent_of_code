@@ -1,6 +1,9 @@
-// Same as part2_straighten, but use itertools's `tuple_combinations`` to
-// compute the start and end points of the teleport/wormholes
-use itertools::Itertools;
+// Same as `part2` but, instead of figuring out where we land when cheating
+// by a distance X, jump ahead in the path then check if the distance is OK.
+//
+// An other way to view it: straighten the path into a single line, where
+// shortcuts are teleport to the future (or are wormholes, with the grid/original
+// path being the "folded space").
 use miette::Result;
 
 use crate::parse::parse_ordered_vec;
@@ -13,19 +16,34 @@ pub fn run(content: &[u8], min_save: usize) -> Result<u64> {
 
     const NUM_MOVES: usize = 20;
 
-    let result: usize = path
+    // let s = Instant::now();
+    // To save min_save moves, with a min cost of a cheat being
+    // 2, the exit must be at least min_save+2 away
+    let min_skip = min_save + 2;
+    let result: usize = path[0..(path.len() - min_skip)]
         .iter()
         .enumerate()
-        .tuple_combinations()
-        .filter(|((start_i, start_pos), (end_i, end_pos))| {
-            let cheat_cost = start_pos.0.abs_diff(end_pos.0) + start_pos.1.abs_diff(end_pos.1);
-            if cheat_cost > NUM_MOVES {
-                return false;
-            }
-            let normal_cost = end_i - start_i;
-            (normal_cost - cheat_cost) >= min_save
+        .map(|(start_i, start_pos)| {
+            path.iter()
+                .enumerate()
+                .skip(start_i + min_skip)
+                .filter_map(|(end_i, end_pos)| {
+                    let cheat_cost =
+                        start_pos.0.abs_diff(end_pos.0) + start_pos.1.abs_diff(end_pos.1);
+                    (2..=NUM_MOVES)
+                        .contains(&cheat_cost)
+                        .then_some((end_i, cheat_cost))
+                })
+                .filter(|&(end_i, cheat_cost)| {
+                    let path_cost = end_i - start_i;
+                    (cheat_cost < path_cost) && ((path_cost - cheat_cost) >= min_save)
+                })
+                .count()
         })
-        .count();
+        .sum();
+
+    // let e = Instant::now();
+    // println!("t: {:?}", e - s);
 
     Ok(result as u64)
 }

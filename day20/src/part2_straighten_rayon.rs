@@ -1,6 +1,6 @@
-// Same as `part2` but, instead of figuring out where we land when cheating
-// by a distance X, jump ahead in the path then check if the distance is OK
+// Same as `part2_straighten` but with rayon
 use miette::Result;
+use rayon::prelude::{IndexedParallelIterator, IntoParallelRefIterator, ParallelIterator};
 
 use crate::parse::parse_ordered_vec;
 
@@ -17,7 +17,7 @@ pub fn run(content: &[u8], min_save: usize) -> Result<u64> {
     // 2, the exit must be at least min_save+2 away
     let min_skip = min_save + 2;
     let result: usize = path[0..(path.len() - min_skip)]
-        .iter()
+        .par_iter()
         .enumerate()
         .map(|(start_i, start_pos)| {
             path.iter()
@@ -37,9 +37,6 @@ pub fn run(content: &[u8], min_save: usize) -> Result<u64> {
                 .count()
         })
         .sum();
-
-    // let e = Instant::now();
-    // println!("t: {:?}", e - s);
 
     Ok(result as u64)
 }
