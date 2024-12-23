@@ -18,6 +18,7 @@ pub fn default_file_fn(file: Option<PathBuf>, build_env: Option<&str>) -> Result
                 filename.to_string_lossy()
             ));
         }
+        return Ok(filename);
     }
 
     let mut tried_files = HashSet::new();
