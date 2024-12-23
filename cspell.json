@@ -11,6 +11,7 @@
         "enumflags2",
         "fxhashmap",
         "fxhashset",
+        "hashset",
         "ilog",
         "itertools",
         "miette",
