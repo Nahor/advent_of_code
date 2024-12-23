@@ -605,6 +605,7 @@ dependencies = [
  "divan",
  "itertools",
  "miette",
+ "rayon",
  "rustc-hash",
  "winnow",
 ]

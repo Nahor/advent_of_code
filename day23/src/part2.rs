@@ -19,7 +19,9 @@ pub fn run(content: &[u8]) -> Result<String> {
     //
     // Given the exercise, we should expect to eventually end with only a single
     // group => the biggest group
+    #[cfg(test)]
     let mut i = 3;
+    #[cfg(test)]
     println!(
         "processing {} groups of {}: {:?}",
         groups.len(),
@@ -55,13 +57,16 @@ pub fn run(content: &[u8]) -> Result<String> {
         groups = Vec::from_iter(hash_group);
         groups.sort();
 
-        i += 1;
-        println!(
-            "=> {} groups of {}: {:?}",
-            groups.len(),
-            i,
-            &groups[0..groups.len().min(4)]
-        );
+        #[cfg(test)]
+        {
+            i += 1;
+            println!(
+                "=> {} groups of {}: {:?}",
+                groups.len(),
+                i,
+                &groups[0..groups.len().min(4)]
+            );
+        }
     }
     assert_eq!(groups.len(), 1);
 
