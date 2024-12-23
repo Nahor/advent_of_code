@@ -18,7 +18,10 @@ fn merge_changes(list: &[u32]) -> u64 {
     // Combine the list of changes to see how many bananas we can buy for
     // each possible change
     let v = list.iter().map(|&secret| change_list::<2000>(secret)).fold(
-        FxHashMap::<_, u64>::default(),
+        // theoretically, the key is a tuple with 4 value in the range -9..9
+        // included, i.e. 19*19*19*19 possibilities = 130321.
+        // In practice, for my input, it's ~40k, so round up to 50k.
+        FxHashMap::<_, u64>::with_capacity_and_hasher(50000, Default::default()),
         |mut map, change_list| {
             change_list.into_iter().for_each(|(change, price)| {
                 *map.entry(change).or_default() += price as u64;
@@ -40,10 +43,10 @@ fn merge_changes(list: &[u32]) -> u64 {
 // List of 4 changes and the matching price for a given secret/buyer
 fn change_list<const N: usize>(secret: u32) -> FxHashMap<(i8, i8, i8, i8), i8> {
     iter::successors(Some(secret), |&secret| Some(next_secret(secret)))
-        .take(N)
         .map(|secret| (secret % 10) as i8)
         .tuple_windows()
         .map(|(p1, p2)| (p2 - p1, p2))
+        .take(N) // We need N price changes, not N prices, so `take` needs to be here, not earlier
         .tuple_windows()
         .map(|((c1, _), (c2, _), (c3, _), (c4, p))| ((c1, c2, c3, c4), p))
         .fold(
@@ -101,7 +104,7 @@ mod test {
             ((2, -2, 0, -2), 2),
         ]);
 
-        assert_eq!(change_list::<10>(123), map);
+        assert_eq!(change_list::<9>(123), map);
     }
 
     #[test]

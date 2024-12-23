@@ -31,7 +31,9 @@ fn merge_changes(list: &[u32]) -> u64 {
 }
 
 fn change_list<const N: usize>(secret: u32) -> FxHashMap<(i8, i8, i8, i8), i8> {
-    (0..N)
+    // We need N "price changes", so we need N+1 prices (the first one does not
+    // generate change)
+    (0..(N + 1))
         .scan(secret, |secret, _| {
             let tmp = *secret;
             *secret = next_secret(*secret);
