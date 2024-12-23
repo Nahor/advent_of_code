@@ -26,4 +26,11 @@ mod part2_bench {
             .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2::run(&content).unwrap());
     }
+
+    #[divan::bench(name = "1_successors")]
+    fn successors(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_optimize::run(&content).unwrap());
+    }
 }
