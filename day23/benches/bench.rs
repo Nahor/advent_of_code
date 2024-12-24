@@ -40,4 +40,11 @@ mod part2_bench {
             .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2_brute_force::run(&content).unwrap());
     }
+
+    #[divan::bench(name = "3_bf_rayon")]
+    fn bf_rayon(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_bf_rayon::run(&content).unwrap());
+    }
 }

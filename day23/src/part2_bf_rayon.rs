@@ -6,6 +6,7 @@
 // is moderate in practice (which limits the number of combinations to try)
 use itertools::Itertools;
 use miette::Result;
+use rayon::prelude::*;
 use rustc_hash::FxHashSet;
 
 use crate::parse::parse;
@@ -28,6 +29,9 @@ pub fn run(content: &[u8]) -> Result<String> {
         .max()
         .expect("should have at least one connection");
 
+    // Faster than using the hashmap when using Rayon (maybe because )
+    let connections = connections.into_iter().collect::<Vec<_>>();
+
     // Binary search to find the group size.
     // The puzzle expects a single "biggest group". From part 1, we already
     // know that there are multiple groups of 3, so the max group is at least
@@ -39,32 +43,29 @@ pub fn run(content: &[u8]) -> Result<String> {
         #[cfg(test)]
         println!("range: {range:?}, trying {mid}");
 
-        let tmp_group = connections
-            .iter()
-            .filter_map(|(m1, v)| {
-                // By construction, we already `m1` is connected to the other
-                // machines in its connection list. So we only need to find
-                // a combination of size `mid-1` in this list where all the machines
-                // are connected to each other.
-                v.iter()
-                    .combinations(mid - 1)
-                    .find(|g| {
-                        g.iter().tuple_combinations().all(|(m2, m3)| {
-                            // Since the connections are sorted, we know `m2 < m3`, and
-                            // that it will be listed in that order in `conn_hash`
-                            // i.e. we don't need to check for `(m3,m2)`
-                            conn_hash.contains(&(**m2, **m3))
-                        })
+        let tmp_group = connections.par_iter().find_map_any(|(m1, v)| {
+            // By construction, we already `m1` is connected to the other
+            // machines in its connection list. So we only need to find
+            // a combination of size `mid-1` in this list where all the machines
+            // are connected to each other.
+            v.iter()
+                .combinations(mid - 1)
+                .find(|g| {
+                    g.iter().tuple_combinations().all(|(m2, m3)| {
+                        // Since the connections are sorted, we know `m2 < m3`, and
+                        // that it will be listed in that order in `conn_hash`
+                        // i.e. we don't need to check for `(m3,m2)`
+                        conn_hash.contains(&(**m2, **m3))
                     })
-                    .map(|g| {
-                        // convert the "m1 + group-of-size-mid-1" into a full group
-                        let mut full_group = Vec::with_capacity(g.len() + 1);
-                        full_group.push(*m1);
-                        full_group.extend(g.into_iter().copied());
-                        full_group
-                    })
-            })
-            .next();
+                })
+                .map(|g| {
+                    // convert the "m1 + group-of-size-mid-1" into a full group
+                    let mut full_group = Vec::with_capacity(g.len() + 1);
+                    full_group.push(*m1);
+                    full_group.extend(g.into_iter().copied());
+                    full_group
+                })
+        });
 
         if let Some(tmp_group) = tmp_group {
             range = mid..range.end;
