@@ -36,7 +36,7 @@ pub fn run(content: &[u8]) -> Result<String> {
     // The puzzle expects a single "biggest group". From part 1, we already
     // know that there are multiple groups of 3, so the max group is at least
     // of size 4. Start with one below that to ensure the search will check it
-    let mut range = 3..groups_max_size;
+    let mut range = 1..(groups_max_size + 1);
     let mut cur_max_group = vec![];
     while range.len() > 1 {
         let mid = (range.end + range.start) / 2;
