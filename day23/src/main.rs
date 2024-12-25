@@ -1,6 +1,6 @@
 use clap::{Parser, Subcommand};
 use common::read_input_u8;
-use day23::{part1, part2, part2_bf_rayon, part2_brute_force, part2_optimize};
+use day23::{part1, part2, part2_bf_rayon, part2_brute_force, part2_hukasu, part2_optimize};
 use miette::Result;
 use std::path::PathBuf;
 
@@ -27,6 +27,9 @@ enum Command {
 
     /// Part 2
     Part2BfRayon { file: Option<PathBuf> },
+
+    /// Part 2
+    Part2Hukasu { file: Option<PathBuf> },
 }
 
 fn main() -> Result<()> {
@@ -50,6 +53,9 @@ fn main() -> Result<()> {
         }
         Some(Command::Part2BfRayon { file }) => {
             println!("Result: {}", part2_bf_rayon::run(&read_input_u8!(file)?)?)
+        }
+        Some(Command::Part2Hukasu { file }) => {
+            println!("Result: {}", part2_hukasu::run(&read_input_u8!(file)?)?)
         }
         None => println!("Result: {}", part1::run(&read_input_u8!(None)?)?),
     }

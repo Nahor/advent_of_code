@@ -47,4 +47,11 @@ mod part2_bench {
             .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2_bf_rayon::run(&content).unwrap());
     }
+
+    #[divan::bench(name = "4_hukasu")]
+    fn hukasu(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_hukasu::run(&content).unwrap());
+    }
 }
