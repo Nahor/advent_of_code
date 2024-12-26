@@ -23,10 +23,8 @@ struct HalfAdderStage2 {
     pub c: Wire,
 }
 
-pub fn run(content: &[u8]) -> Result<u64> {
+pub fn run(content: &[u8]) -> Result<String> {
     let machine = parse(content)?;
-
-    let result: u64 = 0;
 
     // let op_max = machine.ops.len();
     // let mut rng = thread_rng();
@@ -98,7 +96,10 @@ pub fn run(content: &[u8]) -> Result<u64> {
     if z0_gate.out != Wire::get_z(0) {
         swapped_output.insert(z0_gate.out);
     }
-    println!("After bad Z0: {swapped_output:?}");
+    // println!(
+    //     "After bad Z0: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     let (stage1, stage2) = get_half_adders(&machine.gates);
 
@@ -110,7 +111,10 @@ pub fn run(content: &[u8]) -> Result<u64> {
             Some(adder.s)
         }
     }));
-    println!("After bad adder->Z: {swapped_output:?}");
+    // println!(
+    //     "After bad adder->Z: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     // Reverse: find Z that is not a stage 2 S
     swapped_output.extend(
@@ -119,14 +123,13 @@ pub fn run(content: &[u8]) -> Result<u64> {
             .filter(|wire| stage2.iter().all(|adder| adder.s != *wire))
             .filter(|wire| {
                 // Last Z is actually a carry so connected to a OR, not an adder
-                println!("{} vs {}", *wire, Wire::get_z(machine.i_bits));
                 *wire != Wire::get_z(machine.i_bits)
             }),
     );
-    println!(
-        "After bad Z->adder: {:?}",
-        swapped_output.iter().sorted().join(",")
-    );
+    // println!(
+    //     "After bad Z->adder: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     // Find the OR gates whose output is not going to a stage 2 adder
     swapped_output.extend(
@@ -144,10 +147,10 @@ pub fn run(content: &[u8]) -> Result<u64> {
                 *gate_out != Wire::get_z(machine.i_bits)
             }),
     );
-    println!(
-        "After bad Or->adder.in: {:?}",
-        swapped_output.iter().sorted().join(",")
-    );
+    // println!(
+    //     "After bad Or->adder.in: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     // Find any stage2 where C is not a OR gate
     swapped_output.extend(stage2.iter().map(|adder| adder.c).filter(|c_tmp2| {
@@ -157,10 +160,10 @@ pub fn run(content: &[u8]) -> Result<u64> {
             .filter_map(|gate| (gate.operator == Operator::Or).then_some([gate.in1, gate.in2]))
             .all(|or_ins| !or_ins.contains(c_tmp2))
     }));
-    println!(
-        "After bad stage2->Or: {:?}",
-        swapped_output.iter().sorted().join(",")
-    );
+    // println!(
+    //     "After bad stage2->Or: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     // Find any stage1 where C is not a OR gate
     swapped_output.extend(stage1.iter().map(|adder| adder.c).filter(|c_tmp2| {
@@ -170,10 +173,10 @@ pub fn run(content: &[u8]) -> Result<u64> {
             .filter_map(|gate| (gate.operator == Operator::Or).then_some([gate.in1, gate.in2]))
             .all(|or_ins| !or_ins.contains(c_tmp2))
     }));
-    println!(
-        "After bad stage1-(C)->Or: {:?}",
-        swapped_output.iter().sorted().join(",")
-    );
+    // println!(
+    //     "After bad stage1-(C)->Or: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     // Find any stage1 where S is not a stage 2e
     swapped_output.extend(stage1.iter().map(|adder| adder.s).filter(|s_tmp| {
@@ -181,14 +184,14 @@ pub fn run(content: &[u8]) -> Result<u64> {
             .iter()
             .all(|adder| ![adder.a, adder.b].contains(s_tmp))
     }));
-    println!(
-        "After bad stage1-(S)->stage2: {:?}",
-        swapped_output.iter().sorted().join(",")
-    );
+    // println!(
+    //     "After bad stage1-(S)->stage2: {:?}",
+    //     swapped_output.iter().sorted().join(",")
+    // );
 
     // [...MORE RULES NEEDED...]
 
-    Ok(result)
+    Ok(swapped_output.iter().sorted().join(","))
 }
 
 fn get_half_adders(gates: &[Gate]) -> (Vec<HalfAdderStage1>, Vec<HalfAdderStage2>) {
@@ -227,34 +230,4 @@ fn get_half_adders(gates: &[Gate]) -> (Vec<HalfAdderStage1>, Vec<HalfAdderStage2
         });
 
     (first_stage, second_stage)
-}
-
-#[cfg(test)]
-mod test {
-    use super::*;
-
-    // cspell:disable
-    const INPUT_SAMPLE: &[u8] = br#"
-bla
-bla
-"#;
-    // cspell:enable
-
-    #[test]
-    fn sample() {
-        let input = &INPUT_SAMPLE[1..]; // remove leading \n
-
-        assert_eq!(run(input).unwrap(), 0);
-    }
-
-    // #[test]
-    // fn compare_base() {
-    //     assert_eq!(
-    //         run(&INPUT_SAMPLE[1..]).unwrap(),
-    //         crate::part2::run(&INPUT_SAMPLE[1..]).unwrap()
-    //     );
-
-    //     let input = common::read_input_u8!(None).unwrap();
-    //     assert_eq!(run(&input).unwrap(), crate::part2::run(&input).unwrap());
-    // }
 }

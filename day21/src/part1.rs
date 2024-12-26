@@ -75,7 +75,6 @@ pub fn get_code_length(code: &[u8], depth: usize, depth_cache: &mut DepthCache) 
         .map(|(from, to)| get_min_moves(from, to, depth, depth_cache))
         .collect::<Vec<_>>();
     let cost = sequence.iter().map(|(cost, _)| cost).sum::<usize>();
-    println!("cost: {cost}");
     cost * val
 }
 
