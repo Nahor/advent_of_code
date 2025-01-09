@@ -100,6 +100,7 @@ pub struct Machine {
     // cache of useful values
     pub free_wires: Vec<Wire>,
     pub i_bits: u16,
+    pub o_bits: u16, // for part 2, should be i_bits+1, but not true in part 1
 }
 
 impl Machine {
@@ -122,11 +123,12 @@ impl Machine {
             x_bits, y_bits,
             "x and y should have the same number of bits (x:{x_bits},y:{y_bits}"
         );
-        assert_eq!(
-            x_bits + 1,
-            z_bits,
-            "z should have one more bit: {z_bits} != {x_bits} + 1"
-        );
+        // Not true for part 1's sample and example
+        // assert_eq!(
+        //     x_bits + 1,
+        //     z_bits,
+        //     "z should have one more bit: {z_bits} != {x_bits} + 1"
+        // );
 
         // // Find some unused wires that we can use later when modifying the machine
         // // Start at 1xx to avoid a 0xx
@@ -151,6 +153,7 @@ impl Machine {
             gates,
             free_wires: vec![],
             i_bits: x_bits,
+            o_bits: z_bits,
         }
     }
 
@@ -232,7 +235,7 @@ impl Machine {
     }
 
     fn get_output(&self) -> u64 {
-        (0..(self.i_bits + 1)).rev().fold(0, |acc, bit| {
+        (0..self.o_bits).rev().fold(0, |acc, bit| {
             acc << 1
                 | if *self
                     .outputs

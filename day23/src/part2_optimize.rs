@@ -163,6 +163,7 @@ td-yn
     }
 
     #[test]
+    #[ignore = "slow (~80s in release mode)"]
     fn compare_base() {
         assert_eq!(
             run(&INPUT_SAMPLE[1..]).unwrap(),

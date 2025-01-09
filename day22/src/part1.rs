@@ -18,11 +18,11 @@ fn next_secret_n<const N: usize>(secret: u32) -> u32 {
 }
 
 fn next_secret(mut secret: u32) -> u32 {
-    secret ^= secret * 64;
+    secret ^= secret.wrapping_mul(64);
     secret %= 16777216;
-    secret ^= secret / 32;
+    secret ^= secret.wrapping_div(32);
     secret %= 16777216;
-    secret ^= secret * 2048;
+    secret ^= secret.wrapping_mul(2048);
     secret %= 16777216;
     secret
 }

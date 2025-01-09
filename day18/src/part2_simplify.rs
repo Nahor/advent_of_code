@@ -61,6 +61,16 @@ pub fn run(content: &[u8], max_coord: isize, min_amount: usize) -> Result<String
                 group.bytes.extend(other_group.bytes.iter());
             }
 
+            if b.x == 1 && b.y == 6 {
+                println!("*** {max_coord}");
+                println!("*** {bi} > {min_amount}: {}", bi > min_amount);
+                println!(
+                    "*** {} && {}",
+                    group.bytes.iter().any(|b| (b.x == 0) || (b.y == max_coord)),
+                    group.bytes.iter().any(|b| (b.x == max_coord) || (b.y == 0))
+                );
+                println!("*** {group:?}");
+            }
             if bi > min_amount
                 && group.bytes.iter().any(|b| (b.x == 0) || (b.y == max_coord))
                 && group.bytes.iter().any(|b| (b.x == max_coord) || (b.y == 0))
@@ -73,6 +83,7 @@ pub fn run(content: &[u8], max_coord: isize, min_amount: usize) -> Result<String
         }
     }
 
+    println!("{groups:?}");
     Err(miette!("no byte blocks the path"))
 }
 
@@ -114,7 +125,7 @@ mod test {
     fn sample() {
         let input = &INPUT_SAMPLE[1..]; // remove leading \n
 
-        assert_eq!(run(input, 6, 1024).unwrap(), "6,1");
+        assert_eq!(run(input, 6, 12).unwrap(), "6,1");
     }
 
     #[test]

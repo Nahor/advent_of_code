@@ -22,8 +22,11 @@ mod test {
 
     // cspell:disable
     const INPUT_SAMPLE: &[u8] = br#"
-bla
-bla
+029A
+980A
+179A
+456A
+379A
 "#;
     // cspell:enable
 
@@ -31,7 +34,9 @@ bla
     fn sample() {
         let input = &INPUT_SAMPLE[1..]; // remove leading \n
 
-        assert_eq!(run(input).unwrap(), 0);
+        // Not an official value, but based on the assumption the algorithm is
+        // valid since we passed the puzzle
+        assert_eq!(run(input).unwrap(), 154115708116294);
     }
 
     // #[test]

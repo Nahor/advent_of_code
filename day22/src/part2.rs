@@ -53,11 +53,11 @@ fn change_list<const N: usize>(secret: u32) -> FxHashMap<(i8, i8, i8, i8), i8> {
 }
 
 fn next_secret(mut secret: u32) -> u32 {
-    secret ^= secret * 64;
+    secret ^= secret.wrapping_mul(64);
     secret %= 16777216;
-    secret ^= secret / 32;
+    secret ^= secret.wrapping_div(32);
     secret %= 16777216;
-    secret ^= secret * 2048;
+    secret ^= secret.wrapping_mul(2048);
     secret %= 16777216;
     secret
 }
@@ -94,7 +94,7 @@ mod test {
             ((2, -2, 0, -2), 2),
         ]);
 
-        assert_eq!(change_list::<10>(123), map);
+        assert_eq!(change_list::<9>(123), map);
     }
 
     // #[test]

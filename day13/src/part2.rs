@@ -85,7 +85,9 @@ Prize: X=18641, Y=10279
     fn sample() {
         let input = &INPUT_SAMPLE[1..]; // remove leading \n
 
-        assert_eq!(run(input).unwrap(), 480);
+        // Not an official value, but based on the assumption the algorithm is
+        // valid since we passed the puzzle
+        assert_eq!(run(input).unwrap(), 875318608908);
     }
 
     // #[test]

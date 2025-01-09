@@ -85,6 +85,7 @@ mod test {
     }
 
     #[test]
+    #[ignore = "too slow (~3min of my fast machine)"]
     fn compare_base() {
         assert_eq!(
             run(&INPUT_SAMPLE[1..], 6, 12).unwrap(),

@@ -111,9 +111,10 @@ impl Position {
         Self { x, y }
     }
     pub fn to_index(&self, width: usize) -> usize {
-        if self.x >= width {
+        if self.x >= width || self.y == usize::MAX {
             usize::MAX
         } else {
+            println!("{}*{}+{}", self.y, width, self.x);
             self.y * width + self.x
         }
     }
