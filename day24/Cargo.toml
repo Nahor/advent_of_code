@@ -18,9 +18,16 @@ chumsky = { git = "https://github.com/zesterer/chumsky", rev = "b6afd8c738799060
 ariadne = { git = "https://github.com/zesterer/ariadne", rev = "bc46d0510ac0167b3e76324b8429d3c3ec32b976", version = "0.4.0" }
 num = { workspace = true }
 nalgebra = { version = "0.32.3", optional = true }
-z3 = { version = "0.13.3", features = ["gh-release"] }
-# nom = { workspace = true }
-# nom_locate = { workspace = true }
+
+# `.cargo/config.toml` forces the Z3 solver to version 4.12.6 instead of a more
+# recent one (4.15.3 as of this writing) because the (some) newer versions are
+# much slower (instead of ~3s, it hadn't finished after several minutes)
+#
+# Alternatively, instead of using "gh-release", download the Z3 binaries in
+# a sub-folder, then use:
+#    PATH="$PATH:$(cygpath -a <z3-path>/bin/)" target/debug/part2.exe
+# or PATH="$PATH:$(cygpath -a <z3-path>/bin/)" cargo test -p day24 --bin part2
+z3 = { version = "0.17", features = ["gh-release"] }
 
 [lints]
 workspace = true

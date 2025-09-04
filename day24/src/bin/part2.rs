@@ -1,8 +1,5 @@
 use day24::*;
-use z3::{
-    ast::{Ast, Int},
-    Config, Context, Solver,
-};
+use z3::{Solver, ast::Int};
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -24,29 +21,27 @@ fn process(input: &'_ str) -> Result<i64, AocError<'_>> {
     //    PATH="$PATH:$(cygpath -a day24/z3-4.12.5-x64-win/bin/)" cargo test -p day24 --bin part2
     let hail = parse(input)?;
 
-    let cfg = Config::new();
-    let ctx = Context::new(&cfg);
-    let solver = Solver::new(&ctx);
+    let solver = Solver::new();
 
-    let px = Int::new_const(&ctx, "px");
-    let py = Int::new_const(&ctx, "py");
-    let pz = Int::new_const(&ctx, "pz");
-    let vx = Int::new_const(&ctx, "vx");
-    let vy = Int::new_const(&ctx, "vy");
-    let vz = Int::new_const(&ctx, "vz");
+    let px = Int::new_const("px");
+    let py = Int::new_const("py");
+    let pz = Int::new_const("pz");
+    let vx = Int::new_const("vx");
+    let vy = Int::new_const("vy");
+    let vz = Int::new_const("vz");
 
     for stone in hail {
-        let pxn = Int::from_i64(&ctx, stone.position.x as i64);
-        let pyn = Int::from_i64(&ctx, stone.position.y as i64);
-        let pzn = Int::from_i64(&ctx, stone.position.z as i64);
-        let vxn = Int::from_i64(&ctx, stone.velocity.x as i64);
-        let vyn = Int::from_i64(&ctx, stone.velocity.y as i64);
-        let vzn = Int::from_i64(&ctx, stone.velocity.z as i64);
-        let tn = Int::fresh_const(&ctx, "t");
+        let pxn = Int::from_i64(stone.position.x as i64);
+        let pyn = Int::from_i64(stone.position.y as i64);
+        let pzn = Int::from_i64(stone.position.z as i64);
+        let vxn = Int::from_i64(stone.velocity.x as i64);
+        let vyn = Int::from_i64(stone.velocity.y as i64);
+        let vzn = Int::from_i64(stone.velocity.z as i64);
+        let tn = Int::fresh_const("t");
 
-        solver.assert(&(&pxn + &vxn * &tn)._eq(&(&px + &vx * &tn)));
-        solver.assert(&(&pyn + &vyn * &tn)._eq(&(&py + &vy * &tn)));
-        solver.assert(&(&pzn + &vzn * &tn)._eq(&(&pz + &vz * &tn)));
+        solver.assert((&pxn + &vxn * &tn).eq(&(&px + &vx * &tn)));
+        solver.assert((&pyn + &vyn * &tn).eq(&(&py + &vy * &tn)));
+        solver.assert((&pzn + &vzn * &tn).eq(&(&pz + &vz * &tn)));
     }
 
     solver.check();
