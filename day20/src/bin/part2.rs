@@ -76,12 +76,12 @@ fn process(input: &str) -> Result<u64, AocError> {
                     *was_high = true;
                     // println!("prefinals@{i}: {prefinals:?}");
                 }
-            } else if let Some((count, was_high)) = prefinals.get_mut(&from) {
-                if *was_high {
-                    *was_high = false;
-                    // println!("Was high @{i} ({})", (i) % count.unwrap());
-                    assert!((i) % count.unwrap() == 0);
-                }
+            } else if let Some((count, was_high)) = prefinals.get_mut(&from)
+                && *was_high
+            {
+                *was_high = false;
+                // println!("Was high @{i} ({})", (i) % count.unwrap());
+                assert!((i) % count.unwrap() == 0);
             }
             match modules.get_mut(to) {
                 None => {}

@@ -1,13 +1,13 @@
 use std::fmt::Display;
 
 use nom::{
+    Finish, IResult, Parser,
     branch::alt,
     character::complete::{self, *},
     combinator::{all_consuming, cut, map, value},
     error::context,
     multi::separated_list1,
     sequence::{delimited, preceded, tuple},
-    Finish, IResult, Parser,
 };
 
 pub mod aocerror;
@@ -87,13 +87,7 @@ fn label(input: Span) -> IResult<Span, String, AocParseError> {
         "label",
         map(
             alphanumeric1, /*many1(none_of("=-,\n"))*/
-            |vec: Span| {
-                //let v: Vec<char> = vec;
-                let label = vec.chars().collect::<String>();
-                //println!("Got label {label}");
-                //let label = String::new();
-                label
-            },
+            |vec: Span| vec.chars().collect::<String>(),
         ),
     )
     .parse(input)

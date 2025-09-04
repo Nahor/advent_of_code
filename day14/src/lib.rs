@@ -1,11 +1,11 @@
 use std::{collections::BTreeMap, fmt::Display};
 
 use nom::{
+    Finish, IResult, Parser,
     character::complete::*,
     combinator::{all_consuming, map},
     multi::{many0, many1, separated_list1},
     sequence::{delimited, preceded, terminated},
-    Finish, IResult, Parser,
 };
 
 pub mod aocerror;
@@ -145,7 +145,7 @@ pub fn process_one_direction(
 pub fn compute_load_after_tilt(rock_map: &BTreeMap<Coord, RockType>) -> usize {
     rock_map
         .iter()
-        .filter(|(_, &rock_type)| rock_type == RockType::Round)
+        .filter(|(_, rock_type)| **rock_type == RockType::Round)
         .map(|(coord, _)| coord.x + 1)
         .sum()
 }
@@ -155,7 +155,7 @@ pub fn compute_load_after_tilt(rock_map: &BTreeMap<Coord, RockType>) -> usize {
 pub fn compute_load_before_tilt(rock_map: &BTreeMap<Coord, RockType>, size: usize) -> usize {
     rock_map
         .iter()
-        .filter(|(_, &rock_type)| rock_type == RockType::Round)
+        .filter(|(_, rock_type)| **rock_type == RockType::Round)
         .map(|(coord, _)| size - coord.y)
         .sum()
 }
@@ -166,25 +166,25 @@ pub fn compute_loads(
 ) -> (usize, usize, usize, usize) {
     let up = rock_map
         .iter()
-        .filter(|(_, &rock_type)| rock_type == RockType::Round)
+        .filter(|(_, rock_type)| **rock_type == RockType::Round)
         .map(|(coord, _)| size - coord.y)
         .sum();
 
     let left = rock_map
         .iter()
-        .filter(|(_, &rock_type)| rock_type == RockType::Round)
+        .filter(|(_, rock_type)| **rock_type == RockType::Round)
         .map(|(coord, _)| size - coord.x)
         .sum();
 
     let down = rock_map
         .iter()
-        .filter(|(_, &rock_type)| rock_type == RockType::Round)
+        .filter(|(_, rock_type)| **rock_type == RockType::Round)
         .map(|(coord, _)| coord.y + 1)
         .sum();
 
     let right = rock_map
         .iter()
-        .filter(|(_, &rock_type)| rock_type == RockType::Round)
+        .filter(|(_, rock_type)| **rock_type == RockType::Round)
         .map(|(coord, _)| coord.x + 1)
         .sum();
 

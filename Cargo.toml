@@ -2,6 +2,9 @@
 resolver = "2"
 members = ["day*"]
 
+[workspace.package]
+edition = "2024"
+
 [workspace.dependencies]
 regex = "1.10.2"
 thiserror = "1.0.56"
