@@ -16,7 +16,7 @@ fn main() -> miette::Result<()> {
     Ok(())
 }
 
-fn process(input: &str) -> Result<i64, AocError> {
+fn process(input: &'_ str) -> Result<i64, AocError<'_>> {
     // Using Z3 solver
     // Code from: https://github.com/arthomnix/aoc23/blob/master/src/days/day24.rs
     // To run:

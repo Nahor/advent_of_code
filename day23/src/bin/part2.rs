@@ -27,7 +27,7 @@ fn process(input: &str) -> Result<usize, AocError> {
 }
 
 #[cfg(not(feature = "petegraph"))]
-fn process(input: &str) -> Result<usize, AocError> {
+fn process(input: &'_ str) -> Result<usize, AocError<'_>> {
     let maze = parse(input)?;
     // print(&maze);
 

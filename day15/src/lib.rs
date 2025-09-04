@@ -63,7 +63,7 @@ pub fn parse(input: &str) -> Result<Vec<Step>, AocError> {
     Ok(data)
 }
 
-fn document(input: &str) -> IResult<Span, Vec<Step>, AocParseError> {
+fn document(input: &'_ str) -> IResult<Span<'_>, Vec<Step>, AocParseError> {
     all_consuming(delimited(multispace0, data_parser, multispace0)).parse(Span::new(input))
 }
 

@@ -13,7 +13,7 @@ fn main() -> miette::Result<()> {
     Ok(())
 }
 
-fn process(input: &str) -> Result<usize, AocError> {
+fn process(input: &'_ str) -> Result<usize, AocError<'_>> {
     let bricks = parse(input)?;
     let _graph = build_graph(&bricks);
     // println!("{bricks:#?}");

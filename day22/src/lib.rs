@@ -120,10 +120,10 @@ impl BrickNode {
     pub fn new(id: usize, v1: Coord, v2: Coord) -> Self {
         Self(Rc::new(RefCell::new(Brick::new(id, v1, v2))))
     }
-    pub fn borrow(&self) -> cell::Ref<Brick> {
+    pub fn borrow(&'_ self) -> cell::Ref<'_, Brick> {
         self.0.borrow()
     }
-    pub fn borrow_mut(&self) -> cell::RefMut<Brick> {
+    pub fn borrow_mut(&'_ self) -> cell::RefMut<'_, Brick> {
         self.0.as_ref().borrow_mut()
     }
 }

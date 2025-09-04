@@ -17,7 +17,7 @@ fn main() -> miette::Result<()> {
     Ok(())
 }
 
-fn process(input: &str) -> Result<usize, AocError> {
+fn process(input: &'_ str) -> Result<usize, AocError<'_>> {
     let component_map = parse(input)?;
 
     let mut graph = UnGraph::new_undirected();

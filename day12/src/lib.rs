@@ -1,4 +1,4 @@
-use std::{collections::BTreeMap, iter::repeat};
+use std::{collections::BTreeMap, iter::repeat_n};
 
 use aocerror::AocError;
 use itertools::Itertools;
@@ -49,8 +49,8 @@ type Cache = BTreeMap<(usize, usize), usize>;
 fn process_line(line: &str, fold: usize, with_validation: bool) -> usize {
     let (mapping, count) = line.split_once(' ').unwrap();
 
-    let mapping = repeat(mapping).take(fold).join("?");
-    let count = repeat(count).take(fold).join(",");
+    let mapping = repeat_n(mapping, fold).join("?");
+    let count = repeat_n(count, fold).join(",");
 
     // Create sequence of broken springs. Add a single working spring as
     // separator to simplify the code afterwards (i.e. there will be between

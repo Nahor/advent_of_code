@@ -55,7 +55,7 @@ pub fn parse(input: &str) -> Result<BTreeMap<Coord, RockType>, AocError> {
     Ok(data)
 }
 
-fn document(input: &str) -> IResult<Span, BTreeMap<Coord, RockType>, AocParseError> {
+fn document(input: &'_ str) -> IResult<Span<'_>, BTreeMap<Coord, RockType>, AocParseError> {
     all_consuming(delimited(multispace0, data_parser, multispace0)).parse(Span::new(input))
 }
 

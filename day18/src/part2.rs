@@ -68,7 +68,7 @@ pub fn parse(input: &str) -> Result<Grid, AocError> {
     Ok(grid)
 }
 
-fn document(input: &str) -> IResult<Span, Grid, AocParseError> {
+fn document(input: &'_ str) -> IResult<Span<'_>, Grid, AocParseError> {
     all_consuming(delimited(multispace0, data_parser, multispace0)).parse(Span::new(input))
 }
 

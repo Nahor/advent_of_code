@@ -17,7 +17,7 @@ fn main() -> miette::Result<()> {
     Ok(())
 }
 
-fn process(input: &str, range: RangeInclusive<f64>) -> Result<i64, AocError> {
+fn process(input: &'_ str, range: RangeInclusive<f64>) -> Result<i64, AocError<'_>> {
     let hail = parse(input)?;
 
     let mut count = 0;

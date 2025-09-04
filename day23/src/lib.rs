@@ -281,8 +281,8 @@ pub fn condense(maze: &Maze, with_slope: bool) -> HashMap<Coord, SimpleCell> {
 pub fn petegraph(maze: &Maze, condensed: &HashMap<Coord, SimpleCell>) -> usize {
     let mut graph = Graph::new();
     let indices = condensed
-        .iter()
-        .map(|(coord, _)| (*coord, graph.add_node(*coord)))
+        .keys()
+        .map(|coord| (*coord, graph.add_node(*coord)))
         .collect::<HashMap<_, _>>();
     condensed.iter().for_each(|(coord, cell)| {
         cell.edges.iter().for_each(|(next_coord, cost)| {
