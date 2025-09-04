@@ -34,11 +34,11 @@ where
         self.data.len()
     }
 
-    pub fn iter(&self) -> Iter<T> {
+    pub fn iter(&'_ self) -> Iter<'_, T> {
         self.data.iter()
     }
 
-    pub fn iter_mut(&mut self) -> IterMut<T> {
+    pub fn iter_mut(&'_ mut self) -> IterMut<'_, T> {
         self.data.iter_mut()
     }
 

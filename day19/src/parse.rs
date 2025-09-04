@@ -11,7 +11,7 @@ pub struct Data<'a> {
     pub designs: Vec<&'a [u8]>,
 }
 
-pub fn parse(content: &[u8]) -> Result<Data, AdventError> {
+pub fn parse(content: &'_ [u8]) -> Result<Data<'_>, AdventError> {
     Ok(trace(
         "parser",
         seq! {Data{

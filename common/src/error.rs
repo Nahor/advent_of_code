@@ -44,7 +44,7 @@ impl AdventError {
             .unwrap_or_else(|| {
                 // Distinguish between an error on the last char and on eof
                 // (both would fail to find an index since we search with '>')
-                if index < input.bytes().len() {
+                if index < input.len() {
                     input.len() - 1
                 } else {
                     input.len()
