@@ -18,10 +18,9 @@ chumsky = { git = "https://github.com/zesterer/chumsky", rev = "b6afd8c738799060
 ariadne = { git = "https://github.com/zesterer/ariadne", rev = "bc46d0510ac0167b3e76324b8429d3c3ec32b976", version = "0.4.0" }
 num = { workspace = true }
 nalgebra = { version = "0.32.3", optional = true }
-z3 = "0.12.1"
+z3 = { version = "0.13.3", features = ["gh-release"] }
 # nom = { workspace = true }
 # nom_locate = { workspace = true }
 
 [lints]
 workspace = true
-
