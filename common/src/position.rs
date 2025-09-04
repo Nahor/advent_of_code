@@ -67,7 +67,7 @@ where
     ///
     /// `idx` must be in [0..`size()`] range
     pub unsafe fn get_idx_unchecked(&self, idx: usize) -> T {
-        *self.data.get_unchecked(idx)
+        unsafe { *self.data.get_unchecked(idx) }
     }
 }
 

@@ -173,6 +173,7 @@ where
     T: MapPos,
 {
     let moves = get_base_moves(from, to);
+    #[allow(clippy::let_and_return, reason = "for readability")]
     let cost_moves = moves
         .iter()
         .permutations(moves.len())

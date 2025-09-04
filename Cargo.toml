@@ -2,6 +2,9 @@
 resolver = "2"
 members = ["common", "day*", "template"]
 
+[workspace.package]
+edition = "2024"
+
 [workspace.dependencies]
 regex = "1.11.1"
 clap = { version = "4.5.21", features = ["derive"] }

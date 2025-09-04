@@ -199,7 +199,7 @@ impl Machine {
                 in1,
                 in2,
                 out,
-                ref mut last_val,
+                last_val,
             } = gate;
             let Some(&in1) = self.inputs.get(in1) else {
                 return;

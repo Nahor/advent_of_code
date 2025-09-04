@@ -2,7 +2,7 @@ use itertools::Itertools;
 use miette::Result;
 use rustc_hash::{FxHashMap, FxHashSet};
 
-use crate::parse::{parse, Machine};
+use crate::parse::{Machine, parse};
 
 pub fn run(content: &[u8]) -> Result<String> {
     let connections = parse(content)?;
@@ -84,13 +84,10 @@ fn get_groups(connections: &FxHashMap<Machine, Vec<Machine>>) -> Vec<Vec<Machine
         .flat_map(|(m1, v1)| {
             v1.iter()
                 .filter_map(|m2| {
-                    let r = connections.get(m2).map(|v2| {
-                        let r = v2.iter().filter_map(|m3| {
-                            v1.binary_search(m3).map(|_| vec![*m1, *m2, *m3]).ok()
-                        });
-                        r
-                    });
-                    r
+                    connections.get(m2).map(|v2| {
+                        v2.iter()
+                            .filter_map(|m3| v1.binary_search(m3).map(|_| vec![*m1, *m2, *m3]).ok())
+                    })
                 })
                 .flatten()
         })

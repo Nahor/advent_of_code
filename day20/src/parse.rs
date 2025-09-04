@@ -11,8 +11,7 @@ pub fn parse(content: &[u8]) -> Result<FxHashMap<(isize, isize), usize>, AdventE
         .split(|b| *b == b'\n')
         .enumerate()
         .flat_map(|(y, l)| {
-            let v = l
-                .iter()
+            l.iter()
                 .enumerate()
                 .filter_map(|(x, c)| match c {
                     b'#' => None,
@@ -27,8 +26,7 @@ pub fn parse(content: &[u8]) -> Result<FxHashMap<(isize, isize), usize>, AdventE
                     }
                     _ => panic!("unexpected char {}", *c as char),
                 })
-                .collect::<Vec<_>>();
-            v
+                .collect::<Vec<_>>()
         })
         .collect::<FxHashSet<_>>();
 
@@ -58,8 +56,7 @@ pub fn parse_ordered_vec(content: &[u8]) -> Result<Vec<(isize, isize)>, AdventEr
         .split(|b| *b == b'\n')
         .enumerate()
         .flat_map(|(y, l)| {
-            let v = l
-                .iter()
+            l.iter()
                 .enumerate()
                 .filter_map(|(x, c)| match c {
                     b'#' => None,
@@ -74,8 +71,7 @@ pub fn parse_ordered_vec(content: &[u8]) -> Result<Vec<(isize, isize)>, AdventEr
                     }
                     _ => panic!("unexpected char {}", *c as char),
                 })
-                .collect::<Vec<_>>();
-            v
+                .collect::<Vec<_>>()
         })
         .collect::<FxHashSet<_>>();
 
