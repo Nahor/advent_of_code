@@ -1,4 +1,4 @@
-use miette::{miette, IntoDiagnostic, Result};
+use miette::{IntoDiagnostic, Result, miette};
 use std::{collections::HashSet, io::Read, path::PathBuf};
 
 const CARGO_MANIFEST_DIR: &str = env!("CARGO_MANIFEST_DIR");
@@ -60,7 +60,7 @@ pub fn default_file_fn(file: Option<PathBuf>, build_env: Option<&str>) -> Result
             .ok_or_else(|| miette!(format!("Invalid build path '{build_env}'")))?
             .parent()
             .ok_or_else(|| miette!(format!("Invalid build path '{build_env}'")))?
-            .join("advent_of_code_input")
+            .join("input")
             .join("2024")
             .join(day)
             .join("input.txt");
