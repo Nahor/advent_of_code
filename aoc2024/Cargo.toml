@@ -4,6 +4,7 @@ members = ["common", "day*", "template"]
 
 [workspace.package]
 edition = "2024"
+rust-version = "1.87"
 
 [workspace.dependencies]
 regex = "1.11.1"

@@ -37,7 +37,7 @@ fn expand(stone: u64, blink_left: usize, cache: &mut HashMap<u64, Vec<Option<usi
         vec![1]
     } else {
         let digits = stone.ilog10() + 1;
-        if digits % 2 == 0 {
+        if digits.is_multiple_of(2) {
             let pow = 10_u64.pow(digits / 2);
             let left = stone / pow;
             let right = stone - (left * pow);
