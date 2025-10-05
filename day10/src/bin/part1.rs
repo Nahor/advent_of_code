@@ -5,7 +5,7 @@ use day10::aocerror::AocError;
 fn main() -> miette::Result<()> {
     let input = include_bytes!(concat!(
         env!("CARGO_MANIFEST_DIR"),
-        "/../../advent_of_code_input/2023/",
+        "/../../input/2023/",
         env!("CARGO_PKG_NAME"),
         "/input.txt"
     ));
