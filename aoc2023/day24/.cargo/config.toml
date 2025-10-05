@@ -1,3 +1,0 @@
-[env]
-# See day24/Cargo.toml for explanation
-Z3_SYS_Z3_VERSION = "4.12.6"
