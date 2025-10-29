@@ -1,0 +1,32 @@
+{
+    "version": "0.2",
+    "ignorePaths": [],
+    "dictionaryDefinitions": [],
+    "dictionaries": [],
+    "words": [
+        "astar",
+        "bitflags",
+        "bstr",
+        "dont",
+        "enumflags2",
+        "fxhashmap",
+        "fxhashset",
+        "hashset",
+        "ilog",
+        "itertools",
+        "miette",
+        "multispace0",
+        "multispace1",
+        "pathfinding",
+        "repr",
+        "rustc",
+        "signum",
+        "thiserror",
+        "trailhead",
+        "URDL",
+        "VecDeque",
+        "wubrg"
+    ],
+    "ignoreWords": [],
+    "import": []
+}
