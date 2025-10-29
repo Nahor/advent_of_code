@@ -1,0 +1,64 @@
+use std::collections::BTreeSet;
+
+use day07::{aocerror::AocError, part1::*};
+//use owo_colors::{OwoColorize, Style};
+
+fn main() -> miette::Result<()> {
+    let input = include_str!(concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/../../input/2023/",
+        env!("CARGO_PKG_NAME"),
+        "/input.txt"
+    ));
+    let output = process(input)?;
+    dbg!(output);
+    Ok(())
+}
+
+fn process(input: &str) -> Result<usize, AocError> {
+    let data = parse(input)?;
+
+    let ordered: BTreeSet<_> = data.iter().collect();
+    let output = ordered
+        .into_iter()
+        .enumerate()
+        .map(|(rank, data)| {
+            println!("rank {rank}: {data}");
+            (rank + 1) * data.bid
+        })
+        .sum();
+
+    Ok(output)
+}
+
+#[cfg(test)]
+mod test {
+    use super::*;
+
+    #[test]
+    fn test1() -> miette::Result<()> {
+        let input = "\
+32T3K 765
+T55J5 684
+KK677 28
+KTJJT 220
+QQQJA 483
+";
+        assert_eq!(process(input).unwrap(), 6440);
+
+        Ok(())
+    }
+
+    #[test]
+    fn cmp1() {
+        let d1 = Data {
+            hand: vec![9, 2, 3, 4, 10],
+            bid: 348,
+        };
+        let d2 = Data {
+            hand: vec![5, 2, 3, 8, 4],
+            bid: 17,
+        };
+        let _ = dbg!(d1.partial_cmp(&d2));
+    }
+}

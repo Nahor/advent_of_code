@@ -1,0 +1,9 @@
+[env]
+# See day24/Cargo.toml for explanation
+Z3_SYS_Z3_VERSION = "4.12.6"
+
+# For the manual build
+LIBCLANG_PATH = "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/Llvm/x64/bin/"
+CPATH = { value = "day24/z3-4.12.6-x64-win/include", relative = true }
+LIBRARY_PATH = { value = "day24/z3-4.12.6-x64-win/bin", relative = true }
+LIB = { value = "day24/z3-4.12.6-x64-win/bin", relative = true }

@@ -1,0 +1,18 @@
+[package]
+name = "day04"
+version = "0.1.0"
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = { workspace = true }
+thiserror = { workspace = true }
+#miette = { workspace = true, features = ["fancy"] }
+owo-colors = { workspace = true }
+miette = { git = "https://github.com/zkat/miette.git", rev = "55bfc4201638e412dd2732d394389e22a7398822", version = "5.10.0", features = [
+    "fancy",
+] }
+
+[lints]
+workspace = true

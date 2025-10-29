@@ -1,0 +1,17 @@
+[package]
+name = "day12"
+version = "0.1.0"
+edition.workspace = true
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+regex = { workspace = true }
+thiserror = { workspace = true }
+miette = { workspace = true, features = ["fancy"] }
+owo-colors = { workspace = true }
+nom = { workspace = true }
+itertools = { workspace = true }
+
+[lints]
+workspace = true
