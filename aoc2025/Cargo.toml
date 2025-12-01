@@ -1,0 +1,27 @@
+[workspace]
+resolver = "2"
+members = ["common", "day*", "template"]
+
+[workspace.package]
+edition = "2024"
+rust-version = "1.88"
+
+[workspace.dependencies]
+regex = "1.12.2"
+clap = { version = "4.5.53", features = ["derive"] }
+anyhow = "1.0.100"
+thiserror = "2.0.17"
+miette = { version = "7.6.0", features = ["fancy"] }
+owo-colors = "4.2.3"
+winnow = { version = "0.7.14", features = ["simd"] }
+#nom_locate = "4.2.0"
+rayon = "1.11.0"
+itertools = "0.14.0"
+num = "0.4.3"
+# petgraph
+# pathfinding
+# ndarray ndarray-linearalg
+divan = "0.1.21"
+rustc-hash = "2.1.1"
+pathfinding = "4.14.0"
+rstest = "0.26.1"
