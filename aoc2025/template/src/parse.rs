@@ -1,7 +1,7 @@
 use common::error::AdventError;
 use winnow::{
     ascii::line_ending,
-    combinator::{eof, opt, repeat_till, terminated, trace},
+    combinator::{alt, eof, repeat_till, terminated, trace},
     prelude::*,
     token::rest,
 };
@@ -9,7 +9,7 @@ use winnow::{
 pub fn parse(content: &[u8]) -> Result<Vec<()>, AdventError> {
     Ok(trace(
         "parser",
-        repeat_till(0.., terminated(parse_line, opt(line_ending)), eof).map(|(v, _)| v),
+        repeat_till(1.., terminated(parse_line, alt((line_ending, eof))), eof).map(|(v, _)| v),
     )
     .parse(content)?)
 }
