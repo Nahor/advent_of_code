@@ -1,0 +1,20 @@
+[package]
+name = "day04"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+clap = { workspace = true }
+winnow = { workspace = true }
+miette = { workspace = true }
+rayon = { workspace = true }
+rustc-hash = { workspace = true }
+
+[dev-dependencies]
+divan = { workspace = true }
+rstest = { workspace = true }
+
+[[bench]]
+name = "bench"
+harness = false

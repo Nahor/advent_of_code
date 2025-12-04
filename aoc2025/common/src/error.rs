@@ -5,6 +5,10 @@ use winnow::stream::AsBStr;
 #[derive(Debug, Error, Diagnostic)]
 #[error("error")]
 pub enum AdventError {
+    #[error("error")]
+    GenericStr(&'static str),
+    #[error("error")]
+    GenericString(String),
     #[error(transparent)]
     #[diagnostic(code(aoc::io_error))]
     FileError(#[from] std::io::Error),
@@ -95,5 +99,17 @@ where
         //     span: (start..end).into(),
         //     input,
         // }
+    }
+}
+
+impl From<&'static str> for AdventError {
+    fn from(err: &'static str) -> Self {
+        Self::GenericStr(err)
+    }
+}
+
+impl From<String> for AdventError {
+    fn from(err: String) -> Self {
+        Self::GenericString(err)
     }
 }
