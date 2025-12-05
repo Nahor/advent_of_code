@@ -25,6 +25,9 @@ enum Command {
 
     /// Part 2 Custom
     Part2Custom { file: Option<PathBuf> },
+
+    /// Part 2 Rangemap
+    Part2Rangemap { file: Option<PathBuf> },
 }
 
 fn main() -> Result<()> {
@@ -42,6 +45,9 @@ fn main() -> Result<()> {
         }
         Some(Command::Part2Custom { file }) => {
             println!("Result: {}", part2_custom::run(&read_input_u8!(file)?)?)
+        }
+        Some(Command::Part2Rangemap { file }) => {
+            println!("Result: {}", part2_rangemap::run(&read_input_u8!(file)?)?)
         }
         None => println!("Result: {}", part1::run(&read_input_u8!(None)?)?),
     }

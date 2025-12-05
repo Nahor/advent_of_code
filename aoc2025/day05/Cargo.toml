@@ -8,6 +8,7 @@ common = { path = "../common" }
 clap = { workspace = true }
 winnow = { workspace = true }
 miette = { workspace = true }
+rangemap = "1.7.0"
 
 [dev-dependencies]
 divan = { workspace = true }

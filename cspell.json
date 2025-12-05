@@ -24,6 +24,7 @@
         "pathfinding",
         "peekable",
         "petgraph",
+        "rangemap",
         "repr",
         "rstest",
         "rustc",

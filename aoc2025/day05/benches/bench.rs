@@ -103,4 +103,11 @@ mod part2_bench {
                 .bench_values(|content| part2_custom::run(&content).unwrap());
         }
     }
+
+    #[divan::bench(name = "3_rangemap")]
+    fn rangemap(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_rangemap::run(&content).unwrap());
+    }
 }
