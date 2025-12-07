@@ -6,9 +6,13 @@ use winnow::stream::AsBStr;
 #[error("error")]
 pub enum AdventError {
     #[error("error")]
-    GenericStr(&'static str),
+    #[diagnostic(code(aoc::generic))]
+    GenericStr(#[help] &'static str),
+
     #[error("error")]
-    GenericString(String),
+    #[diagnostic(code(aoc::generic))]
+    GenericString(#[help] String),
+
     #[error(transparent)]
     #[diagnostic(code(aoc::io_error))]
     FileError(#[from] std::io::Error),
@@ -31,6 +35,7 @@ pub enum AdventError {
     #[error("parsing int error")]
     #[diagnostic(code(aoc::parse_int_error))]
     ParseIntError(#[from] std::num::ParseIntError),
+
     #[error("error")]
     #[diagnostic(code(aoc::unknown_error))]
     //Error(Box<dyn Diagnostic + Send + Sync + 'static>),
