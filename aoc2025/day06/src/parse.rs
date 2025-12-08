@@ -30,7 +30,7 @@ fn parse_first_line(input: &mut &[u8]) -> ModalResult<Vec<u64>> {
         delimited(
             space0,
             separated(1.., dec_uint::<_, u64, _>, space1),
-            line_ending,
+            (space0, line_ending),
         ),
     )
     .parse_next(input)
