@@ -1,8 +1,9 @@
+use common::error::AdventError;
 use miette::Result;
 
 use crate::parse::parse;
 
-pub fn run(content: &[u8]) -> Result<u64> {
+pub fn run(content: &[u8]) -> Result<u64, AdventError> {
     let _lines = parse(content)?;
 
     let result: u64 = 0;

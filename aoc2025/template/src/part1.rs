@@ -1,8 +1,9 @@
+use common::error::AdventError;
 use miette::Result;
 
 use crate::parse::parse;
 
-pub fn run(content: &[u8]) -> Result<u64> {
+pub fn run(content: &[u8]) -> Result<u64, AdventError> {
     let _lines = parse(content)?;
 
     let result: u64 = 0;
@@ -27,4 +28,15 @@ bla
 
         assert_eq!(run(input).unwrap(), 0);
     }
+
+    // #[test]
+    // fn compare_base() {
+    //     assert_eq!(
+    //         run(&INPUT_SAMPLE[1..]).unwrap(),
+    //         crate::part1::run(&INPUT_SAMPLE[1..]).unwrap()
+    //     );
+
+    //     let input = common::read_input_u8!(None).unwrap();
+    //     assert_eq!(run(&input).unwrap(), crate::part1::run(&input).unwrap());
+    // }
 }
