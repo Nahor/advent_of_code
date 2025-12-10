@@ -325,6 +325,7 @@ dependencies = [
  "glam",
  "itertools",
  "miette",
+ "rayon",
  "rstest",
  "winnow",
 ]
