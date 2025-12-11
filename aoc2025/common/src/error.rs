@@ -16,6 +16,7 @@ pub enum AdventError {
     #[error(transparent)]
     #[diagnostic(code(aoc::io_error))]
     FileError(#[from] std::io::Error),
+
     // #[error("the data for key `{0}` is not available")]
     // Redaction(String),
     // #[error("invalid header (expected {expected:?}, found {found:?})")]
@@ -23,15 +24,20 @@ pub enum AdventError {
     //     expected: String,
     //     found: String,
     // },
+
+    // Using `_xxx` otherwise Rust 1.92 warns about assigned-but-unread fields
+    // and even using `#[allow(<unused_assignments>)]` does not fix it
     #[error("parsing error")]
     #[diagnostic(code(aoc::parse_error))]
     ParseError {
-        message: String,
+        #[help]
+        _message: String,
         #[label("here")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source_code]
-        input: String,
+        _input: String,
     },
+
     #[error("parsing int error")]
     #[diagnostic(code(aoc::parse_int_error))]
     ParseIntError(#[from] std::num::ParseIntError),
@@ -62,9 +68,9 @@ impl AdventError {
         let end = (start + 1).min(input.len());
 
         Self::ParseError {
-            message,
-            span: (start..end).into(),
-            input,
+            _message: message,
+            _span: (start..end).into(),
+            _input: input,
         }
     }
 }
@@ -79,31 +85,6 @@ where
             value.offset(),
             value.inner().to_string(),
         )
-        // let message = value.inner().to_string();
-        // let input = String::from_utf8_lossy().into_owned();
-        // // Winnow uses bytes for span, regardless of the input type, so we need
-        // // to convert that to a char offset for Miette.
-        // let start = input
-        //     .char_indices()
-        //     .enumerate()
-        //     .find(|(_, (byte_idx, _))| *byte_idx > value.offset())
-        //     .map(|(char_idx, _)| char_idx - 1)
-        //     .unwrap_or_else(|| {
-        //         // Distinguish between an error on the last char and on eof
-        //         // (both would fail to find an index since we search with '>')
-        //         if value.offset() < input.bytes().len() {
-        //             input.len() - 1
-        //         } else {
-        //             input.len()
-        //         }
-        //     });
-        // let end = (start + 1).min(input.len());
-
-        // Self::ParseError {
-        //     message,
-        //     span: (start..end).into(),
-        //     input,
-        // }
     }
 }
 
