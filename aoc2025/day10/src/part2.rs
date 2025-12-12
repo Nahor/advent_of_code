@@ -64,6 +64,10 @@ fn process_machine(machine: &Machine) -> Result<i64, AdventError> {
 pub fn run(content: &[u8]) -> Result<i64, AdventError> {
     let machines = parse(content.into())?;
 
+    if machines.len() > 3 {
+        Err("this algorithm is very slow and hasn't been tested beyond the test sample")?;
+    }
+
     let result = machines
         .iter()
         .map(process_machine)

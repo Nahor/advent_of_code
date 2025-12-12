@@ -71,10 +71,27 @@ mod part1_bench {
 mod part2_bench {
     use super::*;
 
-    #[divan::bench(name = "0_base")]
-    fn base(bencher: divan::Bencher) {
+    // Base algo is too slow (too slow to even check if it works on the full input)
+    // #[divan::bench(name = "0_base")]
+    // fn base(bencher: divan::Bencher) {
+    //     bencher
+    //         .with_inputs(|| read_input_u8!(None).unwrap())
+    //         .bench_values(|content| part2::run(&content).unwrap());
+    // }
+
+    // Case with lots of solutions (4433). This wil be used to check speed improvements
+    #[divan::bench(name = "1_slow_4433", sample_count = 1, sample_size = 1)]
+    fn slow_4433(bencher: divan::Bencher) {
         bencher
-            .with_inputs(|| read_input_u8!(None).unwrap())
-            .bench_values(|content| part2::run(&content).unwrap());
+            .with_inputs(|| b"[.##..###] (2) (2,4,5,6,7) (2,5,7) (1) (6) (1,4,6) (0,2,3,4,5) (4,6) (0,2,3,5,6,7) (0,3,5,7) {41,21,54,41,41,67,52,51}")
+            .bench_values(|content| part2_z3::run(content).unwrap());
+    }
+
+    // Case with lots of solutions (20827). This wil be used to check speed improvements
+    #[divan::bench(name = "1_slow_20827", sample_count = 1, sample_size = 1)]
+    fn slow_20827(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| b"[#..#.#] (0,1) (0,1,4) (2) (0,1,2) (4,5) (1,2,3,4) (0,1,2,5) (4) {61,67,49,6,48,23}")
+            .bench_values(|content| part2_z3::run(content).unwrap());
     }
 }

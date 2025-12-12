@@ -10,6 +10,14 @@ winnow = { workspace = true }
 miette = { workspace = true }
 itertools = { workspace = true }
 bitvec = "1.0.1"
+rayon = { workspace = true }
+
+# If the version of Z3 binary needs to be set, create a `.cargo/config.toml` at
+# the root of the project (`aoc202x`) with the following content:
+#     [env]
+#     Z3_SYS_Z3_VERSION = "<version>"
+z3 = { version = "0.19.6", features = ["gh-release"] }
+
 
 [dev-dependencies]
 divan = { workspace = true }
