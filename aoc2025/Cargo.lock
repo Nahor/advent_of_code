@@ -357,6 +357,19 @@ dependencies = [
 ]
 
 [[package]]
+name = "day11"
+version = "0.1.0"
+dependencies = [
+ "clap",
+ "common",
+ "divan",
+ "miette",
+ "rstest",
+ "rustc-hash",
+ "winnow",
+]
+
+[[package]]
 name = "divan"
 version = "0.1.21"
 source = "registry+https://github.com/rust-lang/crates.io-index"
