@@ -1,86 +1,64 @@
 use std::thread::available_parallelism;
 
 use common::error::AdventError;
+use good_lp::{
+    Expression, ProblemVariables, Solution, SolverModel, constraint, default_solver, variable,
+};
 use miette::Result;
 use rayon::prelude::*;
-use z3::{Solver, ast::Int};
 
 use crate::{int::Machine, parse::int::parse};
 
-fn process_machine(machine: &Machine) -> (u64, usize) {
-    let solver = Solver::new();
-
-    // Create the variables and ensure we only get positive solutions
+fn process_machine(machine: &Machine) -> u64 {
+    // Create a variable for each button with constraints (can't be <0 or >min joltage)
+    let mut problem = ProblemVariables::new();
     let vars = machine
         .buttons
         .iter()
-        .enumerate()
-        .map(|(idx, _)| Int::new_const(format!("btn{idx}")))
+        .map(|btn| {
+            let max_presses = machine
+                .joltage
+                .iter()
+                .copied()
+                .enumerate()
+                .filter_map(|(jolt_idx, jolts)| ((btn & 1 << jolt_idx) != 0).then_some(jolts))
+                .min()
+                .unwrap() as u64;
+
+            problem.add(variable().integer().min(0).max(max_presses as f64))
+        })
         .collect::<Vec<_>>();
 
-    // Add constraints to the buttons (can't be <0 or >min joltage)
-    vars.iter().enumerate().for_each(|(idx, var)| {
-        let btn = machine.buttons[idx];
+    // Create model
+    let objective: Expression = vars.iter().sum();
+    let mut model = problem.minimise(objective).using(default_solver);
 
-        let max_count = machine
-            .joltage
-            .iter()
-            .copied()
-            .enumerate()
-            .filter_map(|(jolt_idx, jolts)| ((btn & 1 << jolt_idx) != 0).then_some(jolts))
-            .min()
-            .unwrap() as u64;
-
-        solver.assert(var.ge(0));
-        solver.assert(var.le(max_count));
-    });
-
-    // Create the equations
+    // Add constraints
     machine
         .joltage
         .iter()
         .enumerate()
         .for_each(|(jolt_idx, &jolts)| {
-            let sum =
-                machine
-                    .buttons
-                    .iter()
-                    .enumerate()
-                    .fold(Int::from_u64(0), |acc, (btn_idx, btn)| {
-                        if (btn & 1 << jolt_idx) == 0 {
-                            acc
-                        } else {
-                            acc + &vars[btn_idx]
-                        }
-                    });
-            solver.assert(sum.eq(jolts as u64));
+            let sum: Expression = machine
+                .buttons
+                .iter()
+                .enumerate()
+                .filter_map(|(btn_idx, btn)| ((btn & 1 << jolt_idx) != 0).then_some(vars[btn_idx]))
+                .sum();
+            model.add_constraint(constraint!(sum == jolts as f64));
         });
 
-    // At most, each button increases one joltage by one unit. So the total
-    // number of button presses cannot exceed the total number of joltages.
-    let total_vars = vars.iter().fold(Int::from_u64(0), |acc, v| acc + v);
-    let total_jolts = machine.joltage.iter().sum::<u32>() as u64;
-    solver.assert(total_vars.le(total_jolts));
+    // // At most, each button increases one joltage by one unit. So the total
+    // // number of button presses cannot exceed the total number of joltages.
+    // let total_vars = vars.iter().fold(Int::from_u64(0), |acc, v| acc + v);
+    // let total_jolts = machine.joltage.iter().sum::<u32>() as u64;
+    // solver.assert(total_vars.le(total_jolts));
 
-    // Find the solution
-    let mut count = 0;
-    let mut result = u64::MAX;
-    // We could add a new constraint at each iteration and restart the solver,
-    // to force it to give us a smaller result each time, but that only speeds
-    // up some cases (where there are a lot of solutions to begin with) and
-    // slows down others (where there are few solutions). Overall, it is slower
-    for solution in solver.solutions(&vars, true) {
-        // println!("  solution: {solution:?}");
-        count += 1;
-        result = solution
-            .iter()
-            .map(Int::as_u64)
-            .map(Option::unwrap)
-            .sum::<u64>()
-            .min(result);
-    }
+    let solution = model.solve().unwrap();
 
-    (result, count)
+    vars.iter()
+        .map(|var| solution.value(*var).round() as u64)
+        .sum::<u64>()
 }
 
 pub fn run(content: &[u8]) -> Result<u64, AdventError> {
@@ -103,10 +81,10 @@ pub fn run(content: &[u8]) -> Result<u64, AdventError> {
         // .iter()
         .enumerate()
         .map(|(idx, machine)| (idx, machine, process_machine(machine)))
-        .map(|(_idx, _machine, (result, _count))| {
+        .map(|(_idx, _machine, result)| {
             // LOG: let percent = percent.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
             // LOG: print!(
-            // LOG:     "\r{_idx}/{} - {_machine:?}\n    {_count} solutions (best: {result})\n{:>5.01}%",
+            // LOG:     "\r{_idx}/{} - {_machine:?}\n    solution: {result})\n{:>5.01}%",
             // LOG:     machines.len(),
             // LOG:     ((percent + 1) as f32) * 100.0 / (machines.len() as f32),
             // LOG: );

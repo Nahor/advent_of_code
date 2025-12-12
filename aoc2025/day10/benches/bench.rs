@@ -80,7 +80,7 @@ mod part2_bench {
     // }
 
     // Case with lots of solutions (4433). This wil be used to check speed improvements
-    #[divan::bench(name = "1_slow_4433", sample_count = 1, sample_size = 1)]
+    #[divan::bench(name = "1_z3_slow_4433", sample_count = 1, sample_size = 1)]
     fn slow_4433(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| b"[.##..###] (2) (2,4,5,6,7) (2,5,7) (1) (6) (1,4,6) (0,2,3,4,5) (4,6) (0,2,3,5,6,7) (0,3,5,7) {41,21,54,41,41,67,52,51}")
@@ -88,10 +88,38 @@ mod part2_bench {
     }
 
     // Case with lots of solutions (20827). This wil be used to check speed improvements
-    #[divan::bench(name = "1_slow_20827", sample_count = 1, sample_size = 1)]
+    #[divan::bench(name = "1_z3_slow_20827", sample_count = 1, sample_size = 1)]
     fn slow_20827(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| b"[#..#.#] (0,1) (0,1,4) (2) (0,1,2) (4,5) (1,2,3,4) (0,1,2,5) (4) {61,67,49,6,48,23}")
             .bench_values(|content| part2_z3::run(content).unwrap());
+    }
+
+    #[divan::bench_group(name = "2_good_lp")]
+    mod good_lp {
+        use super::*;
+
+        #[divan::bench(name = "0_full")]
+        fn full(bencher: divan::Bencher) {
+            bencher
+                .with_inputs(|| read_input_u8!(None).unwrap())
+                .bench_values(|content| part2_good_lp::run(&content).unwrap());
+        }
+
+        // Case with lots of solutions (4433). To compare with Z3
+        #[divan::bench(name = "1_z3_slow_4433")]
+        fn slow_4433(bencher: divan::Bencher) {
+            bencher
+            .with_inputs(|| b"[.##..###] (2) (2,4,5,6,7) (2,5,7) (1) (6) (1,4,6) (0,2,3,4,5) (4,6) (0,2,3,5,6,7) (0,3,5,7) {41,21,54,41,41,67,52,51}")
+            .bench_values(|content| part2_good_lp::run(content).unwrap());
+        }
+
+        // Case with lots of solutions (20827). To compare with Z3
+        #[divan::bench(name = "1_z3_slow_20827")]
+        fn slow_20827(bencher: divan::Bencher) {
+            bencher
+            .with_inputs(|| b"[#..#.#] (0,1) (0,1,4) (2) (0,1,2) (4,5) (1,2,3,4) (0,1,2,5) (4) {61,67,49,6,48,23}")
+            .bench_values(|content| part2_good_lp::run(content).unwrap());
+        }
     }
 }

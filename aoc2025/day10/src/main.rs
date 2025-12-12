@@ -22,6 +22,9 @@ enum Command {
 
     /// Part 2 Z3
     Part2Z3 { file: Option<PathBuf> },
+
+    /// Part 2 Good-Lp
+    Part2GoodLp { file: Option<PathBuf> },
 }
 
 fn main() -> Result<()> {
@@ -36,6 +39,9 @@ fn main() -> Result<()> {
         }
         Some(Command::Part2Z3 { file }) => {
             println!("Result: {}", part2_z3::run(&read_input_u8!(file)?)?)
+        }
+        Some(Command::Part2GoodLp { file }) => {
+            println!("Result: {}", part2_good_lp::run(&read_input_u8!(file)?)?)
         }
         None => println!("Result: {}", part1::run(&read_input_u8!(None)?)?),
     }

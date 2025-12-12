@@ -18,6 +18,9 @@ rayon = { workspace = true }
 #     Z3_SYS_Z3_VERSION = "<version>"
 z3 = { version = "0.19.6", features = ["gh-release"] }
 
+# good-lp wrapper for highs solver (the default, "coincbc" doesn't easily work out of the box on Windows)
+good_lp = { version = "1.14.2", features = ["highs"], default-features = false }
+
 
 [dev-dependencies]
 divan = { workspace = true }
