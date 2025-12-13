@@ -3,69 +3,57 @@ use std::thread::available_parallelism;
 use common::error::AdventError;
 use miette::Result;
 use rayon::prelude::*;
-use z3::{Config, Optimize, SatResult, ast::Int, with_z3_config};
+use z3::{Optimize, SatResult, ast::Int};
 
 use crate::{int::Machine, parse::int::parse};
 
 fn process_machine(machine: &Machine) -> Result<u64, AdventError> {
-    let mut cfg = Config::new();
-    cfg.set_proof_generation(false);
-    with_z3_config(&cfg, || {
-        //let solver = Solver::new();
-        let solver = Optimize::new();
+    let solver = Optimize::new();
 
-        // Create the variables and ensure we only get positive solutions
-        let vars = machine
-            .buttons
-            .iter()
-            .enumerate()
-            .map(|(idx, _)| Int::new_const(format!("btn{idx}")))
-            .collect::<Vec<_>>();
+    // Create the variables
+    let vars = machine
+        .buttons
+        .iter()
+        .enumerate()
+        .map(|(idx, _)| Int::new_const(format!("btn{idx}")))
+        .collect::<Vec<_>>();
 
-        // Add constraints to the buttons (can't be <0 or >min joltage)
-        vars.iter().for_each(|var| {
-            solver.assert(&var.ge(0));
-            // solver.assert(&var.le(max_count));
+    // Add constraints to the buttons (can't be <0)
+    // Adding a constraint on the max value only makes thing slower (probably
+    // because it's more assertions to check while being unnecessary since we
+    // are minimizing the solution)
+    vars.iter().for_each(|var| {
+        solver.assert(&var.ge(0));
+    });
+
+    // Create the equations
+    machine
+        .joltage
+        .iter()
+        .enumerate()
+        .for_each(|(jolt_idx, &jolts)| {
+            let buttons = machine
+                .buttons
+                .iter()
+                .enumerate()
+                .filter_map(|(btn_idx, btn)| ((btn & 1 << jolt_idx) != 0).then_some(&vars[btn_idx]))
+                .collect::<Vec<_>>();
+            let sum = buttons.into_iter().sum::<Int>();
+            let eq = sum.eq(jolts as u64);
+            solver.assert(&eq);
         });
 
-        // Create the equations
-        machine
-            .joltage
-            .iter()
-            .enumerate()
-            .for_each(|(jolt_idx, &jolts)| {
-                let buttons = machine
-                    .buttons
-                    .iter()
-                    .enumerate()
-                    .filter_map(|(btn_idx, btn)| {
-                        ((btn & 1 << jolt_idx) != 0).then_some(&vars[btn_idx])
-                    })
-                    .collect::<Vec<_>>();
-                let sum = buttons.into_iter().sum::<Int>();
-                let eq = sum.eq(jolts as u64);
-                solver.assert(&eq);
-            });
+    // Equation to minimize
+    let total_presses = vars.iter().sum::<Int>();
+    solver.minimize(&total_presses);
 
-        // At most, each button increases one joltage by one unit. So the total
-        // number of button presses cannot exceed the total number of joltages.
-        let total_presses = vars.iter().sum::<Int>();
-        // let total_jolts = machine.joltage.iter().sum::<u32>() as u64;
-        // solver.assert(&total_presses.le(total_jolts));
-
-        solver.minimize(&total_presses);
-
-        // Find the solution
-        if solver.check(&[]) != SatResult::Sat {
-            Err("unsatisfiable machine")?
-        }
-        let model = solver.get_model().unwrap();
-        let result = model.eval(&total_presses, true).unwrap().as_u64().unwrap();
-
-        // let stats = solver.get_statistics();
-        // println!("stats: {stats:?}");
-        Ok(result)
-    })
+    // Find the solution
+    if solver.check(&[]) != SatResult::Sat {
+        Err("unsatisfiable machine")?
+    }
+    let model = solver.get_model().unwrap();
+    let result = model.eval(&total_presses, true).unwrap().as_u64().unwrap();
+    Ok(result)
 }
 
 pub fn run(content: &[u8]) -> Result<u64, AdventError> {
@@ -77,7 +65,6 @@ pub fn run(content: &[u8]) -> Result<u64, AdventError> {
 
     machines
         .par_iter()
-        // .iter()
         .enumerate()
         .map(|(idx, machine)| (idx, machine, process_machine(machine)))
         .map(|(_idx, _machine, result)| result)

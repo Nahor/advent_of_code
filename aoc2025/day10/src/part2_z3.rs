@@ -10,7 +10,7 @@ use crate::{int::Machine, parse::int::parse};
 fn process_machine(machine: &Machine) -> (u64, usize) {
     let solver = Solver::new();
 
-    // Create the variables and ensure we only get positive solutions
+    // Create the variables
     let vars = machine
         .buttons
         .iter()
