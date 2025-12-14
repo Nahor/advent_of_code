@@ -3,11 +3,12 @@ pub mod part1;
 pub mod part1_bitvec;
 pub mod part2;
 pub mod part2_good_lp;
+pub mod part2_smart;
 pub mod part2_z3;
 pub mod part2_z3_optimize;
 
 pub mod int {
-    #[derive(Debug)]
+    #[derive(Debug, Clone)]
     pub struct Machine {
         pub lights: u32,
         pub buttons: Vec<u32>,

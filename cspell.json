@@ -23,6 +23,7 @@
         "linearalg",
         "miette",
         "minimise",
+        "minmax",
         "multispace0",
         "multispace1",
         "nalgebra",

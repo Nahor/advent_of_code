@@ -151,4 +151,11 @@ mod part2_bench {
             .bench_values(|content| part2_good_lp::run(content).unwrap());
         }
     }
+
+    #[divan::bench(name = "2_smart", ignore)]
+    fn smart(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_smart::run(&content).unwrap());
+    }
 }

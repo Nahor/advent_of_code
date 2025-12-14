@@ -95,9 +95,9 @@ pub fn run(content: &[u8]) -> Result<u64, AdventError> {
         .num_threads(available_parallelism().unwrap().get() / 2)
         .build_global();
 
-    // LOG: let percent = AtomicUsize::default();
+    // LOG: let percent = std::sync::atomic::AtomicUsize::default();
     // LOG: print!("{:>5.01}%", 0.0,);
-    // LOG: let _ = std::io::stdout().flush();
+    // LOG: let _ = std::io::Write::flush(&mut std::io::stdout());
     let result = machines
         .par_iter()
         // .iter()
@@ -110,7 +110,7 @@ pub fn run(content: &[u8]) -> Result<u64, AdventError> {
             // LOG:     machines.len(),
             // LOG:     ((percent + 1) as f32) * 100.0 / (machines.len() as f32),
             // LOG: );
-            // LOG: let _ = std::io::stdout().flush();
+            // LOG: let _ = std::io::Write::flush(&mut std::io::stdout());
             result
         })
         .sum::<u64>();
