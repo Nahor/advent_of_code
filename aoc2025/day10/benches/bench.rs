@@ -92,7 +92,7 @@ mod part2_bench {
         }
 
         // Case with lots of solutions (20827). This wil be used to check speed improvements
-        #[divan::bench(name = "1_machine_20827", sample_count = 1, sample_size = 1)]
+        #[divan::bench(name = "1_machine_20827", sample_count = 1, sample_size = 1, ignore)]
         fn machine_20827(bencher: divan::Bencher) {
             bencher
             .with_inputs(|| b"[#..#.#] (0,1) (0,1,4) (2) (0,1,2) (4,5) (1,2,3,4) (0,1,2,5) (4) {61,67,49,6,48,23}")
@@ -157,5 +157,12 @@ mod part2_bench {
         bencher
             .with_inputs(|| read_input_u8!(None).unwrap())
             .bench_values(|content| part2_smart::run(&content).unwrap());
+    }
+
+    #[divan::bench(name = "3_gaussian", sample_count = 1, sample_size = 1)]
+    fn gaussian(bencher: divan::Bencher) {
+        bencher
+            .with_inputs(|| read_input_u8!(None).unwrap())
+            .bench_values(|content| part2_gaussian::run(&content).unwrap());
     }
 }

@@ -556,6 +556,7 @@ dependencies = [
  "miette",
  "rayon",
  "rstest",
+ "rustc-hash",
  "winnow",
  "z3",
 ]

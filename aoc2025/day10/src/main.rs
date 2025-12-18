@@ -31,6 +31,9 @@ enum Command {
 
     /// Part 2 Smart
     Part2Smart { file: Option<PathBuf> },
+
+    /// Part 2 Gaussian
+    Part2Gaussian { file: Option<PathBuf> },
 }
 
 fn main() -> Result<()> {
@@ -57,6 +60,9 @@ fn main() -> Result<()> {
         }
         Some(Command::Part2Smart { file }) => {
             println!("Result: {}", part2_smart::run(&read_input_u8!(file)?)?)
+        }
+        Some(Command::Part2Gaussian { file }) => {
+            println!("Result: {}", part2_gaussian::run(&read_input_u8!(file)?)?)
         }
         None => println!("Result: {}", part1::run(&read_input_u8!(None)?)?),
     }

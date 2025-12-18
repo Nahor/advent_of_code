@@ -11,6 +11,7 @@ miette = { workspace = true }
 itertools = { workspace = true }
 bitvec = "1.0.1"
 rayon = { workspace = true }
+rustc-hash = { workspace = true }
 
 # If the version of Z3 binary needs to be set, create a `.cargo/config.toml` at
 # the root of the project (`aoc202x`) with the following content:
