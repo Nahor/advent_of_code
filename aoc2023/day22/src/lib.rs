@@ -155,10 +155,10 @@ pub fn parse(input: &str) -> Result<BrickList, AocError<'_>> {
             let (v1_str, v2_str) =
                 line.split_once('~')
                     .ok_or_else(|| AocError::InvalidLineError {
-                        desc: "expected `~`".to_string(),
-                        src: source,
-                        span: (0, line.len()).into(),
-                        inner: None,
+                        _desc: "expected `~`".to_string(),
+                        _src: source,
+                        _span: (0, line.len()).into(),
+                        _inner: None,
                     })?;
             let v1 = parse_coord(v1_str, source, 0)?;
             let v2 = parse_coord(v2_str, source, v1_str.len() + 1)?;
@@ -305,26 +305,26 @@ pub fn parse_coord<'a>(
     let axis = input.splitn(4, ',').collect::<Vec<_>>();
     if axis.len() != 3 {
         return Err(AocError::InvalidLineError {
-            desc: format!("invalid number of fields: got {}, expected 3", axis.len()),
-            src: source,
-            span: (colno, input.len()).into(),
-            inner: None,
+            _desc: format!("invalid number of fields: got {}, expected 3", axis.len()),
+            _src: source,
+            _span: (colno, input.len()).into(),
+            _inner: None,
         });
     }
     let x = axis[0].parse().map_err(|err| AocError::InvalidNumber {
-        src: source,
-        span: (colno, axis[0].len()).into(),
-        inner: Some(Box::new(err)),
+        _src: source,
+        _span: (colno, axis[0].len()).into(),
+        _inner: Some(Box::new(err)),
     })?;
     let y = axis[1].parse().map_err(|err| AocError::InvalidNumber {
-        src: source,
-        span: (colno + axis[0].len() + 1, axis[1].len()).into(),
-        inner: Some(Box::new(err)),
+        _src: source,
+        _span: (colno + axis[0].len() + 1, axis[1].len()).into(),
+        _inner: Some(Box::new(err)),
     })?;
     let z = axis[2].parse().map_err(|err| AocError::InvalidNumber {
-        src: source,
-        span: (colno + axis[0].len() + 1 + axis[1].len() + 1, axis[2].len()).into(),
-        inner: Some(Box::new(err)),
+        _src: source,
+        _span: (colno + axis[0].len() + 1 + axis[1].len() + 1, axis[2].len()).into(),
+        _inner: Some(Box::new(err)),
     })?;
 
     Ok(Coord { x, y, z })

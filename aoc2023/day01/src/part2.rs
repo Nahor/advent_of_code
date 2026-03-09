@@ -15,18 +15,18 @@ pub fn part2(input: &str) -> Result<u32, AocError> {
             let first = re_first
                 .captures(line)
                 .ok_or_else(|| AocError::InputError {
-                    src: AocSourceChunk::new(line.to_owned(), lineno),
-                    bad_bit: (0, line.len()).into(),
-                    inner: Some(Box::new(AocError::NoDigit)),
+                    _src: AocSourceChunk::new(line.to_owned(), lineno),
+                    _bad_bit: (0, line.len()).into(),
+                    _inner: Some(Box::new(AocError::NoDigit)),
                 })?
                 .get(1)
                 .expect("Invalid first regex");
             let second = re_last
                 .captures(line)
                 .ok_or_else(|| AocError::InputError {
-                    src: AocSourceChunk::new(line.to_owned(), lineno),
-                    bad_bit: (0, line.len()).into(),
-                    inner: Some(Box::new(AocError::NoDigit)),
+                    _src: AocSourceChunk::new(line.to_owned(), lineno),
+                    _bad_bit: (0, line.len()).into(),
+                    _inner: Some(Box::new(AocError::NoDigit)),
                 })?
                 .get(1)
                 .expect("Invalid second regex");

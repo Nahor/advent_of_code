@@ -99,11 +99,11 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
         let span_substr = &err.input[..err.len];
 
         AocError::ParseError {
-            input: input.to_owned(),
-            span: span_from_substr(input, span_substr),
-            help: err.help,
-            label: err.label,
-            kind: if let Some(kind) = err.kind {
+            _input: input.to_owned(),
+            _span: span_from_substr(input, span_substr),
+            _help: err.help,
+            _label: err.label,
+            _kind: if let Some(kind) = err.kind {
                 kind
             } else if let Some(ctx) = err.context {
                 AocErrorKind::Context(ctx)

@@ -158,9 +158,9 @@ pub fn parse(input: &str) -> Result<Vec<Data>, AocError> {
 
 fn parse_line(lineno: usize, line: &str) -> Result<Data, AocError> {
     let (hand, bid) = line.split_once(' ').ok_or_else(|| AocError::InputError {
-        src: AocSourceChunk::new(line.to_owned(), lineno),
-        bad_bit: (0, line.len()).into(),
-        inner: None,
+        _src: AocSourceChunk::new(line.to_owned(), lineno),
+        _bad_bit: (0, line.len()).into(),
+        _inner: None,
     })?;
 
     let hand = hand
@@ -176,9 +176,9 @@ fn parse_line(lineno: usize, line: &str) -> Result<Data, AocError> {
                     _ => None,
                 })
                 .ok_or_else(|| AocError::InvalidNumber {
-                    src: AocSourceChunk::new(line.to_owned(), lineno),
-                    span: (0, hand.len()).into(),
-                    inner: None,
+                    _src: AocSourceChunk::new(line.to_owned(), lineno),
+                    _span: (0, hand.len()).into(),
+                    _inner: None,
                 })
         })
         .collect::<Result<Vec<u32>, AocError>>()?;
@@ -186,9 +186,9 @@ fn parse_line(lineno: usize, line: &str) -> Result<Data, AocError> {
     let bid = bid
         .parse::<usize>()
         .map_err(|err| AocError::InvalidNumber {
-            src: AocSourceChunk::new(line.to_owned(), lineno),
-            span: (hand.len() + 1, line.len()).into(),
-            inner: Some(Box::new(err)),
+            _src: AocSourceChunk::new(line.to_owned(), lineno),
+            _span: (hand.len() + 1, line.len()).into(),
+            _inner: Some(Box::new(err)),
         })?;
 
     Ok(Data { hand, bid })

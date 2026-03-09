@@ -28,10 +28,10 @@ pub fn parse(input: &str) -> Result<Vec<Vec<i64>>, AocError> {
                     num_str
                         .parse::<i64>()
                         .map_err(|err| AocError::InvalidLineError {
-                            desc: "expected i64".to_owned(),
-                            src: AocSourceChunk::new(line.to_owned(), lineno),
-                            span: (col, num_str.len()).into(),
-                            inner: Some(Box::new(err)),
+                            _desc: "expected i64".to_owned(),
+                            _src: AocSourceChunk::new(line.to_owned(), lineno),
+                            _span: (col, num_str.len()).into(),
+                            _inner: Some(Box::new(err)),
                         })
                 })
                 .collect::<Result<Vec<_>, AocError>>()

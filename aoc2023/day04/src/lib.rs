@@ -23,25 +23,25 @@ pub fn parse(input: &str) -> Result<Vec<Card>, AocError> {
 
 pub fn parse_line(lineno: usize, line: &str) -> Result<Card, AocError> {
     let (header, numbers) = line.split_once(':').ok_or(AocError::NoHeaderNumbers {
-        src: AocSourceChunk::new(line.to_owned(), lineno),
+        _src: AocSourceChunk::new(line.to_owned(), lineno),
     })?;
     let (winning, have) = numbers.split_once('|').ok_or(AocError::NoWinningHave {
-        src: AocSourceChunk::new(line.to_owned(), lineno),
-        span: aoc_error_span(line, numbers),
+        _src: AocSourceChunk::new(line.to_owned(), lineno),
+        _span: aoc_error_span(line, numbers),
     })?;
 
     let id = header
         .strip_prefix("Card")
         .ok_or(AocError::NoHeader {
-            src: AocSourceChunk::new(line.to_owned(), lineno),
-            span: aoc_error_span(line, header),
+            _src: AocSourceChunk::new(line.to_owned(), lineno),
+            _span: aoc_error_span(line, header),
         })?
         .trim();
     let id: usize = id.parse().map_err(|err| AocError::InvalidGameId {
         //id_str: id.to_string(),
-        src: AocSourceChunk::new(line.to_owned(), lineno),
-        span: aoc_error_span(line, id),
-        inner: Some(Box::new(err)),
+        _src: AocSourceChunk::new(line.to_owned(), lineno),
+        _span: aoc_error_span(line, id),
+        _inner: Some(Box::new(err)),
     })?;
 
     let winning = winning
@@ -50,9 +50,9 @@ pub fn parse_line(lineno: usize, line: &str) -> Result<Card, AocError> {
         .filter(|num| !num.is_empty())
         .map(|num| {
             num.parse::<u32>().map_err(|err| AocError::InvalidNumber {
-                src: AocSourceChunk::new(line.to_owned(), lineno),
-                span: aoc_error_span(line, num),
-                inner: Some(Box::new(err)),
+                _src: AocSourceChunk::new(line.to_owned(), lineno),
+                _span: aoc_error_span(line, num),
+                _inner: Some(Box::new(err)),
             })
         })
         .collect::<Result<HashSet<_>, _>>()?;
@@ -63,9 +63,9 @@ pub fn parse_line(lineno: usize, line: &str) -> Result<Card, AocError> {
         .filter(|num| !num.is_empty())
         .map(|num| {
             num.parse::<u32>().map_err(|err| AocError::InvalidNumber {
-                src: AocSourceChunk::new(line.to_owned(), lineno),
-                span: aoc_error_span(line, num),
-                inner: Some(Box::new(err)),
+                _src: AocSourceChunk::new(line.to_owned(), lineno),
+                _span: aoc_error_span(line, num),
+                _inner: Some(Box::new(err)),
             })
         })
         .collect::<Result<HashSet<_>, _>>()?;

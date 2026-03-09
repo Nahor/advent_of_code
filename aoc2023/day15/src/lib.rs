@@ -47,11 +47,11 @@ pub fn parse(input: &str) -> Result<Vec<Step>, AocError> {
     let (_, data) = document(input)
         .finish()
         .map_err(|err| AocError::ParseError {
-            input: AocSourceChunk::new(err.input, err.line),
-            span: (err.col - 1, err.len).into(),
-            label: err.label,
-            help: err.help,
-            kind: if let Some(kind) = err.kind {
+            _input: AocSourceChunk::new(err.input, err.line),
+            _span: (err.col - 1, err.len).into(),
+            _label: err.label,
+            _help: err.help,
+            _kind: if let Some(kind) = err.kind {
                 kind
             } else if let Some(ctx) = err.context {
                 AocErrorKind::Context(ctx)

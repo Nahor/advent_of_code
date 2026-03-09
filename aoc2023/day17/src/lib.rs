@@ -14,10 +14,10 @@ pub fn parse(input: &str) -> Result<Grid, AocError> {
                 .enumerate()
                 .map(|(charno, c)| {
                     c.to_digit(10).ok_or_else(|| AocError::InvalidLineError {
-                        desc: format!("expected digit, got {c}").to_owned(),
-                        src: AocSourceChunk::new(line.to_owned(), lineno),
-                        span: (charno, 1).into(),
-                        inner: None,
+                        _desc: format!("expected digit, got {c}").to_owned(),
+                        _src: AocSourceChunk::new(line.to_owned(), lineno),
+                        _span: (charno, 1).into(),
+                        _inner: None,
                     })
                 })
                 .collect::<Result<Vec<_>, _>>()

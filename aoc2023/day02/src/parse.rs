@@ -27,7 +27,7 @@ impl Set {
                     .parse::<u32>()
                     .map_err(|err| AocError::InvalidColorCount {
                         comp: comp.to_owned(),
-                        inner: Some(Box::new(err)),
+                        _inner: Some(Box::new(err)),
                     })?;
                 match name {
                     "red" => Ok(Set {
@@ -71,9 +71,9 @@ pub fn parse(input: &str) -> Result<Vec<Game>, AocError> {
         .enumerate()
         .map(|(lineno, line)| {
             process_game(line).map_err(|err| AocError::InputError {
-                src: AocSourceChunk::new(line.to_owned(), lineno),
-                bad_bit: (0, line.len()).into(),
-                inner: Some(Box::new(err)),
+                _src: AocSourceChunk::new(line.to_owned(), lineno),
+                _bad_bit: (0, line.len()).into(),
+                _inner: Some(Box::new(err)),
             })
         })
         .collect()
@@ -83,8 +83,8 @@ fn process_game(line: &str) -> Result<Game, AocError> {
     let line = line.strip_prefix("Game ").ok_or(AocError::InvalidPrefix)?;
     let (id, data) = line.split_once(':').ok_or_else(|| AocError::NoData)?;
     let id = id.parse::<u32>().map_err(|err| AocError::InvalidGameId {
-        span: (5, 5 + id.len()).into(),
-        inner: Some(Box::new(err)),
+        _span: (5, 5 + id.len()).into(),
+        _inner: Some(Box::new(err)),
     })?;
     let rounds = data
         .split(';')
