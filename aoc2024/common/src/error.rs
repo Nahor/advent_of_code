@@ -15,14 +15,17 @@ pub enum AdventError {
     //     expected: String,
     //     found: String,
     // },
+
+    // Using `_xxx` otherwise Rust 1.92 warns about assigned-but-unread fields
+    // and even using `#[allow(<unused_assignments>)]` does not fix it
     #[error("parsing error")]
     #[diagnostic(code(aoc::parse_error))]
     ParseError {
-        message: String,
+        _message: String,
         #[label("here")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source_code]
-        input: String,
+        _input: String,
     },
     #[error("parsing int error")]
     #[diagnostic(code(aoc::parse_int_error))]
@@ -53,9 +56,9 @@ impl AdventError {
         let end = (start + 1).min(input.len());
 
         Self::ParseError {
-            message,
-            span: (start..end).into(),
-            input,
+            _message: message,
+            _span: (start..end).into(),
+            _input: input,
         }
     }
 }
