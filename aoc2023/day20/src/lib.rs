@@ -8,11 +8,11 @@ pub mod progress;
 pub use aocerror::*;
 use ariadne::{Color, Label, Report, ReportKind, Source};
 use chumsky::{
+    IterParser, Parser,
     error::Rich,
     extra,
     primitive::*,
     text::{self, newline},
-    IterParser, Parser,
 };
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash)]
@@ -140,14 +140,14 @@ pub fn parse<'a>(input: &'a str) -> Result<HashMap<&'a str, (Module<'a>, Vec<&'a
     }
 }
 
-fn parser<'a>(
-) -> impl Parser<'a, &'a str, HashMap<&'a str, (Module<'a>, Vec<&'a str>)>, extra::Err<Rich<'a, char>>>
+fn parser<'a>()
+-> impl Parser<'a, &'a str, HashMap<&'a str, (Module<'a>, Vec<&'a str>)>, extra::Err<Rich<'a, char>>>
 {
     module().separated_by(newline()).collect()
 }
 
-fn module<'a>(
-) -> impl Parser<'a, &'a str, (&'a str, (Module<'a>, Vec<&'a str>)), extra::Err<Rich<'a, char>>> {
+fn module<'a>()
+-> impl Parser<'a, &'a str, (&'a str, (Module<'a>, Vec<&'a str>)), extra::Err<Rich<'a, char>>> {
     module_type()
         .then(module_name())
         .then_ignore(just("->").padded())

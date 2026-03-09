@@ -138,15 +138,15 @@ pub fn parse(input: &str) -> Result<HashMap<&'_ str, Vec<&'_ str>>, AocError<'_>
     Ok(stones)
 }
 
-fn diagram_parser<'a>(
-) -> impl Parser<'a, &'a str, HashMap<&'a str, Vec<&'a str>>, extra::Err<Rich<'a, char>>> {
+fn diagram_parser<'a>()
+-> impl Parser<'a, &'a str, HashMap<&'a str, Vec<&'a str>>, extra::Err<Rich<'a, char>>> {
     component_parser()
         .separated_by(newline().padded_inline())
         .collect()
 }
 
-fn component_parser<'a>(
-) -> impl Parser<'a, &'a str, (&'a str, Vec<&'a str>), extra::Err<Rich<'a, char>>> {
+fn component_parser<'a>()
+-> impl Parser<'a, &'a str, (&'a str, Vec<&'a str>), extra::Err<Rich<'a, char>>> {
     text::ident()
         .then_ignore(just(':').padded_inline())
         .then(ident().separated_by(inline_whitespace()).collect())

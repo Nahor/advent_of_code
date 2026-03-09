@@ -1,7 +1,7 @@
 #![allow(clippy::mutable_key_type)]
 use std::{
     cell::{self, RefCell},
-    collections::{hash_map::Entry, HashMap, HashSet, VecDeque},
+    collections::{HashMap, HashSet, VecDeque, hash_map::Entry},
     fmt::Debug,
     hash::Hash,
     rc::Rc,

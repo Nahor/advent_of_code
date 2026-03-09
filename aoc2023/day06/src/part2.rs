@@ -1,12 +1,12 @@
-use crate::aocerror::{span_from_substr, AocError, AocErrorKind, AocParseError};
+use crate::aocerror::{AocError, AocErrorKind, AocParseError, span_from_substr};
 use nom::{
+    Finish, IResult, Parser,
     bytes::complete::tag,
     character::complete::{digit1, multispace0, newline, space0, space1},
     combinator::{all_consuming, map, map_res},
     error::context,
     multi::separated_list1,
     sequence::{delimited, preceded, separated_pair, tuple},
-    Finish, IResult, Parser,
 };
 
 #[derive(Debug)]

@@ -1,5 +1,5 @@
 use day03::aocerror::AocError;
-use day03::{parse, CellData};
+use day03::{CellData, parse};
 use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {

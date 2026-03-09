@@ -33,11 +33,7 @@ pub fn parse(input: &str, age: usize) -> Result<Vec<Coord>, AocError> {
                     }
                 })
                 .collect::<Vec<_>>();
-            if g.is_empty() {
-                None
-            } else {
-                Some(g)
-            }
+            if g.is_empty() { None } else { Some(g) }
         })
         .flatten()
         .collect::<Vec<_>>();

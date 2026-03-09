@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
 use nom::{
+    Finish, IResult, Parser,
     bytes::complete::{take_until, take_while_m_n},
     character::complete::*,
     combinator::{all_consuming, map, map_res},
     error::context,
     multi::separated_list1,
     sequence::{delimited, preceded, tuple},
-    Finish, IResult, Parser,
 };
 
 pub use crate::aocerror::*;

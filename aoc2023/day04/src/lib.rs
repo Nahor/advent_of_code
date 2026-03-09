@@ -1,6 +1,6 @@
 use std::collections::HashSet;
 
-use aocerror::{aoc_error_span, AocError, AocSourceChunk};
+use aocerror::{AocError, AocSourceChunk, aoc_error_span};
 
 pub mod aocerror;
 

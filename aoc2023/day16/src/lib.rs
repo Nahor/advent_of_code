@@ -1,4 +1,4 @@
-use enumflags2::{bitflags, BitFlag, BitFlags};
+use enumflags2::{BitFlag, BitFlags, bitflags};
 
 pub mod aocerror;
 pub mod progress;

@@ -1,6 +1,7 @@
 use std::collections::HashMap;
 
 use nom::{
+    Finish, IResult, Parser,
     branch::alt,
     bytes::complete::take_while_m_n,
     character::complete::{self, *},
@@ -8,7 +9,6 @@ use nom::{
     error::context,
     multi::separated_list1,
     sequence::{delimited, preceded, tuple},
-    Finish, IResult, Parser,
 };
 
 pub use crate::aocerror::*;

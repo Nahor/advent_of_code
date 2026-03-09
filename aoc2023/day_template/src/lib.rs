@@ -1,11 +1,11 @@
 use std::collections::BTreeMap;
 
 use nom::{
+    Finish, IResult, Parser,
     character::complete::*,
     combinator::{all_consuming, map},
     multi::{many0, many1, separated_list1},
     sequence::{delimited, preceded, terminated},
-    Finish, IResult, Parser,
 };
 
 pub mod aocerror;

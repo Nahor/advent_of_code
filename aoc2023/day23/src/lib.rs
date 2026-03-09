@@ -10,7 +10,7 @@ pub mod aocerror;
 pub mod progress;
 pub use aocerror::*;
 use num::{One, ToPrimitive};
-use petgraph::{algo::all_simple_paths, dot::Dot, Graph};
+use petgraph::{Graph, algo::all_simple_paths, dot::Dot};
 
 pub trait MinMax<T> {
     type Output;

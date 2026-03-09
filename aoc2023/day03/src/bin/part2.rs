@@ -2,7 +2,7 @@ use std::collections::HashSet;
 use std::rc::Rc;
 
 use day03::aocerror::AocError;
-use day03::{parse, CellData, Part};
+use day03::{CellData, Part, parse};
 use owo_colors::{OwoColorize, Style};
 use std::hash::Hash;
 

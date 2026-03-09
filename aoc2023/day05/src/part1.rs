@@ -3,13 +3,13 @@ use std::{collections::BTreeMap, ops::Range};
 use crate::aocerror::{AocError, AocErrorKind, AocParseError};
 use miette::SourceSpan;
 use nom::{
+    Finish, IResult, Parser,
     branch::alt,
     bytes::complete::tag,
     character::complete::{self, multispace0, multispace1, newline, space0, space1},
     combinator::{all_consuming, map, value},
     multi::separated_list1,
     sequence::{preceded, terminated, tuple},
-    Finish, IResult, Parser,
 };
 use rangemap::RangeMap;
 
