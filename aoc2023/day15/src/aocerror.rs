@@ -56,20 +56,20 @@ pub enum AocError {
         //help("check the input data")
     )]
     InvalidDocumentError { desc: String },
-    #[error("Invalid line: {desc}")]
+    #[error("Invalid line: {_desc}")]
     #[diagnostic(
         code(input::bad_line),
         //url(docsrs),
         //help("check the input data")
     )]
     InvalidLineError {
-        desc: String,
+        _desc: String,
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
         #[label("here")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
 
     // For nom and other example
@@ -81,65 +81,65 @@ pub enum AocError {
     InvalidColorCount {
         comp: String,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("invalid game id")]
     InvalidGameId {
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
         #[label("expected u32 here")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("duplicate part number '{entry}'")]
     DuplicateEntry { entry: u32 },
     #[error("missing ':' to split header from numbers")]
     NoHeaderNumbers {
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
     },
     #[error(r#"missing '|' to split winning numbers from "have" numbers"#)]
     NoWinningHave {
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
         #[label("missing '|' here")]
-        span: SourceSpan,
+        _span: SourceSpan,
     },
     #[error("missing header prefix ('Card')")]
     NoHeader {
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
         #[label("missing 'Card' prefix")]
-        span: SourceSpan,
+        _span: SourceSpan,
     },
     #[error("invalid number")]
     InvalidNumber {
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
         #[label("expected u32 here")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("invalid input")]
     ParseError {
         //#[source]
         //inner: VerboseError<&str>,
         #[source_code]
-        input: AocSourceChunk,
+        _input: AocSourceChunk,
 
         /// Offset in chars of the error.
-        #[label("{}", label.unwrap_or("starting here"))]
-        span: SourceSpan,
+        #[label("{}", _label.unwrap_or("starting here"))]
+        _span: SourceSpan,
         /// Label text for this span. Defaults to `"here"`.
-        label: Option<&'static str>,
+        _label: Option<&'static str>,
         /// Suggestion for fixing the parser error.
         #[help]
-        help: Option<&'static str>,
+        _help: Option<&'static str>,
 
         /// Specific error kind for this parser error.
-        kind: AocErrorKind,
+        _kind: AocErrorKind,
     },
 }
 

@@ -1,5 +1,5 @@
 use day24::*;
-use z3::{ast::Int, Solver};
+use z3::{Solver, ast::Int};
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(

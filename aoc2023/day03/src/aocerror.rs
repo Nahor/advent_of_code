@@ -43,12 +43,12 @@ pub enum AocError {
     )]
     InputError {
         #[source_code]
-        src: AocSourceChunk,
+        _src: AocSourceChunk,
         // Snippets and highlights can be included in the diagnostic!
         #[label("This bit here")]
-        bad_bit: SourceSpan,
+        _bad_bit: SourceSpan,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("missing prefix 'Game '")]
     InvalidPrefix,
@@ -57,21 +57,21 @@ pub enum AocError {
     #[error("invalid id")]
     InvalidGameId {
         #[label("Expect u32")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("invalid color value in '{comp}'")]
     InvalidColorCount {
         comp: String,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("invalid part number '{num_str}'")]
     InvalidPartNumber {
         num_str: String,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
     #[error("duplicate part number '{entry}'")]
     DuplicateEntry { entry: u32 },

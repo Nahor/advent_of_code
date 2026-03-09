@@ -5,11 +5,11 @@ pub mod progress;
 pub use aocerror::*;
 use ariadne::{Color, Label, Report, ReportKind, Source};
 use chumsky::{
+    IterParser, Parser,
     error::Rich,
     extra,
     primitive::*,
     text::{self},
-    IterParser, Parser,
 };
 
 #[derive(Debug, Clone, Copy)]
@@ -63,7 +63,7 @@ pub fn parse(
         Ok(data) => Ok(data),
         Err(errs) => {
             for err in errs {
-                Report::build(ReportKind::Error, (), err.span().start)
+                Report::build(ReportKind::Error, err.span().into_range())
                     .with_code(3)
                     .with_message(err.to_string())
                     .with_label(
@@ -94,13 +94,13 @@ fn parser<'a>() -> impl Parser<
         .then(part_list())
 }
 
-fn workflow_list<'a>(
-) -> impl Parser<'a, &'a str, HashMap<&'a str, Vec<WorkflowRule<'a>>>, extra::Err<Rich<'a, char>>> {
+fn workflow_list<'a>()
+-> impl Parser<'a, &'a str, HashMap<&'a str, Vec<WorkflowRule<'a>>>, extra::Err<Rich<'a, char>>> {
     workflow().separated_by(text::newline()).collect()
 }
 
-fn workflow<'a>(
-) -> impl Parser<'a, &'a str, (&'a str, Vec<WorkflowRule<'a>>), extra::Err<Rich<'a, char>>> {
+fn workflow<'a>()
+-> impl Parser<'a, &'a str, (&'a str, Vec<WorkflowRule<'a>>), extra::Err<Rich<'a, char>>> {
     let rules = rule().separated_by(just(',')).collect();
 
     ident().then(rules.delimited_by(just('{'), just('}')))

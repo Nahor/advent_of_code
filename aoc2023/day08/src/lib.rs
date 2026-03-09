@@ -39,10 +39,10 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
                 'R' => Step::Right,
                 _ => {
                     return Err(AocError::InvalidLineError {
-                        desc: "invalid step char".to_owned(),
-                        src: AocSourceChunk::new(steps_str.to_owned(), 0),
-                        span: (charno, 1).into(),
-                        inner: None,
+                        _desc: "invalid step char".to_owned(),
+                        _src: AocSourceChunk::new(steps_str.to_owned(), 0),
+                        _span: (charno, 1).into(),
+                        _inner: None,
                     });
                 }
             })
@@ -50,10 +50,10 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
         .collect::<Result<Vec<Step>, _>>()?;
     if steps.is_empty() {
         return Err(AocError::InvalidLineError {
-            desc: "no steps".to_owned(),
-            src: AocSourceChunk::new(steps_str.to_owned(), 0),
-            span: (0, steps_str.len()).into(),
-            inner: None,
+            _desc: "no steps".to_owned(),
+            _src: AocSourceChunk::new(steps_str.to_owned(), 0),
+            _span: (0, steps_str.len()).into(),
+            _inner: None,
         });
     }
 
@@ -67,19 +67,19 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
             let (name, children) =
                 line.split_once('=')
                     .ok_or_else(|| AocError::InvalidLineError {
-                        desc: "expected =".to_owned(),
-                        src: AocSourceChunk::new(line.to_owned(), lineno),
-                        span: (0, line.len()).into(),
-                        inner: None,
+                        _desc: "expected =".to_owned(),
+                        _src: AocSourceChunk::new(line.to_owned(), lineno),
+                        _span: (0, line.len()).into(),
+                        _inner: None,
                     })?;
             let (left, right) =
                 children
                     .split_once(',')
                     .ok_or_else(|| AocError::InvalidLineError {
-                        desc: "expected ,".to_owned(),
-                        src: AocSourceChunk::new(line.to_owned(), lineno),
-                        span: (name.len() + 1, children.len()).into(),
-                        inner: None,
+                        _desc: "expected ,".to_owned(),
+                        _src: AocSourceChunk::new(line.to_owned(), lineno),
+                        _span: (name.len() + 1, children.len()).into(),
+                        _inner: None,
                     })?;
             let name = name.trim().to_owned();
             let left = left
@@ -92,10 +92,10 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
             //println!("Inserting node {name} with {left},{right}");
             if nodes.insert(name.clone(), Node { left, right }).is_some() {
                 return Err(AocError::InvalidLineError {
-                    desc: format!("duplicate node {name}"),
-                    src: AocSourceChunk::new(line.to_owned(), lineno),
-                    span: (name.len() + 1, children.len()).into(),
-                    inner: None,
+                    _desc: format!("duplicate node {name}"),
+                    _src: AocSourceChunk::new(line.to_owned(), lineno),
+                    _span: (name.len() + 1, children.len()).into(),
+                    _inner: None,
                 });
             };
 

@@ -82,10 +82,10 @@ pub fn parse(input: &str) -> Result<(Coord, Grid), AocError> {
                         Ok((start, Cell::Garden(None)))
                     }
                     _ => Err(AocError::InvalidLineError {
-                        desc: format!("invalid character '{c}'").to_owned(),
-                        src: AocSourceChunk::new(line.to_owned(), y),
-                        span: (x, 1).into(),
-                        inner: None,
+                        _desc: format!("invalid character '{c}'").to_owned(),
+                        _src: AocSourceChunk::new(line.to_owned(), y),
+                        _span: (x, 1).into(),
+                        _inner: None,
                     }),
                 })
                 .collect::<Vec<_>>()

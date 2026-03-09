@@ -1,13 +1,13 @@
 use std::collections::HashMap;
 
 use nom::{
+    Finish, IResult, Parser,
     bytes::complete::{take_until, take_while_m_n},
     character::complete::*,
     combinator::{all_consuming, map, map_res},
     error::context,
     multi::separated_list1,
     sequence::{delimited, preceded, tuple},
-    Finish, IResult, Parser,
 };
 
 pub use crate::aocerror::*;
@@ -52,11 +52,11 @@ pub fn parse(input: &str) -> Result<Grid, AocError> {
     let (_, grid) = document(input)
         .finish()
         .map_err(|err| AocError::ParseError {
-            input: AocSourceChunk::new(err.input, err.line),
-            span: (err.col - 1, err.len).into(),
-            label: err.label,
-            help: err.help,
-            kind: if let Some(kind) = err.kind {
+            _input: AocSourceChunk::new(err.input, err.line),
+            _span: (err.col - 1, err.len).into(),
+            _label: err.label,
+            _help: err.help,
+            _kind: if let Some(kind) = err.kind {
                 kind
             } else if let Some(ctx) = err.context {
                 AocErrorKind::Context(ctx)

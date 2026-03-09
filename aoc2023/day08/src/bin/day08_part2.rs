@@ -1,4 +1,4 @@
-use std::collections::{hash_map::Entry, HashMap};
+use std::collections::{HashMap, hash_map::Entry};
 
 use day08::{aocerror::AocError, *};
 //use owo_colors::{OwoColorize, Style};
@@ -77,9 +77,11 @@ fn process(input: &str) -> Result<usize, AocError> {
     // !!!!!!!!!
     // Looks like all the stops are the same distance from each other, make sure
     // it's true.
-    assert!(path_stops
-        .iter()
-        .all(|(_, v)| { v.iter().all(|&(steps, _)| steps == v[0].0) }));
+    assert!(
+        path_stops
+            .iter()
+            .all(|(_, v)| { v.iter().all(|&(steps, _)| steps == v[0].0) })
+    );
 
     // !!!!!!!!!
     // Since all the stops are the same distance away, we can use

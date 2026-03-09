@@ -117,7 +117,7 @@ pub fn parse(input: &str) -> Result<HashMap<&'_ str, Vec<&'_ str>>, AocError<'_>
         Ok(data) => Ok(data),
         Err(errs) => {
             for err in errs {
-                Report::build(ReportKind::Error, (), err.span().start)
+                Report::build(ReportKind::Error, err.span().into_range())
                     .with_code(3)
                     .with_message(err.to_string())
                     .with_label(
@@ -138,28 +138,28 @@ pub fn parse(input: &str) -> Result<HashMap<&'_ str, Vec<&'_ str>>, AocError<'_>
     Ok(stones)
 }
 
-fn diagram_parser<'a>(
-) -> impl Parser<'a, &'a str, HashMap<&'a str, Vec<&'a str>>, extra::Err<Rich<'a, char>>> {
+fn diagram_parser<'a>()
+-> impl Parser<'a, &'a str, HashMap<&'a str, Vec<&'a str>>, extra::Err<Rich<'a, char>>> {
     component_parser()
         .separated_by(newline().padded_inline())
         .collect()
 }
 
-fn component_parser<'a>(
-) -> impl Parser<'a, &'a str, (&'a str, Vec<&'a str>), extra::Err<Rich<'a, char>>> {
+fn component_parser<'a>()
+-> impl Parser<'a, &'a str, (&'a str, Vec<&'a str>), extra::Err<Rich<'a, char>>> {
     text::ident()
         .then_ignore(just(':').padded_inline())
         .then(ident().separated_by(inline_whitespace()).collect())
 }
 
 // Trait to add the function `padded_inline` to any parser
-pub trait InlinePadding<'a, C, I, O, E>
+pub trait InlinePadding<'a, I, O, E>
 where
     Self: Parser<'a, I, O, E>,
-    C: text::Char,
-    I: chumsky::input::StrInput<'a, C>,
+    I: chumsky::input::StrInput<'a>,
     I::Token: text::Char,
     E: extra::ParserExtra<'a, I>,
+    E::Error: chumsky::label::LabelError<'a, I, text::TextExpected<()>>,
 {
     fn padded_inline(self) -> impl Parser<'a, I, O, E>
     where
@@ -168,12 +168,12 @@ where
         self.padded_by(inline_whitespace())
     }
 }
-impl<'a, C, I, O, E, P> InlinePadding<'a, C, I, O, E> for P
+impl<'a, I, O, E, P> InlinePadding<'a, I, O, E> for P
 where
     P: Parser<'a, I, O, E>,
-    C: text::Char,
-    I: chumsky::input::StrInput<'a, C>,
+    I: chumsky::input::StrInput<'a>,
     I::Token: text::Char,
     E: extra::ParserExtra<'a, I>,
+    E::Error: chumsky::label::LabelError<'a, I, text::TextExpected<()>>,
 {
 }

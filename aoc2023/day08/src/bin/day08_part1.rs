@@ -1,4 +1,4 @@
-use day08::{aocerror::AocError, parse, Step};
+use day08::{Step, aocerror::AocError, parse};
 //use owo_colors::{OwoColorize, Style};
 
 fn main() -> miette::Result<()> {

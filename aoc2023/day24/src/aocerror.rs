@@ -53,20 +53,20 @@ pub enum AocError<'a> {
         //help("check the input data")
     )]
     InvalidDocumentError { desc: String },
-    #[error("Invalid line: {desc}")]
+    #[error("Invalid line: {_desc}")]
     #[diagnostic(
         code(input::bad_line),
         //url(docsrs),
         //help("check the input data")
     )]
     GenericParseError {
-        desc: String,
+        _desc: String,
         #[source_code]
-        src: AocSourceChunk<'a>,
+        _src: AocSourceChunk<'a>,
         #[label("here")]
-        span: SourceSpan,
+        _span: SourceSpan,
         #[source]
-        inner: Option<Box<dyn Error + Send + Sync>>,
+        _inner: Option<Box<dyn Error + Send + Sync>>,
     },
 }
 

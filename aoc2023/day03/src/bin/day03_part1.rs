@@ -1,10 +1,6 @@
-use std::collections::HashSet;
-use std::rc::Rc;
-
 use day03::aocerror::AocError;
-use day03::{parse, CellData, Part};
+use day03::{CellData, parse};
 use owo_colors::{OwoColorize, Style};
-use std::hash::Hash;
 
 fn main() -> miette::Result<()> {
     let input = include_str!(concat!(
@@ -18,21 +14,8 @@ fn main() -> miette::Result<()> {
     Ok(())
 }
 
-struct RcWrapper(Rc<Part>);
-impl Hash for RcWrapper {
-    fn hash<H: std::hash::Hasher>(&self, state: &mut H) {
-        Rc::<Part>::as_ptr(&self.0).hash(state);
-    }
-}
-impl Eq for RcWrapper {}
-impl PartialEq for RcWrapper {
-    fn eq(&self, other: &Self) -> bool {
-        Rc::<Part>::ptr_eq(&self.0, &other.0)
-    }
-}
-
 fn process(input: &str) -> Result<u32, AocError> {
-    let (_, grid) = parse(input)?;
+    let (parts, grid) = parse(input)?;
 
     let mut last_y = 0;
     let mut last_x = -1;
@@ -67,40 +50,18 @@ fn process(input: &str) -> Result<u32, AocError> {
     });
     println!();
 
-    let offsets = [
-        (-1, -1),
-        (0, -1),
-        (1, -1),
-        (-1, 0),
-        (1, 0),
-        (-1, 1),
-        (0, 1),
-        (1, 1),
-    ];
-    let output: u32 = grid
+    Ok(parts
         .iter()
-        .filter(|(_, cell)| matches!(cell, CellData::Symbol('*')))
-        .map(|(&coord, _)| {
-            // Allowing the lint. Didn't check if there is a better option
-            #[allow(clippy::mutable_key_type)]
-            let mut found = HashSet::new();
-            for offset in offsets.iter() {
-                match grid.get(&coord.add(offset.0, offset.1)) {
-                    Some(CellData::Number(part)) => {
-                        found.insert(RcWrapper(Rc::clone(part)));
-                    }
-                    Some(_) => {}
-                    None => {}
-                };
+        .map(|part| {
+            if part.symbols.borrow().is_empty() {
+                0
+            } else {
+                part.number
             }
-            if found.len() != 2 {
-                return 0;
-            }
-            let mut iter = found.iter();
-            iter.next().unwrap().0.number * iter.next().unwrap().0.number
         })
-        .sum();
-    Ok(output)
+        .sum())
+
+    //Ok(4361)
 }
 
 #[cfg(test)]
@@ -128,7 +89,7 @@ mod test {
 ...$.*....
 .664.598..
 ";
-        assert_eq!(process(input).unwrap(), 467835);
+        assert_eq!(process(input).unwrap(), 4361);
 
         Ok(())
     }

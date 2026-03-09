@@ -10,7 +10,7 @@ pub mod aocerror;
 pub mod progress;
 pub use aocerror::*;
 use num::{One, ToPrimitive};
-use petgraph::{algo::all_simple_paths, dot::Dot, Graph};
+use petgraph::{Graph, algo::all_simple_paths, dot::Dot};
 
 pub trait MinMax<T> {
     type Output;
@@ -173,10 +173,10 @@ pub fn parse(input: &str) -> Result<Maze, AocError<'_>> {
                         'v' => Some(Ok((Coord::new(x, y), Cell::Slope(Direction::South)))),
                         '<' => Some(Ok((Coord::new(x, y), Cell::Slope(Direction::West)))),
                         _ => Some(Err(AocError::GenericParseError {
-                            desc: format!("unexpected character `{c}`").to_string(),
-                            src: AocSourceChunk::new(line, y),
-                            span: (x, 1).into(),
-                            inner: None,
+                            _desc: format!("unexpected character `{c}`").to_string(),
+                            _src: AocSourceChunk::new(line, y),
+                            _span: (x, 1).into(),
+                            _inner: None,
                         })),
                     }
                 })

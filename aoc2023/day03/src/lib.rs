@@ -64,9 +64,9 @@ pub fn parse(input: &str) -> Result<(PartList, GridList), AocError> {
     // Parse part numbers and location
     input.lines().enumerate().try_for_each(|(lineno, line)| {
         parse_line(&mut parts, &mut grid, lineno, line).map_err(|err| AocError::InputError {
-            src: AocSourceChunk::new(line.to_owned(), lineno),
-            bad_bit: (0, line.len()).into(),
-            inner: Some(Box::new(err)),
+            _src: AocSourceChunk::new(line.to_owned(), lineno),
+            _bad_bit: (0, line.len()).into(),
+            _inner: Some(Box::new(err)),
         })
     })?;
 
@@ -104,7 +104,7 @@ fn parse_line(
                     .parse()
                     .map_err(|err| AocError::InvalidPartNumber {
                         num_str: re_match.as_str().to_owned(),
-                        inner: Some(Box::new(err)),
+                        _inner: Some(Box::new(err)),
                     })?;
                 let part = Part {
                     number: part_number,

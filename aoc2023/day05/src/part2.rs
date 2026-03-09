@@ -3,13 +3,13 @@ use std::{collections::BTreeMap, ops::Range};
 use crate::aocerror::{AocError, AocErrorKind, AocParseError};
 use miette::SourceSpan;
 use nom::{
+    Finish, IResult, Parser,
     branch::alt,
     bytes::complete::tag,
     character::complete::{self, multispace0, multispace1, newline, space0, space1},
     combinator::{all_consuming, map, value},
     multi::separated_list1,
     sequence::{preceded, terminated, tuple},
-    Finish, IResult, Parser,
 };
 use rangemap::RangeMap;
 
@@ -198,11 +198,11 @@ pub fn parse(input: &str) -> Result<Data, AocError> {
         let span_substr = &err.input[..err.len];
 
         AocError::ParseError {
-            input: input.to_owned(),
-            span: span_from_substr(input, span_substr),
-            help: err.help,
-            label: err.label,
-            kind: if let Some(kind) = err.kind {
+            _input: input.to_owned(),
+            _span: span_from_substr(input, span_substr),
+            _help: err.help,
+            _label: err.label,
+            _kind: if let Some(kind) = err.kind {
                 kind
             } else if let Some(ctx) = err.context {
                 AocErrorKind::Context(ctx)

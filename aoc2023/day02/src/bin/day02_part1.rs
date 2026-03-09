@@ -1,6 +1,6 @@
 use day02::{
     aocerror::AocError,
-    parse::{parse, Set},
+    parse::{Set, parse},
 };
 
 fn main() -> miette::Result<()> {
