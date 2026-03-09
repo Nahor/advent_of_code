@@ -63,7 +63,7 @@ pub fn parse(
         Ok(data) => Ok(data),
         Err(errs) => {
             for err in errs {
-                Report::build(ReportKind::Error, (), err.span().start)
+                Report::build(ReportKind::Error, err.span().into_range())
                     .with_code(3)
                     .with_message(err.to_string())
                     .with_label(
