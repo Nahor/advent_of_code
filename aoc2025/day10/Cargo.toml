@@ -1,0 +1,32 @@
+[package]
+name = "day10"
+version = "0.1.0"
+edition.workspace = true
+
+[dependencies]
+common = { path = "../common" }
+clap = { workspace = true }
+winnow = { workspace = true }
+miette = { workspace = true }
+itertools = { workspace = true }
+bitvec = "1.0.1"
+rayon = { workspace = true }
+rustc-hash = { workspace = true }
+
+# If the version of Z3 binary needs to be set, create a `.cargo/config.toml` at
+# the root of the project (`aoc202x`) with the following content:
+#     [env]
+#     Z3_SYS_Z3_VERSION = "<version>"
+z3 = { version = "0.19.6", features = ["gh-release"] }
+
+# good-lp wrapper for highs solver (the default, "coincbc" doesn't easily work out of the box on Windows)
+good_lp = { version = "1.14.2", features = ["highs"], default-features = false }
+
+
+[dev-dependencies]
+divan = { workspace = true }
+rstest = { workspace = true }
+
+[[bench]]
+name = "bench"
+harness = false
