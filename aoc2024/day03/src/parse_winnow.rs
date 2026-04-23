@@ -1,9 +1,9 @@
 use common::error::AdventError;
 use winnow::{
     ascii::dec_uint,
-    combinator::{alt, delimited, repeat, repeat_till, rest, separated_pair, terminated, trace},
+    combinator::{alt, delimited, repeat, repeat_till, separated_pair, terminated, trace},
     prelude::*,
-    token::any,
+    token::{any, rest},
 };
 
 use crate::op::Op;
@@ -36,7 +36,7 @@ pub fn parse_part2(content: &str) -> Result<Vec<Op>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_op(input: &mut &str) -> PResult<Op> {
+fn parse_op(input: &mut &str) -> ModalResult<Op> {
     trace(
         "parse_op",
         alt((
@@ -48,7 +48,7 @@ fn parse_op(input: &mut &str) -> PResult<Op> {
     .parse_next(input)
 }
 
-fn parse_mul(input: &mut &str) -> PResult<(u64, u64)> {
+fn parse_mul(input: &mut &str) -> ModalResult<(u64, u64)> {
     trace(
         "parse_mul",
         delimited("mul(", separated_pair(dec_uint, ',', dec_uint), ")"),
@@ -79,7 +79,7 @@ pub fn parse_part2_skip(content: &str) -> Result<Vec<(u64, u64)>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_op_skip(input: &mut &str) -> PResult<Option<(u64, u64)>> {
+fn parse_op_skip(input: &mut &str) -> ModalResult<Option<(u64, u64)>> {
     trace(
         "parse_op",
         alt((
@@ -117,7 +117,7 @@ pub fn parse_part2_compute(content: &str) -> Result<u64, AdventError> {
     .parse(content)?)
 }
 
-fn parse_op_pre_mul(input: &mut &str) -> PResult<u64> {
+fn parse_op_pre_mul(input: &mut &str) -> ModalResult<u64> {
     trace(
         "parse_op",
         alt((
@@ -132,7 +132,7 @@ fn parse_op_pre_mul(input: &mut &str) -> PResult<u64> {
     .parse_next(input)
 }
 
-fn parse_pre_mul(input: &mut &str) -> PResult<u64> {
+fn parse_pre_mul(input: &mut &str) -> ModalResult<u64> {
     trace(
         "parse_mul",
         delimited(

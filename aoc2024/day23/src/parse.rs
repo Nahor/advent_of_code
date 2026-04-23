@@ -44,7 +44,7 @@ pub fn parse(content: &[u8]) -> Result<FxHashMap<Machine, Vec<Machine>>, AdventE
     Ok(connections)
 }
 
-fn parse_line(input: &mut &[u8]) -> PResult<(Machine, Machine)> {
+fn parse_line(input: &mut &[u8]) -> ModalResult<(Machine, Machine)> {
     trace(
         "parse_line",
         terminated(

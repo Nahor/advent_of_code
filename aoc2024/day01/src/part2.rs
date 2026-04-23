@@ -72,11 +72,7 @@ pub fn run_sorted(content: &str) -> Result<u64> {
     let mut iter1 = first.iter().peekable();
     let mut iter2 = second.iter().peekable();
     let mut result = 0;
-    loop {
-        let Some(v1) = iter1.next() else {
-            break;
-        };
-
+    while let Some(v1) = iter1.next() {
         // Skip v2s that are not in first
         while iter2.next_if(|v| *v < v1).is_some() {}
         // Count the number of v2 that match v1
@@ -103,11 +99,7 @@ pub fn run_vec_sorted(content: &str) -> Result<u64> {
     let mut iter1 = first.iter().peekable();
     let mut iter2 = second.iter().peekable();
     let mut result = 0;
-    loop {
-        let Some(v1) = iter1.next() else {
-            break;
-        };
-
+    while let Some(v1) = iter1.next() {
         // Skip v2s that are not in first
         while iter2.next_if(|v| *v < v1).is_some() {}
         // Count the number of v2 that match v1
@@ -134,11 +126,7 @@ pub fn run_vec_sorted2(content: &str) -> Result<u64> {
     let mut iter1 = first.iter().peekable();
     let mut iter2 = second.iter().peekable();
     let mut result = 0;
-    loop {
-        let Some(v1) = iter1.next() else {
-            break;
-        };
-
+    while let Some(v1) = iter1.next() {
         // Skip v2s that are not in first
         while iter2.next_if(|v| *v < v1).is_some() {}
         // Count the number of v2 that match v1

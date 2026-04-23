@@ -18,7 +18,7 @@ pub fn parse(content: &[u8]) -> Result<Document, AdventError> {
     .parse(content)?)
 }
 
-fn parse_rules(input: &mut &[u8]) -> PResult<HashMap<u64, HashSet<u64>>> {
+fn parse_rules(input: &mut &[u8]) -> ModalResult<HashMap<u64, HashSet<u64>>> {
     trace(
         "parse_rules",
         repeat(
@@ -36,7 +36,7 @@ fn parse_rules(input: &mut &[u8]) -> PResult<HashMap<u64, HashSet<u64>>> {
     .parse_next(input)
 }
 
-fn parse_pages(input: &mut &[u8]) -> PResult<Vec<Update>> {
+fn parse_pages(input: &mut &[u8]) -> ModalResult<Vec<Update>> {
     trace(
         "parse_pages",
         repeat(1.., terminated(parse_single_page, line_ending)),
@@ -44,7 +44,7 @@ fn parse_pages(input: &mut &[u8]) -> PResult<Vec<Update>> {
     .parse_next(input)
 }
 
-fn parse_single_page(input: &mut &[u8]) -> PResult<Update> {
+fn parse_single_page(input: &mut &[u8]) -> ModalResult<Update> {
     trace(
         "parse_single_page",
         separated(1.., dec_uint::<_, u64, _>, ',').map(Update),

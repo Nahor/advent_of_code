@@ -16,7 +16,7 @@ pub fn parse(content: &str) -> Result<Vec<(u64, u64)>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_line(input: &mut &str) -> PResult<(u64, u64)> {
+fn parse_line(input: &mut &str) -> ModalResult<(u64, u64)> {
     trace(
         "parse_line",
         separated_pair(dec_uint, multispace1, dec_uint),

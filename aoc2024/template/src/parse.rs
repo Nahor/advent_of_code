@@ -1,8 +1,9 @@
 use common::error::AdventError;
 use winnow::{
     ascii::line_ending,
-    combinator::{eof, opt, repeat_till, rest, terminated, trace},
+    combinator::{eof, opt, repeat_till, terminated, trace},
     prelude::*,
+    token::rest,
 };
 
 pub fn parse(content: &[u8]) -> Result<Vec<()>, AdventError> {
@@ -13,7 +14,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<()>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_line(input: &mut &[u8]) -> PResult<()> {
+fn parse_line(input: &mut &[u8]) -> ModalResult<()> {
     trace(
         "parse_line",
         rest.void(), // technically, this consumes everything until eof, not just the line

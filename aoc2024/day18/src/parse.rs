@@ -45,7 +45,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<Coord>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_position(input: &mut &[u8]) -> PResult<Coord> {
+fn parse_position(input: &mut &[u8]) -> ModalResult<Coord> {
     trace(
         "parse_position",
         separated_pair(dec_int, ',', dec_int).map(|(x, y)| Coord { x, y }), // technically, this consumes everything until eof, not just the line

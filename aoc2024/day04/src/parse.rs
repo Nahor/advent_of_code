@@ -15,6 +15,6 @@ pub fn parse(content: &str) -> Result<Vec<Vec<char>>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_line(input: &mut &str) -> PResult<Vec<char>> {
+fn parse_line(input: &mut &str) -> ModalResult<Vec<char>> {
     trace("parse_line", repeat(1.., one_of(['X', 'M', 'A', 'S']))).parse_next(input)
 }
