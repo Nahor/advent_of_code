@@ -1,6 +1,6 @@
 use miette::Result;
 
-use crate::parse::{parse, File};
+use crate::parse::{File, parse};
 
 pub fn run(content: &[u8]) -> Result<u64> {
     let mut drive = parse(content)?;
@@ -20,11 +20,7 @@ pub fn run(content: &[u8]) -> Result<u64> {
     let mut compacted = Vec::with_capacity(content.len());
     let mut offset = 0;
     let mut index = 0;
-    loop {
-        let Some(file) = drive.get(index).copied() else {
-            break;
-        };
-
+    while let Some(file) = drive.get(index).copied() {
         if offset == file.offset {
             // We got the file for this offset
             compacted.push(file);

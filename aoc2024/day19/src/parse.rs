@@ -23,7 +23,7 @@ pub fn parse(content: &'_ [u8]) -> Result<Data<'_>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_patterns<'a>(input: &mut &'a [u8]) -> PResult<Vec<&'a [u8]>> {
+fn parse_patterns<'a>(input: &mut &'a [u8]) -> ModalResult<Vec<&'a [u8]>> {
     trace(
         "parse_patterns",
         terminated(separated(1.., parse_colors, ", "), line_ending),
@@ -31,7 +31,7 @@ fn parse_patterns<'a>(input: &mut &'a [u8]) -> PResult<Vec<&'a [u8]>> {
     .parse_next(input)
 }
 
-fn parse_designs<'a>(input: &mut &'a [u8]) -> PResult<Vec<&'a [u8]>> {
+fn parse_designs<'a>(input: &mut &'a [u8]) -> ModalResult<Vec<&'a [u8]>> {
     trace(
         "parse_designs",
         terminated(separated(1.., parse_colors, line_ending), line_ending),
@@ -39,7 +39,7 @@ fn parse_designs<'a>(input: &mut &'a [u8]) -> PResult<Vec<&'a [u8]>> {
     .parse_next(input)
 }
 
-fn parse_colors<'a>(input: &mut &'a [u8]) -> PResult<&'a [u8]> {
+fn parse_colors<'a>(input: &mut &'a [u8]) -> ModalResult<&'a [u8]> {
     trace(
         "parse_colors",
         //repeat::<_, _, (), _, _>(1.., one_of([b'w', b'u', b'b', b'r', b'g'])).take(),

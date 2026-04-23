@@ -15,7 +15,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<Equation>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_equation(input: &mut &[u8]) -> PResult<Equation> {
+fn parse_equation(input: &mut &[u8]) -> ModalResult<Equation> {
     trace(
         "parse_equation",
         separated_pair(dec_int, ": ", parse_terms)
@@ -24,6 +24,6 @@ fn parse_equation(input: &mut &[u8]) -> PResult<Equation> {
     .parse_next(input)
 }
 
-fn parse_terms(input: &mut &[u8]) -> PResult<Vec<i64>> {
+fn parse_terms(input: &mut &[u8]) -> ModalResult<Vec<i64>> {
     trace("parse_terms", separated(2.., dec_int::<_, i64, _>, ' ')).parse_next(input)
 }

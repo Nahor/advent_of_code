@@ -4,9 +4,9 @@ use common::{
 };
 use winnow::{
     ascii::line_ending,
-    combinator::{dispatch, empty, fail, repeat, rest, separated_pair, terminated, trace},
+    combinator::{dispatch, empty, fail, repeat, separated_pair, terminated, trace},
     prelude::*,
-    token::any,
+    token::{any, rest},
 };
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
@@ -40,7 +40,7 @@ pub fn parse_grid(content: &[u8]) -> Result<Grid<Cell>, AdventError> {
     Ok(trace("parse_grid", terminated(grid_parser, rest)).parse(content)?)
 }
 
-fn grid_parser(input: &mut &[u8]) -> PResult<Grid<Cell>> {
+fn grid_parser(input: &mut &[u8]) -> ModalResult<Grid<Cell>> {
     let lines: Vec<_> = trace(
         "grid_parser",
         repeat(1.., terminated(grid_line_parser, line_ending)),
@@ -53,11 +53,11 @@ fn grid_parser(input: &mut &[u8]) -> PResult<Grid<Cell>> {
     Ok(Grid::new(data, width, height))
 }
 
-fn grid_line_parser(input: &mut &[u8]) -> PResult<Vec<Cell>> {
+fn grid_line_parser(input: &mut &[u8]) -> ModalResult<Vec<Cell>> {
     trace("grid_line_parser", repeat(1.., grid_cell_parser)).parse_next(input)
 }
 
-fn grid_cell_parser(input: &mut &[u8]) -> PResult<Cell> {
+fn grid_cell_parser(input: &mut &[u8]) -> ModalResult<Cell> {
     trace(
         "grid_cell_parser",
         dispatch! {any;
@@ -71,7 +71,7 @@ fn grid_cell_parser(input: &mut &[u8]) -> PResult<Cell> {
     .parse_next(input)
 }
 
-fn move_parser(input: &mut &[u8]) -> PResult<Vec<Direction>> {
+fn move_parser(input: &mut &[u8]) -> ModalResult<Vec<Direction>> {
     trace(
         "move_parser",
         repeat(

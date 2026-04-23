@@ -18,7 +18,7 @@ pub fn parse(content: &[u8]) -> Result<Machine, AdventError> {
     .parse(content)?)
 }
 
-fn parse_inputs(input: &mut &[u8]) -> PResult<FxHashMap<Wire, bool>> {
+fn parse_inputs(input: &mut &[u8]) -> ModalResult<FxHashMap<Wire, bool>> {
     trace(
         "parse_inputs",
         repeat(
@@ -32,7 +32,7 @@ fn parse_inputs(input: &mut &[u8]) -> PResult<FxHashMap<Wire, bool>> {
     .parse_next(input)
 }
 
-fn parse_gates(input: &mut &[u8]) -> PResult<Vec<Gate>> {
+fn parse_gates(input: &mut &[u8]) -> ModalResult<Vec<Gate>> {
     trace(
         "parse_gates",
         repeat(1.., terminated(parse_gate, line_ending)),
@@ -40,7 +40,7 @@ fn parse_gates(input: &mut &[u8]) -> PResult<Vec<Gate>> {
     .parse_next(input)
 }
 
-fn parse_gate(input: &mut &[u8]) -> PResult<Gate> {
+fn parse_gate(input: &mut &[u8]) -> ModalResult<Gate> {
     trace(
         "parse_gate",
         (
@@ -67,7 +67,7 @@ fn parse_gate(input: &mut &[u8]) -> PResult<Gate> {
     .parse_next(input)
 }
 
-fn parse_wire_name(input: &mut &[u8]) -> PResult<Wire> {
+fn parse_wire_name(input: &mut &[u8]) -> ModalResult<Wire> {
     trace(
         "parse_wire_name",
         (parse_wire_digit, parse_wire_digit, parse_wire_digit)
@@ -76,7 +76,7 @@ fn parse_wire_name(input: &mut &[u8]) -> PResult<Wire> {
     .parse_next(input)
 }
 
-fn parse_wire_digit(input: &mut &[u8]) -> PResult<u16> {
+fn parse_wire_digit(input: &mut &[u8]) -> ModalResult<u16> {
     trace(
         "parse_wire_digit",
         alt((
@@ -87,6 +87,6 @@ fn parse_wire_digit(input: &mut &[u8]) -> PResult<u16> {
     .parse_next(input)
 }
 
-fn parse_bool(input: &mut &[u8]) -> PResult<bool> {
+fn parse_bool(input: &mut &[u8]) -> ModalResult<bool> {
     trace("parse_bool", alt(("1".value(true), "0".value(false)))).parse_next(input)
 }

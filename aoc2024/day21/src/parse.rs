@@ -14,7 +14,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<Vec<u8>>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_line(input: &mut &[u8]) -> PResult<Vec<u8>> {
+fn parse_line(input: &mut &[u8]) -> ModalResult<Vec<u8>> {
     trace(
         "parse_line",
         repeat(1.., one_of((b'0'..=b'9', b'A'))), // technically, this consumes everything until eof, not just the line

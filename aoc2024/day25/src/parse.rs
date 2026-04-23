@@ -14,7 +14,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<Schematic>, AdventError> {
     Ok(trace("parser", separated(2.., parse_schematic, line_ending)).parse(content)?)
 }
 
-fn parse_schematic(input: &mut &[u8]) -> PResult<Schematic> {
+fn parse_schematic(input: &mut &[u8]) -> ModalResult<Schematic> {
     trace(
         "parse_schematic",
         alt((
@@ -25,7 +25,7 @@ fn parse_schematic(input: &mut &[u8]) -> PResult<Schematic> {
     .parse_next(input)
 }
 
-fn parse_lock(input: &mut &[u8]) -> PResult<Schematic> {
+fn parse_lock(input: &mut &[u8]) -> ModalResult<Schematic> {
     trace(
         "parse_lock",
         repeat(1.., parse_line)
@@ -42,7 +42,7 @@ fn parse_lock(input: &mut &[u8]) -> PResult<Schematic> {
     .parse_next(input)
 }
 
-fn parse_key(input: &mut &[u8]) -> PResult<Schematic> {
+fn parse_key(input: &mut &[u8]) -> ModalResult<Schematic> {
     trace(
         "parse_key",
         repeat(1.., parse_line)
@@ -59,7 +59,7 @@ fn parse_key(input: &mut &[u8]) -> PResult<Schematic> {
     .parse_next(input)
 }
 
-fn parse_line(input: &mut &[u8]) -> PResult<Vec<u8>> {
+fn parse_line(input: &mut &[u8]) -> ModalResult<Vec<u8>> {
     trace(
         "parse_line",
         terminated(

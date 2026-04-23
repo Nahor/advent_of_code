@@ -1,8 +1,8 @@
 use common::position::{Direction, Grid, Position};
-use miette::{miette, Result};
+use miette::{Result, miette};
 use rustc_hash::FxHashSet;
 
-use crate::parse::{parse, Cell};
+use crate::parse::{Cell, parse};
 
 #[derive(Debug, Default, Clone, Copy, PartialEq, Eq)]
 pub enum CellW {
@@ -97,10 +97,10 @@ fn apply_moves(grid: &mut Grid<CellW>, moves: &[Direction]) -> Result<()> {
         // Sort the boxes so we don't clobber the result when we move them
         let mut boxes = boxes.iter().collect::<Vec<_>>();
         match dir {
-            Direction::Up => boxes.sort_by(|a, b| a.y.cmp(&b.y)),
+            Direction::Up => boxes.sort_by_key(|a| a.y),
             Direction::Right => boxes.sort_by(|a, b| a.x.cmp(&b.x).reverse()),
             Direction::Down => boxes.sort_by(|a, b| a.y.cmp(&b.y).reverse()),
-            Direction::Left => boxes.sort_by(|a, b| a.x.cmp(&b.x)),
+            Direction::Left => boxes.sort_by_key(|a| a.x),
         }
 
         // Move the boxes

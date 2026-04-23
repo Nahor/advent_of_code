@@ -15,7 +15,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<Machine>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_machine(input: &mut &[u8]) -> PResult<Machine> {
+fn parse_machine(input: &mut &[u8]) -> ModalResult<Machine> {
     trace(
         "parse_machine",
         (parse_button_a, parse_button_b, parse_prize).map(|(btn_a, btn_b, prize)| Machine {
@@ -27,7 +27,7 @@ fn parse_machine(input: &mut &[u8]) -> PResult<Machine> {
     .parse_next(input)
 }
 
-fn parse_button_a(input: &mut &[u8]) -> PResult<Button> {
+fn parse_button_a(input: &mut &[u8]) -> ModalResult<Button> {
     trace(
         "parse_button_a",
         terminated(
@@ -44,7 +44,7 @@ fn parse_button_a(input: &mut &[u8]) -> PResult<Button> {
     .parse_next(input)
 }
 
-fn parse_button_b(input: &mut &[u8]) -> PResult<Button> {
+fn parse_button_b(input: &mut &[u8]) -> ModalResult<Button> {
     trace(
         "parse_button_B",
         terminated(
@@ -61,7 +61,7 @@ fn parse_button_b(input: &mut &[u8]) -> PResult<Button> {
     .parse_next(input)
 }
 
-fn parse_claw_move(input: &mut &[u8]) -> PResult<Position> {
+fn parse_claw_move(input: &mut &[u8]) -> ModalResult<Position> {
     trace(
         "parse_claw_move",
         seq! {
@@ -76,7 +76,7 @@ fn parse_claw_move(input: &mut &[u8]) -> PResult<Position> {
     .parse_next(input)
 }
 
-fn parse_prize(input: &mut &[u8]) -> PResult<Position> {
+fn parse_prize(input: &mut &[u8]) -> ModalResult<Position> {
     trace(
         "parse_prize",
         seq! {

@@ -19,7 +19,7 @@ pub fn parse(content: &[u8]) -> Result<Machine, AdventError> {
     .parse(content)?)
 }
 
-fn parse_registers(input: &mut &[u8]) -> PResult<(usize, usize, usize)> {
+fn parse_registers(input: &mut &[u8]) -> ModalResult<(usize, usize, usize)> {
     trace(
         "parse_registers",
         (
@@ -31,7 +31,7 @@ fn parse_registers(input: &mut &[u8]) -> PResult<(usize, usize, usize)> {
     .parse_next(input)
 }
 
-fn parse_program(input: &mut &[u8]) -> PResult<Vec<usize>> {
+fn parse_program(input: &mut &[u8]) -> ModalResult<Vec<usize>> {
     trace(
         "parse_program",
         preceded("Program: ", separated(2.., dec_uint::<_, usize, _>, ',')),

@@ -19,7 +19,7 @@ pub fn parse(content: &[u8]) -> Result<Vec<Robot>, AdventError> {
     .parse(content)?)
 }
 
-fn parse_robot(input: &mut &[u8]) -> PResult<Robot> {
+fn parse_robot(input: &mut &[u8]) -> ModalResult<Robot> {
     trace(
         "parse_robot",
         seq! {
@@ -34,6 +34,6 @@ fn parse_robot(input: &mut &[u8]) -> PResult<Robot> {
     .parse_next(input)
 }
 
-fn parse_coord(input: &mut &[u8]) -> PResult<(isize, isize)> {
+fn parse_coord(input: &mut &[u8]) -> ModalResult<(isize, isize)> {
     trace("parse_coord", separated_pair(dec_int, ',', dec_int)).parse_next(input)
 }
