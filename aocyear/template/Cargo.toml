@@ -2,16 +2,18 @@
 name = "template"
 version = "0.1.0"
 edition.workspace = true
+rust-version.workspace = true
 
 [dependencies]
 common = { path = "../common" }
+annotate-snippets = { workspace = true }
+anyhow = { workspace = true }
 clap = { workspace = true }
 winnow = { workspace = true }
-miette = { workspace = true }
 
 [dev-dependencies]
 divan = { workspace = true }
-rstest = { workspace = true }
+# rstest = { workspace = true }
 
 [[bench]]
 name = "bench"

@@ -1,12 +1,13 @@
-use miette::{IntoDiagnostic, Result, miette};
 use std::{io::Read, path::PathBuf};
+
+use anyhow::{Result, anyhow};
 
 const CRATE_MANIFEST_DIR: &str = env!("CARGO_MANIFEST_DIR");
 
 fn default_file(file: Option<PathBuf>, caller_manifest_dir: &str) -> Result<PathBuf> {
     if let Some(filename) = file {
         if !filename.exists() {
-            return Err(miette!(
+            return Err(anyhow!(
                 "File '{}' doesn't exist",
                 filename.to_string_lossy()
             ));
@@ -18,7 +19,7 @@ fn default_file(file: Option<PathBuf>, caller_manifest_dir: &str) -> Result<Path
 
     // File in the current directory
     {
-        let cur_dir_file = std::env::current_dir().into_diagnostic()?.join("input.txt");
+        let cur_dir_file = std::env::current_dir()?.join("input.txt");
         if cur_dir_file.exists() {
             return Ok(cur_dir_file);
         }
@@ -27,7 +28,7 @@ fn default_file(file: Option<PathBuf>, caller_manifest_dir: &str) -> Result<Path
 
     // File in the same directory as the executable
     {
-        let mut app_dir_file = std::env::current_exe().into_diagnostic()?;
+        let mut app_dir_file = std::env::current_exe()?;
         app_dir_file.set_file_name("input.txt");
         if app_dir_file.exists() {
             return Ok(app_dir_file);
@@ -50,9 +51,9 @@ fn default_file(file: Option<PathBuf>, caller_manifest_dir: &str) -> Result<Path
         let day = path.file_name().expect("unexpected build environment");
         let input_repo = path
             .parent()
-            .ok_or_else(|| miette!(format!("Invalid build path '{caller_manifest_dir}'")))?
+            .ok_or_else(|| anyhow!(format!("Invalid build path '{caller_manifest_dir}'")))?
             .parent()
-            .ok_or_else(|| miette!(format!("Invalid build path '{caller_manifest_dir}'")))?
+            .ok_or_else(|| anyhow!(format!("Invalid build path '{caller_manifest_dir}'")))?
             .join("input")
             .join(env!("AOC_YEAR"))
             .join(day)
@@ -78,7 +79,7 @@ fn default_file(file: Option<PathBuf>, caller_manifest_dir: &str) -> Result<Path
         .map(|path| path.to_string_lossy().into_owned())
         .collect::<Vec<_>>()
         .join("\n\t");
-    Err(miette!(
+    Err(anyhow!(
         "Couldn't find default input file. Tried:\n\t{list}",
     ))
 }
@@ -91,14 +92,17 @@ macro_rules! read_input_str {
     };
 }
 
-pub fn read_input_str_fn(file: Option<PathBuf>, build_env: &str) -> Result<String> {
-    let file = default_file(file, build_env)?;
+pub fn read_input_str_fn(
+    file: Option<PathBuf>,
+    build_env: &str,
+) -> Result<(Option<String>, String)> {
+    let filename = default_file(file, build_env)?;
 
-    let mut file = std::fs::File::open(file).into_diagnostic()?;
+    let mut file = std::fs::File::open(filename.clone())?;
     let mut content = String::new();
-    file.read_to_string(&mut content).into_diagnostic()?;
+    file.read_to_string(&mut content)?;
 
-    Ok(content)
+    Ok((Some(filename.to_string_lossy().to_string()), content))
 }
 
 // Use a macro to read the manifest dir of the caller crate, not this crate
@@ -109,12 +113,15 @@ macro_rules! read_input_u8 {
     };
 }
 
-pub fn read_input_u8_fn(file: Option<PathBuf>, build_env: &str) -> Result<Vec<u8>> {
-    let file = default_file(file, build_env)?;
+pub fn read_input_u8_fn(
+    file: Option<PathBuf>,
+    build_env: &str,
+) -> Result<(Option<String>, Vec<u8>)> {
+    let filename = default_file(file, build_env)?;
 
-    let mut file = std::fs::File::open(file).into_diagnostic()?;
+    let mut file = std::fs::File::open(filename.clone())?;
     let mut content = Vec::new();
-    file.read_to_end(&mut content).into_diagnostic()?;
+    file.read_to_end(&mut content)?;
 
-    Ok(content)
+    Ok((Some(filename.to_string_lossy().to_string()), content))
 }

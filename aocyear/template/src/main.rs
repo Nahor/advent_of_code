@@ -1,6 +1,6 @@
+use anyhow::Result;
 use clap::{Parser, Subcommand};
 use common::read_input_u8;
-use miette::Result;
 use std::path::PathBuf;
 use template::*;
 
@@ -26,12 +26,17 @@ fn main() -> Result<()> {
 
     match args.command {
         Some(Command::Part1 { file }) => {
-            println!("Result: {}", part1::run(&read_input_u8!(file)?)?)
+            let (filename, content) = read_input_u8!(file)?;
+            println!("Result: {}", part1::run(filename, &content)?)
         }
         Some(Command::Part2 { file }) => {
-            println!("Result: {}", part2::run(&read_input_u8!(file)?)?)
+            let (filename, content) = read_input_u8!(file)?;
+            println!("Result: {}", part2::run(filename, &content)?)
         }
-        None => println!("Result: {}", part1::run(&read_input_u8!(None)?)?),
+        None => {
+            let (filename, content) = read_input_u8!(None)?;
+            println!("Result: {}", part1::run(filename, &content)?)
+        }
     }
 
     Ok(())

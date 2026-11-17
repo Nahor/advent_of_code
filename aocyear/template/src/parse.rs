@@ -1,4 +1,5 @@
-use common::error::AdventError;
+use annotate_snippets::{AnnotationKind, Level, Renderer, Snippet, renderer::DecorStyle};
+use anyhow::{Result, anyhow};
 use winnow::{
     LocatingSlice,
     ascii::{dec_uint, line_ending},
@@ -9,12 +10,11 @@ use winnow::{
 };
 
 type ParseInput<'a> = LocatingSlice<&'a [u8]>;
-//type ParseResult<T> = ModalResult<T, AdventError>;
 type ParseResult<T> = ModalResult<T, ContextError>;
 
-pub fn parse(content: &[u8]) -> Result<Vec<(u64, u64, u64, u64)>, AdventError> {
+pub fn parse(filename: Option<String>, content: &[u8]) -> Result<Vec<(u64, u64, u64, u64)>> {
     let input = LocatingSlice::new(content);
-    Ok(trace(
+    let result = trace(
         "parser",
         // `repeat_till(... eof)`, because if there is an error, `repeat` will just assume it was the end of
         // the repetition and backtrack to the beginning of the line, and let the next parser continue from there (or
@@ -22,7 +22,24 @@ pub fn parse(content: &[u8]) -> Result<Vec<(u64, u64, u64, u64)>, AdventError> {
         // Alternative: use `cut_err` to force any error in `parse_line` to abort parsing
         repeat_till(1.., terminated(parse_line, alt((line_ending, eof))), eof).map(|(v, _eof)| v),
     )
-    .parse(input)?)
+    .parse(input);
+
+    // Format the error
+    result.map_err(|err| {
+        let report = &[Level::ERROR.primary_title("parsing error").element(
+            Snippet::source(String::from_utf8_lossy(content))
+                .path(filename)
+                .annotation(
+                    AnnotationKind::Primary
+                        .span(err.char_span())
+                        .label(err.inner().to_string()),
+                ),
+        )];
+
+        let renderer = Renderer::styled().decor_style(DecorStyle::Unicode);
+        let err_str = renderer.render(report);
+        anyhow!(err_str)
+    })
 }
 
 fn parse_line(input: &mut ParseInput) -> ParseResult<(u64, u64, u64, u64)> {

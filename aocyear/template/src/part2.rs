@@ -1,10 +1,9 @@
-use common::error::AdventError;
-use miette::Result;
+use anyhow::Result;
 
 use crate::parse::parse;
 
-pub fn run(content: &[u8]) -> Result<u64, AdventError> {
-    let lines = parse(content)?;
+pub fn run(filename: Option<String>, content: &[u8]) -> Result<u64> {
+    let lines = parse(filename, content)?;
     let result = lines
         .into_iter()
         .map(|(t1, t2, _, m)| if (t1 * t2) == m { 1 } else { 0 })
@@ -27,7 +26,7 @@ mod test {
     fn sample() {
         let input = &INPUT_SAMPLE[1..]; // remove leading \n
 
-        assert_eq!(run(input).unwrap(), 2);
+        assert_eq!(run(None, input).unwrap(), 2);
     }
 
     // #[test]

@@ -13,7 +13,7 @@ mod part1_bench {
     fn base(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8!(None).unwrap())
-            .bench_values(|content| part1::run(&content).unwrap());
+            .bench_values(|(filename, content)| part1::run(filename, &content).unwrap());
     }
 }
 
@@ -24,6 +24,6 @@ mod part2_bench {
     fn base(bencher: divan::Bencher) {
         bencher
             .with_inputs(|| read_input_u8!(None).unwrap())
-            .bench_values(|content| part2::run(&content).unwrap());
+            .bench_values(|(filename, content)| part2::run(filename, &content).unwrap());
     }
 }

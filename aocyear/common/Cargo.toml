@@ -5,6 +5,3 @@ edition.workspace = true
 
 [dependencies]
 anyhow = { workspace = true }
-winnow = { workspace = true }
-miette = { workspace = true }
-thiserror = { workspace = true }
